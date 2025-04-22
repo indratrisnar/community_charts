@@ -113,12 +113,15 @@ abstract class BaseArcRenderer<D> extends BaseSeriesRenderer<D> {
     final chartPosition = _getChartPosition(series.id, '${series.id}__$domain');
 
     return DatumDetails(
-        datum: datum,
-        domain: domain,
-        measure: measure,
-        series: series,
-        color: color,
-        chartPosition: NullablePoint.from(chartPosition));
+      datum: datum,
+      domain: domain,
+      measure: measure,
+      series: series,
+      color: color,
+      chartPosition: NullablePoint.from(chartPosition),
+      gradient:
+          series.gradientFn == null ? null : series.gradientFn!(datumIndex),
+    );
   }
 
   /// Returns the List of AnimatedArcList associated with the renderer. The Pie
@@ -292,6 +295,7 @@ abstract class BaseArcRenderer<D> extends BaseSeriesRenderer<D> {
             domain: arc.domain,
             domainDistance: 0.0,
             measureDistance: 0.0,
+            gradient: null,
           ));
         }
       });

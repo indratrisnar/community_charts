@@ -18,6 +18,7 @@ import 'dart:math' show Rectangle;
 import 'package:community_charts_common/src/chart/common/chart_canvas.dart';
 import 'package:community_charts_common/src/chart/common/processed_series.dart';
 import 'package:community_charts_common/src/common/color.dart';
+import 'package:flutter/painting.dart';
 
 /// A renderer element that represents a TreeNode.
 class TreeMapRendererElement<D> {
@@ -33,6 +34,8 @@ class TreeMapRendererElement<D> {
 
   /// Fill color of this element.
   Color? fillColor;
+
+  Gradient? gradient;
 
   /// Fill pattern of the background of the treemap rectangle.
   FillPatternType? fillPattern;
@@ -74,6 +77,7 @@ class TreeMapRendererElement<D> {
     required this.series,
     required this.domain,
     required this.measure,
+    this.gradient,
   })  : _boundingRect = boundingRect,
         _area = area;
 
@@ -97,6 +101,7 @@ class TreeMapRendererElement<D> {
         series: series,
         domain: domain,
         measure: measure,
+        gradient: gradient,
       );
 
   /// Refreshes paint properties by invoking series accessor functions again.

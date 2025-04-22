@@ -13,6 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:flutter/painting.dart';
+
 import '../../common/color.dart' show Color;
 import '../common/chart_canvas.dart' show getAnimatedColor, FillPatternType;
 import '../common/processed_series.dart' show ImmutableSeries;
@@ -23,6 +25,7 @@ abstract class BaseBarRendererElement {
   num? cumulativeTotal;
   List<int>? dashPattern;
   Color? fillColor;
+  Gradient? gradient;
   FillPatternType? fillPattern;
   double? measureAxisPosition;
   num? measureOffset;
@@ -41,6 +44,7 @@ abstract class BaseBarRendererElement {
     fillColor = other.fillColor != null
         ? Color.fromOther(color: other.fillColor!)
         : null;
+    gradient = other.gradient;
     fillPattern = other.fillPattern;
     measureAxisPosition = other.measureAxisPosition;
     measureOffset = other.measureOffset;

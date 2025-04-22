@@ -15,6 +15,8 @@
 
 import 'dart:math' show Point, Rectangle, max, min;
 
+import 'package:flutter/painting.dart';
+
 import '../../common/color.dart' show Color;
 import '../../common/math.dart' show NullablePoint;
 import '../cartesian/axis/axis.dart'
@@ -153,6 +155,7 @@ class BarTargetLineRenderer<D> extends BaseBarRenderer<D,
       required ImmutableAxis<num> measureAxis,
       double? measureAxisPosition,
       Color? fillColor,
+      Gradient? gradient,
       FillPatternType? fillPattern,
       required int barGroupIndex,
       double? previousBarGroupWeight,
@@ -202,6 +205,7 @@ class BarTargetLineRenderer<D> extends BaseBarRenderer<D,
       required ImmutableAxis<num> measureAxis,
       double? measureAxisPosition,
       Color? fillColor,
+      Gradient? gradient,
       FillPatternType? fillPattern,
       double? strokeWidthPx,
       required int barGroupIndex,

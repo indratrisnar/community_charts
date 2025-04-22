@@ -15,6 +15,8 @@
 
 import 'dart:math' show Rectangle, min, max, Point;
 
+import 'package:flutter/painting.dart';
+
 import '../../common/color.dart' show Color;
 import 'chart_canvas.dart' show FillPatternType;
 
@@ -26,13 +28,17 @@ class CanvasRect {
   final FillPatternType? pattern;
   final Color? stroke;
   final double? strokeWidthPx;
+  final Gradient? gradient;
 
-  CanvasRect(this.bounds,
-      {this.dashPattern,
-      this.fill,
-      this.pattern,
-      this.stroke,
-      this.strokeWidthPx});
+  const CanvasRect(
+    this.bounds, {
+    this.dashPattern,
+    this.fill,
+    this.pattern,
+    this.stroke,
+    this.strokeWidthPx,
+    this.gradient,
+  });
 }
 
 /// A stack of [CanvasRect] to be painted by [ChartCanvas].
@@ -113,8 +119,14 @@ class CanvasPie {
   /// Stroke width of separator lines between arcs.
   double strokeWidthPx;
 
-  CanvasPie(this.slices, this.center, this.radius, this.innerRadius,
-      {this.stroke, this.strokeWidthPx = 0.0});
+  CanvasPie(
+    this.slices,
+    this.center,
+    this.radius,
+    this.innerRadius, {
+    this.stroke,
+    this.strokeWidthPx = 0.0,
+  });
 }
 
 /// A circle sector to be painted by [ChartCanvas].

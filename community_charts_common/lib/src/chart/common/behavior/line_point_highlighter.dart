@@ -16,6 +16,7 @@
 import 'dart:collection' show LinkedHashMap;
 import 'dart:math' show max, min, Point, Rectangle;
 
+import 'package:flutter/painting.dart';
 import 'package:meta/meta.dart';
 
 import '../../../common/color.dart' show Color;
@@ -247,6 +248,7 @@ class LinePointHighlighter<D> implements ChartBehavior<D> {
             measureAxisPosition: measureAxis.getLocation(0.0),
             strokeWidthPx: detail.strokeWidthPx,
             symbolRenderer: detail.symbolRenderer,
+            gradient: detail.gradient,
           ));
       }
 
@@ -272,6 +274,7 @@ class LinePointHighlighter<D> implements ChartBehavior<D> {
         measureAxisPosition: measureAxis.getLocation(0.0),
         strokeWidthPx: detail.strokeWidthPx,
         symbolRenderer: detail.symbolRenderer,
+        gradient: detail.gradient,
       );
 
       animatingPoint.setNewTarget(pointElement);
@@ -526,10 +529,14 @@ class _LinePointLayoutView<D> extends LayoutView {
 
       // Draw the highlight dot. Use the [SymbolRenderer] from the datum if one
       // is defined.
-      (pointElement.symbolRenderer ?? symbolRenderer).paint(canvas, bounds,
-          fillColor: pointElement.fillColor,
-          strokeColor: pointElement.color,
-          strokeWidthPx: pointElement.strokeWidthPx);
+      (pointElement.symbolRenderer ?? symbolRenderer).paint(
+        canvas,
+        bounds,
+        fillColor: pointElement.fillColor,
+        strokeColor: pointElement.color,
+        strokeWidthPx: pointElement.strokeWidthPx,
+        gradient: pointElement.gradient,
+      );
     }
   }
 
@@ -571,6 +578,7 @@ class _PointRendererElement<D> {
   double? measureAxisPosition;
   double? strokeWidthPx;
   SymbolRenderer? symbolRenderer;
+  Gradient? gradient;
 
   _PointRendererElement({
     required this.point,
@@ -580,6 +588,7 @@ class _PointRendererElement<D> {
     required this.measureAxisPosition,
     required this.strokeWidthPx,
     required this.symbolRenderer,
+    required this.gradient,
   });
 
   _PointRendererElement<D> clone() {
@@ -591,6 +600,7 @@ class _PointRendererElement<D> {
       radiusPx: radiusPx,
       strokeWidthPx: strokeWidthPx,
       symbolRenderer: symbolRenderer,
+      gradient: gradient,
     );
   }
 
@@ -622,6 +632,8 @@ class _PointRendererElement<D> {
     } else {
       strokeWidthPx = null;
     }
+
+    gradient = target.gradient;
   }
 
   /// Linear interpolation for doubles.

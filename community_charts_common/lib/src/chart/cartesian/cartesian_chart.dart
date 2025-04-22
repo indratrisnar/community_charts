@@ -515,16 +515,20 @@ abstract class CartesianChart<D> extends BaseChart<D> {
 
       final datumDetails = renderer.addPositionToDetailsForSeriesDatum(
           DatumDetails(
-              datum: datum,
-              domain: domain,
-              domainFormatter: domainFormatterFn?.call(datumIndex),
-              index: datumIndex,
-              measure: measure,
-              measureFormatter: measureFormatterFn?.call(datumIndex),
-              measureOffset: measureOffset,
-              rawMeasure: rawMeasure,
-              series: series,
-              color: color),
+            datum: datum,
+            domain: domain,
+            domainFormatter: domainFormatterFn?.call(datumIndex),
+            index: datumIndex,
+            measure: measure,
+            measureFormatter: measureFormatterFn?.call(datumIndex),
+            measureOffset: measureOffset,
+            rawMeasure: rawMeasure,
+            series: series,
+            color: color,
+            gradient: series.gradientFn == null
+                ? null
+                : series.gradientFn!(datumIndex),
+          ),
           seriesDatum);
 
       entries.add(datumDetails);

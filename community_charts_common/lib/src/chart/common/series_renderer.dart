@@ -15,6 +15,8 @@
 
 import 'dart:math' show Point, Rectangle, max;
 
+import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:meta/meta.dart';
 
 import '../../common/color.dart' show Color;
@@ -345,6 +347,7 @@ abstract class BaseSeriesRenderer<D> implements SeriesRenderer<D> {
     final colorFn = series.colorFn;
     final areaColorFn = series.areaColorFn ?? colorFn;
     final fillColorFn = series.fillColorFn ?? colorFn;
+    final gradientFn = series.gradientFn;
     final radiusPxFn = series.radiusPxFn;
     final strokeWidthPxFn = series.strokeWidthPxFn;
 
@@ -367,6 +370,9 @@ abstract class BaseSeriesRenderer<D> implements SeriesRenderer<D> {
     // the series doesn't define anything specific.
     var fillColor = fillColorFn!(index);
     fillColor ??= color;
+
+    var gradient = gradientFn!(index);
+    gradient ??= LinearGradient(colors: [Colors.blue, Colors.blue.shade50]);
 
     // Area color is entirely optional.
     final areaColor = areaColorFn!(index);
@@ -393,6 +399,7 @@ abstract class BaseSeriesRenderer<D> implements SeriesRenderer<D> {
         series: series,
         color: color,
         fillColor: fillColor,
+        gradient: gradient,
         areaColor: areaColor,
         radiusPx: radiusPx,
         strokeWidthPx: strokeWidthPx);

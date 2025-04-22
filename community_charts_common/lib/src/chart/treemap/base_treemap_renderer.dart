@@ -208,6 +208,7 @@ abstract class BaseTreeMapRenderer<D> extends BaseSeriesRenderer<D> {
           measure: element.measure,
           domainDistance: 0.0,
           measureDistance: 0.0,
+          // gradient: element.gradient,
         ));
         // No need to verify remaining siblings.
         queue.clear();
@@ -415,6 +416,7 @@ abstract class BaseTreeMapRenderer<D> extends BaseSeriesRenderer<D> {
         isLeaf: isLeaf,
         index: index,
         series: series,
+        // gradient: series.gradientFn == null ? null : series.gradientFn!(index),
       );
 
   TreeMapRendererElement<D> _getRendererElement(TreeNode<Object> node) {

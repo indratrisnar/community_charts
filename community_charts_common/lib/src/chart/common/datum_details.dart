@@ -15,6 +15,8 @@
 
 import 'dart:math';
 
+import 'package:flutter/painting.dart';
+
 import '../../common/color.dart' show Color;
 import '../../common/math.dart' show NullablePoint;
 import '../../common/symbol_renderer.dart' show SymbolRenderer;
@@ -81,6 +83,8 @@ class DatumDetails<D> {
   /// If this is defined, then [color] will be used as a stroke color.
   /// Otherwise, [color] will be used for the fill color.
   final Color? fillColor;
+
+  final Gradient? gradient;
 
   /// Optional fill pattern of this [datum].
   final FillPatternType? fillPattern;
@@ -159,6 +163,7 @@ class DatumDetails<D> {
       this.series,
       this.color,
       this.fillColor,
+      this.gradient,
       this.fillPattern,
       this.areaColor,
       this.dashPattern,
@@ -190,6 +195,7 @@ class DatumDetails<D> {
       ImmutableSeries<D>? series,
       Color? color,
       Color? fillColor,
+      Gradient? gradient,
       FillPatternType? fillPattern,
       Color? areaColor,
       List<int>? dashPattern,
@@ -223,6 +229,7 @@ class DatumDetails<D> {
         series: series ?? other.series,
         color: color ?? other.color,
         fillColor: fillColor ?? other.fillColor,
+        gradient: gradient ?? other.gradient,
         fillPattern: fillPattern ?? other.fillPattern,
         areaColor: areaColor ?? other.areaColor,
         dashPattern: dashPattern ?? other.dashPattern,

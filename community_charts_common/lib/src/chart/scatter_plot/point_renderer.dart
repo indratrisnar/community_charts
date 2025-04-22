@@ -17,6 +17,7 @@ import 'dart:collection' show LinkedHashMap;
 import 'dart:math' show min, Point, Rectangle;
 
 import 'package:collection/collection.dart' show IterableExtension;
+import 'package:flutter/painting.dart';
 import 'package:meta/meta.dart' show protected;
 import 'package:vector_math/vector_math.dart' show Vector2;
 
@@ -191,6 +192,8 @@ class PointRenderer<D> extends BaseCartesianRenderer<D> {
           boundsLineRadiusPx: boundsLineRadiusPx.toDouble(),
           strokeWidthPx: strokeWidthPx.toDouble(),
           symbolRendererId: symbolRendererId,
+          gradient:
+              series.gradientFn == null ? null : series.gradientFn!(index),
         );
 
         elements.add(details);
@@ -291,6 +294,7 @@ class PointRenderer<D> extends BaseCartesianRenderer<D> {
               boundsLineRadiusPx: details.boundsLineRadiusPx,
               strokeWidthPx: details.strokeWidthPx,
               symbolRendererId: details.symbolRendererId,
+              gradient: details.gradient,
             ));
 
           pointList.add(animatingPoint);
@@ -310,6 +314,7 @@ class PointRenderer<D> extends BaseCartesianRenderer<D> {
           boundsLineRadiusPx: details.boundsLineRadiusPx,
           strokeWidthPx: details.strokeWidthPx,
           symbolRendererId: details.symbolRendererId,
+          gradient: details.gradient,
         );
 
         animatingPoint.setNewTarget(pointElement);
@@ -388,10 +393,14 @@ class PointRenderer<D> extends BaseCartesianRenderer<D> {
               point.radiusPx * 2);
 
           if (point.symbolRendererId == defaultSymbolRendererId) {
-            symbolRenderer!.paint(canvas, bounds,
-                fillColor: point.fillColor,
-                strokeColor: point.color,
-                strokeWidthPx: point.strokeWidthPx);
+            symbolRenderer!.paint(
+              canvas,
+              bounds,
+              fillColor: point.fillColor,
+              strokeColor: point.color,
+              strokeWidthPx: point.strokeWidthPx,
+              gradient: point.gradient,
+            );
           } else {
             final id = point.symbolRendererId;
             if (!config.customSymbolRenderers!.containsKey(id)) {
@@ -399,10 +408,14 @@ class PointRenderer<D> extends BaseCartesianRenderer<D> {
             }
 
             final customRenderer = config.customSymbolRenderers![id]!;
-            customRenderer.paint(canvas, bounds,
-                fillColor: point.fillColor,
-                strokeColor: point.color,
-                strokeWidthPx: point.strokeWidthPx);
+            customRenderer.paint(
+              canvas,
+              bounds,
+              fillColor: point.fillColor,
+              strokeColor: point.color,
+              strokeWidthPx: point.strokeWidthPx,
+              gradient: point.gradient,
+            );
           }
         }
 
@@ -566,13 +579,15 @@ class PointRenderer<D> extends BaseCartesianRenderer<D> {
       pointSymbolRenderer = config.customSymbolRenderers![id];
     }
     return DatumDetails<D>(
-        datum: point.point!.datum,
-        domain: point.point!.domain,
-        series: point.point!.series,
-        domainDistance: distances.domainDistance,
-        measureDistance: distances.measureDistance,
-        relativeDistance: distances.relativeDistance,
-        symbolRenderer: pointSymbolRenderer);
+      datum: point.point!.datum,
+      domain: point.point!.domain,
+      series: point.point!.series,
+      domainDistance: distances.domainDistance,
+      measureDistance: distances.measureDistance,
+      relativeDistance: distances.relativeDistance,
+      symbolRenderer: pointSymbolRenderer,
+      // gradient: point.gradient,
+    );
   }
 
   /// Returns a struct containing domain, measure, and relative distance between
@@ -736,6 +751,7 @@ class PointRendererElement<D> {
   double boundsLineRadiusPx;
   double strokeWidthPx;
   String? symbolRendererId;
+  Gradient? gradient;
 
   PointRendererElement({
     this.point,
@@ -747,6 +763,7 @@ class PointRendererElement<D> {
     required this.boundsLineRadiusPx,
     required this.strokeWidthPx,
     this.symbolRendererId,
+    this.gradient,
   });
 
   PointRendererElement<D> clone() {
@@ -760,6 +777,7 @@ class PointRendererElement<D> {
       boundsLineRadiusPx: boundsLineRadiusPx,
       strokeWidthPx: strokeWidthPx,
       symbolRendererId: symbolRendererId,
+      gradient: gradient,
     );
   }
 
@@ -825,6 +843,8 @@ class PointRendererElement<D> {
     strokeWidthPx =
         ((target.strokeWidthPx - previous.strokeWidthPx) * animationPercent) +
             previous.strokeWidthPx;
+
+    gradient = target.gradient;
   }
 }
 

@@ -15,6 +15,7 @@
 
 import 'dart:math';
 
+import 'package:flutter/painting.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../common/color.dart' show Color;
@@ -310,6 +311,7 @@ class Slider<D> implements ChartBehavior<D> {
       fill: _style.fillColor,
       stroke: _style.strokeColor,
       strokeWidthPx: _style.strokeWidthPx,
+      gradient: _style.gradient,
     );
 
     _sliderHandle!.setNewTarget(element);
@@ -565,14 +567,17 @@ class SliderStyle {
   /// Stroke color of the slider line and hte slider handle
   Color strokeColor = StyleFactory.style.sliderStrokeColor;
 
-  SliderStyle(
-      {Color? fillColor,
-      this.handleOffset = const Point<double>(0.0, 0.0),
-      this.handleSize = const Rectangle<int>(0, 0, 10, 20),
-      Color? strokeColor,
-      this.handlePosition = SliderHandlePosition.middle,
-      this.strokeWidthPx = 2.0})
-      : fillColor = fillColor ?? StyleFactory.style.sliderFillColor,
+  Gradient? gradient;
+
+  SliderStyle({
+    Color? fillColor,
+    this.handleOffset = const Point<double>(0.0, 0.0),
+    this.handleSize = const Rectangle<int>(0, 0, 10, 20),
+    Color? strokeColor,
+    this.handlePosition = SliderHandlePosition.middle,
+    this.strokeWidthPx = 2.0,
+    this.gradient,
+  })  : fillColor = fillColor ?? StyleFactory.style.sliderFillColor,
         strokeColor = strokeColor ?? StyleFactory.style.sliderStrokeColor;
 
   @override
@@ -661,10 +666,14 @@ class _SliderLayoutView<D> extends LayoutView {
         stroke: sliderElement.stroke,
         strokeWidthPx: sliderElement.strokeWidthPx);
 
-    _handleRenderer.paint(canvas, sliderElement.buttonBounds,
-        fillColor: sliderElement.fill,
-        strokeColor: sliderElement.stroke,
-        strokeWidthPx: sliderElement.strokeWidthPx);
+    _handleRenderer.paint(
+      canvas,
+      sliderElement.buttonBounds,
+      fillColor: sliderElement.fill,
+      strokeColor: sliderElement.stroke,
+      strokeWidthPx: sliderElement.strokeWidthPx,
+      gradient: sliderElement.gradient,
+    );
   }
 
   @override
@@ -681,6 +690,7 @@ class _SliderElement<D> {
   Color fill;
   Color stroke;
   double strokeWidthPx;
+  Gradient? gradient;
 
   _SliderElement({
     required this.domainCenterPoint,
@@ -688,6 +698,7 @@ class _SliderElement<D> {
     required this.fill,
     required this.stroke,
     required this.strokeWidthPx,
+    this.gradient,
   });
 
   _SliderElement<D> clone() {
@@ -697,6 +708,7 @@ class _SliderElement<D> {
       fill: fill,
       stroke: stroke,
       strokeWidthPx: strokeWidthPx,
+      gradient: gradient,
     );
   }
 

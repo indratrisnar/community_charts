@@ -15,6 +15,7 @@
 
 import 'dart:math' show max, min, Rectangle;
 
+import 'package:flutter/painting.dart';
 import 'package:meta/meta.dart' show protected;
 
 import '../../common/color.dart' show Color;
@@ -148,6 +149,7 @@ class BarRenderer<D>
       required ImmutableAxis<num> measureAxis,
       double? measureAxisPosition,
       Color? fillColor,
+      Gradient? gradient,
       FillPatternType? fillPattern,
       double? strokeWidthPx,
       required int barGroupIndex,
@@ -171,6 +173,7 @@ class BarRenderer<D>
           measureAxisPosition: measureAxisPosition,
           measureAxis: measureAxis,
           fillColor: fillColor,
+          gradient: gradient,
           fillPattern: fillPattern,
           strokeWidthPx: strokeWidthPx,
           barGroupIndex: barGroupIndex,
@@ -197,6 +200,7 @@ class BarRenderer<D>
       required ImmutableAxis<num> measureAxis,
       double? measureAxisPosition,
       Color? fillColor,
+      Gradient? gradient,
       FillPatternType? fillPattern,
       double? strokeWidthPx,
       required int barGroupIndex,
@@ -210,6 +214,7 @@ class BarRenderer<D>
       ..color = color
       ..dashPattern = dashPattern
       ..fillColor = fillColor
+      ..gradient = gradient
       ..fillPattern = fillPattern
       ..measureAxisPosition = measureAxisPosition
       ..roundPx = details.roundPx
@@ -274,12 +279,15 @@ class BarRenderer<D>
               );
       }
 
-      bars.add(CanvasRect(bounds!,
-          dashPattern: bar.dashPattern,
-          fill: bar.fillColor,
-          pattern: bar.fillPattern,
-          stroke: bar.color,
-          strokeWidthPx: bar.strokeWidthPx));
+      bars.add(CanvasRect(
+        bounds!,
+        dashPattern: bar.dashPattern,
+        fill: bar.fillColor,
+        gradient: bar.gradient,
+        pattern: bar.fillPattern,
+        stroke: bar.color,
+        strokeWidthPx: bar.strokeWidthPx,
+      ));
 
       maxBarWidth =
           max(maxBarWidth, renderingVertically ? bounds.width : bounds.height);

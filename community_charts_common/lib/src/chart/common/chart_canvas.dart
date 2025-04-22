@@ -14,6 +14,7 @@
 // limitations under the License.
 
 import 'dart:math' show Point, Rectangle;
+import 'package:flutter/painting.dart';
 
 import '../../common/color.dart' show Color;
 import '../../common/graphics_factory.dart' show GraphicsFactory;
@@ -62,14 +63,15 @@ abstract class ChartCanvas {
   /// to stroke-dasharray in SVG path elements. An odd number of values in the
   /// pattern will be repeated to derive an even number of values. "1,2,3" is
   /// equivalent to "1,2,3,1,2,3."
-  void drawLine(
-      {required List<Point> points,
-      Rectangle<num>? clipBounds,
-      Color? fill,
-      Color? stroke,
-      bool? roundEndCaps,
-      double? strokeWidthPx,
-      List<int>? dashPattern});
+  void drawLine({
+    required List<Point> points,
+    Rectangle<num>? clipBounds,
+    Color? fill,
+    Color? stroke,
+    bool? roundEndCaps,
+    double? strokeWidthPx,
+    List<int>? dashPattern,
+  });
 
   /// Renders a pie, with an optional hole in the center.
   void drawPie(CanvasPie canvasPie);
@@ -87,13 +89,15 @@ abstract class ChartCanvas {
   /// appear.
   ///
   /// [blendMode] Blend mode to be used when drawing this point on canvas.
-  void drawPoint(
-      {required Point point,
-      required double radius,
-      Color? fill,
-      Color? stroke,
-      double? strokeWidthPx,
-      BlendMode? blendMode});
+  void drawPoint({
+    required Point point,
+    required double radius,
+    Color? fill,
+    Color? stroke,
+    double? strokeWidthPx,
+    BlendMode? blendMode,
+    Gradient? gradient,
+  });
 
   /// Renders a polygon shape described by a set of points.
   ///
@@ -118,11 +122,14 @@ abstract class ChartCanvas {
   /// the draw area bounds on the top, the first x pixels (decided by the native
   /// platform) exceeding the draw area will apply a gradient to transparent
   /// with anything exceeding the x pixels to be transparent.
-  void drawRect(Rectangle<num> bounds,
-      {Color? fill,
-      Color? stroke,
-      double? strokeWidthPx,
-      Rectangle<num>? drawAreaBounds});
+  void drawRect(
+    Rectangle<num> bounds, {
+    Color? fill,
+    Color? stroke,
+    double? strokeWidthPx,
+    Rectangle<num>? drawAreaBounds,
+    Gradient? gradient,
+  });
 
   /// Renders a rounded rectangle.
   void drawRRect(Rectangle<num> bounds,
@@ -177,7 +184,8 @@ Color getAnimatedColor(Color previous, Color target, double animationPercent) {
 ///   on top of a bar filled with the fill color.
 /// * [solid] defines a simple bar filled with the fill color. This is the
 ///   default pattern for bars.
-enum FillPatternType { forwardHatch, solid }
+/// * [gradient] defines a gradient filled.
+enum FillPatternType { forwardHatch, solid, gradient }
 
 /// Defines the blend modes to use for drawing on canvas.
 enum BlendMode {

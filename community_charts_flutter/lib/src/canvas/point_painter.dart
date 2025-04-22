@@ -14,28 +14,49 @@
 // limitations under the License.
 
 import 'dart:math' show Point;
-import 'package:flutter/material.dart';
+
 import 'package:community_charts_common/community_charts_common.dart' as common
     show Color;
+import 'package:flutter/material.dart';
 
 /// Draws a simple point.
 ///
 /// TODO: Support for more shapes than circles?
 class PointPainter {
-  static void draw(
-      {required Canvas canvas,
-      required Paint paint,
-      required Point point,
-      required double radius,
-      common.Color? fill,
-      common.Color? stroke,
-      double? strokeWidthPx}) {
+  static void draw({
+    required Canvas canvas,
+    required Paint paint,
+    required Point point,
+    required double radius,
+    common.Color? fill,
+    common.Color? stroke,
+    double? strokeWidthPx,
+    Gradient? gradient,
+  }) {
     if (fill != null) {
       paint.color = new Color.fromARGB(fill.a, fill.r, fill.g, fill.b);
       paint.style = PaintingStyle.fill;
 
       canvas.drawCircle(
-          new Offset(point.x.toDouble(), point.y.toDouble()), radius, paint);
+        Offset(point.x.toDouble(), point.y.toDouble()),
+        radius,
+        paint,
+      );
+    }
+
+    if (gradient != null) {
+      paint.style = PaintingStyle.fill;
+      paint.shader = gradient.createShader(
+        Rect.fromCircle(
+          center: Offset(point.x.toDouble(), point.y.toDouble()),
+          radius: radius,
+        ),
+      );
+      canvas.drawCircle(
+        Offset(point.x.toDouble(), point.y.toDouble()),
+        radius,
+        paint,
+      );
     }
 
     // [Canvas.drawCircle] does not support drawing a circle with both a fill

@@ -13,8 +13,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'dart:ui' as ui show Gradient, Shader;
 import 'dart:math' show Point, Rectangle, max;
+import 'dart:ui' as ui show Gradient, Shader;
+
 import 'package:community_charts_common/community_charts_common.dart' as common
     show
         BlendMode,
@@ -30,12 +31,13 @@ import 'package:community_charts_common/community_charts_common.dart' as common
         TextElement,
         TextDirection;
 import 'package:flutter/material.dart';
-import 'text_element.dart' show TextElement;
+
 import 'canvas/circle_sector_painter.dart' show CircleSectorPainter;
 import 'canvas/line_painter.dart' show LinePainter;
 import 'canvas/pie_painter.dart' show PiePainter;
 import 'canvas/point_painter.dart' show PointPainter;
 import 'canvas/polygon_painter.dart' show PolygonPainter;
+import 'text_element.dart' show TextElement;
 
 class ChartCanvas implements common.ChartCanvas {
   /// Pixels to allow to overdraw above the draw area that fades to transparent.
@@ -71,24 +73,26 @@ class ChartCanvas implements common.ChartCanvas {
   }
 
   @override
-  void drawLine(
-      {required List<Point> points,
-      Rectangle<num>? clipBounds,
-      common.Color? fill,
-      common.Color? stroke,
-      bool? roundEndCaps,
-      double? strokeWidthPx,
-      List<int>? dashPattern}) {
+  void drawLine({
+    required List<Point> points,
+    Rectangle<num>? clipBounds,
+    common.Color? fill,
+    common.Color? stroke,
+    bool? roundEndCaps,
+    double? strokeWidthPx,
+    List<int>? dashPattern,
+  }) {
     LinePainter.draw(
-        canvas: canvas,
-        paint: _paint,
-        points: points,
-        clipBounds: clipBounds,
-        fill: fill,
-        stroke: stroke,
-        roundEndCaps: roundEndCaps,
-        strokeWidthPx: strokeWidthPx,
-        dashPattern: dashPattern);
+      canvas: canvas,
+      paint: _paint,
+      points: points,
+      clipBounds: clipBounds,
+      fill: fill,
+      stroke: stroke,
+      roundEndCaps: roundEndCaps,
+      strokeWidthPx: strokeWidthPx,
+      dashPattern: dashPattern,
+    );
   }
 
   @override
@@ -97,21 +101,25 @@ class ChartCanvas implements common.ChartCanvas {
   }
 
   @override
-  void drawPoint(
-      {required Point point,
-      required double radius,
-      common.Color? fill,
-      common.Color? stroke,
-      double? strokeWidthPx,
-      common.BlendMode? blendMode}) {
+  void drawPoint({
+    required Point point,
+    required double radius,
+    common.Color? fill,
+    common.Color? stroke,
+    double? strokeWidthPx,
+    common.BlendMode? blendMode,
+    Gradient? gradient,
+  }) {
     PointPainter.draw(
-        canvas: canvas,
-        paint: _paint,
-        point: point,
-        radius: radius,
-        fill: fill,
-        stroke: stroke,
-        strokeWidthPx: strokeWidthPx);
+      canvas: canvas,
+      paint: _paint,
+      point: point,
+      radius: radius,
+      fill: fill,
+      stroke: stroke,
+      strokeWidthPx: strokeWidthPx,
+      gradient: gradient,
+    );
   }
 
   @override
@@ -144,12 +152,15 @@ class ChartCanvas implements common.ChartCanvas {
   }
 
   @override
-  void drawRect(Rectangle<num> bounds,
-      {common.Color? fill,
-      common.FillPatternType? pattern,
-      common.Color? stroke,
-      double? strokeWidthPx,
-      Rectangle<num>? drawAreaBounds}) {
+  void drawRect(
+    Rectangle<num> bounds, {
+    common.Color? fill,
+    common.FillPatternType? pattern,
+    common.Color? stroke,
+    double? strokeWidthPx,
+    Rectangle<num>? drawAreaBounds,
+    Gradient? gradient,
+  }) {
     // TODO: remove this explicit `bool` type when no longer needed
     // to work around https://github.com/dart-lang/language/issues/1785
     final bool drawStroke =
@@ -170,7 +181,29 @@ class ChartCanvas implements common.ChartCanvas {
             fill: fill!, drawAreaBounds: drawAreaBounds);
         break;
 
-      case common.FillPatternType.solid:
+      case common.FillPatternType.gradient:
+        // Use separate rect for drawing stroke
+        _paint.color = new Color.fromARGB(fill!.a, fill.r, fill.g, fill.b);
+        _paint.style = PaintingStyle.fill;
+
+        _paint.shader = (gradient ??
+                LinearGradient(
+                  colors: [
+                    _paint.color,
+                    _paint.color.withAlpha(0),
+                  ],
+                ))
+            .createShader(
+          Rect.fromLTWH(
+            fillRectBounds.left.toDouble(),
+            fillRectBounds.top.toDouble(),
+            fillRectBounds.width.toDouble(),
+            fillRectBounds.height.toDouble(),
+          ),
+        );
+
+        canvas.drawRect(_getRect(fillRectBounds), _paint);
+        break;
       default:
         // Use separate rect for drawing stroke
         _paint.color = new Color.fromARGB(fill!.a, fill.r, fill.g, fill.b);
@@ -261,12 +294,15 @@ class ChartCanvas implements common.ChartCanvas {
       // TODO: Add configuration for hiding stack line.
       // TODO: Don't draw stroke on bottom of bars.
       final segment = barStack.segments[barIndex];
-      drawRect(segment.bounds,
-          fill: segment.fill,
-          pattern: segment.pattern,
-          stroke: segment.stroke,
-          strokeWidthPx: segment.strokeWidthPx,
-          drawAreaBounds: drawAreaBounds);
+      drawRect(
+        segment.bounds,
+        fill: segment.fill,
+        gradient: segment.gradient,
+        pattern: segment.pattern,
+        stroke: segment.stroke,
+        strokeWidthPx: segment.strokeWidthPx,
+        drawAreaBounds: drawAreaBounds,
+      );
     }
 
     if (roundedCorners) {

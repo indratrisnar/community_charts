@@ -17,6 +17,7 @@ import 'dart:collection' show LinkedHashMap, HashSet;
 import 'dart:math' show Point, Rectangle, max;
 
 import 'package:collection/collection.dart' show IterableExtension;
+import 'package:flutter/painting.dart';
 import 'package:meta/meta.dart' show protected;
 
 import '../../common/color.dart' show Color;
@@ -379,6 +380,7 @@ abstract class BaseBarRenderer<D, R extends BaseBarRendererElement,
       final colorFn = series.colorFn;
       final dashPatternFn = series.dashPatternFn;
       final fillColorFn = series.fillColorFn;
+      final gradientFn = series.gradientFn;
       final seriesStackKey = series.getAttr(stackKeyKey);
       final barGroupCount = series.getAttr(barGroupCountKey);
       final barGroupIndex = series.getAttr(barGroupIndexKey);
@@ -448,6 +450,7 @@ abstract class BaseBarRenderer<D, R extends BaseBarRendererElement,
                 domainAxis: domainAxis,
                 domainWidth: domainAxis.rangeBand.round(),
                 fillColor: fillColorFn!(barIndex),
+                gradient: gradientFn == null ? null : gradientFn(barIndex),
                 fillPattern: details.fillPattern,
                 measureValue: 0.0,
                 measureOffsetValue: 0.0,
@@ -494,6 +497,7 @@ abstract class BaseBarRenderer<D, R extends BaseBarRendererElement,
             domainAxis: domainAxis,
             domainWidth: domainAxis.rangeBand.round(),
             fillColor: fillColorFn!(barIndex),
+            gradient: gradientFn == null ? null : gradientFn(barIndex),
             fillPattern: details.fillPattern,
             measureValue: measureValue,
             measureOffsetValue: details.measureOffset!,
@@ -542,6 +546,7 @@ abstract class BaseBarRenderer<D, R extends BaseBarRendererElement,
       double? measureAxisPosition,
       required int numBarGroups,
       Color? fillColor,
+      Gradient? gradient,
       FillPatternType? fillPattern,
       double? strokeWidthPx,
       bool? measureIsNull,
@@ -567,6 +572,7 @@ abstract class BaseBarRenderer<D, R extends BaseBarRendererElement,
       double? measureAxisPosition,
       required int numBarGroups,
       Color? fillColor,
+      Gradient? gradient,
       FillPatternType? fillPattern,
       double? strokeWidthPx,
       bool? measureIsNull,

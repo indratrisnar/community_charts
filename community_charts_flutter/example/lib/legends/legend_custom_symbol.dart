@@ -30,8 +30,13 @@ class IconRenderer extends charts.CustomSymbolRenderer {
   IconRenderer(this.iconData);
 
   @override
-  Widget build(BuildContext context,
-      {Size? size, Color? color, bool enabled = true}) {
+  Widget build(
+    BuildContext context, {
+    Size? size,
+    Color? color,
+    bool enabled = true,
+    Gradient? gradient,
+  }) {
     // Lighten the color if the symbol is not enabled
     // Example: If user has tapped on a Series deselecting it.
     if (color != null && !enabled) {
@@ -39,7 +44,13 @@ class IconRenderer extends charts.CustomSymbolRenderer {
     }
 
     return new SizedBox.fromSize(
-        size: size, child: new Icon(iconData, color: color, size: 12.0));
+      size: size,
+      child: new Icon(
+        iconData,
+        color: color,
+        size: 12.0,
+      ),
+    );
   }
 }
 

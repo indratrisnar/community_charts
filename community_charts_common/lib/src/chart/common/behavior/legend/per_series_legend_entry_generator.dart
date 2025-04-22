@@ -53,6 +53,9 @@ class PerSeriesLegendEntryGenerator<D> implements LegendEntryGenerator<D> {
               // TODO: Should this use series.colorFn if seriesColor is null?
               color: series.seriesColor!,
               textStyle: entryTextStyle,
+              gradient: series.gradientFn == null
+                  ? null
+                  : series.gradientFn!(series.seriesIndex),
             ))
         .toList();
 

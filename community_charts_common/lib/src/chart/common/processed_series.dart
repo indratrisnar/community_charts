@@ -13,6 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:flutter/painting.dart' as painting;
+
 import '../../common/color.dart' show Color;
 import 'datum_details.dart' show DomainFormatter, MeasureFormatter;
 import '../../data/series.dart'
@@ -99,6 +101,9 @@ class MutableSeries<D> extends ImmutableSeries<D> {
   AccessorFn<Color?>? fillColorFn;
 
   @override
+  AccessorFn<painting.Gradient?>? gradientFn;
+
+  @override
   AccessorFn<FillPatternType?>? fillPatternFn;
 
   @override
@@ -148,6 +153,7 @@ class MutableSeries<D> extends ImmutableSeries<D> {
         colorFn = series.colorFn,
         dashPatternFn = series.dashPatternFn,
         fillColorFn = series.fillColorFn,
+        gradientFn = series.gradientFn,
         fillPatternFn = series.fillPatternFn,
         patternColorFn = series.patternColorFn,
         insideLabelStyleAccessorFn = series.insideLabelStyleAccessorFn,
@@ -194,6 +200,7 @@ class MutableSeries<D> extends ImmutableSeries<D> {
         colorFn = other.colorFn,
         dashPatternFn = other.dashPatternFn,
         fillColorFn = other.fillColorFn,
+        gradientFn = other.gradientFn,
         fillPatternFn = other.fillPatternFn,
         patternColorFn = other.patternColorFn,
         labelAccessorFn = other.labelAccessorFn,
@@ -292,6 +299,8 @@ abstract class ImmutableSeries<D> {
   AccessorFn<List<int>?>? get dashPatternFn;
 
   AccessorFn<Color?>? get fillColorFn;
+
+  AccessorFn<painting.Gradient?>? get gradientFn;
 
   AccessorFn<Color?>? get patternColorFn;
 

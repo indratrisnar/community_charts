@@ -55,13 +55,17 @@ class TreeMapChart<D> extends BaseChart<D> {
       final renderer = getSeriesRenderer(series.getAttr(rendererIdKey));
 
       final datumDetails = renderer.addPositionToDetailsForSeriesDatum(
-          DatumDetails(
-              datum: seriesDatum.datum,
-              domain: series.domainFn(datumIndex),
-              measure: series.measureFn(datumIndex),
-              series: seriesDatum.series,
-              color: series.colorFn!(datumIndex)),
-          seriesDatum);
+        DatumDetails(
+          datum: seriesDatum.datum,
+          domain: series.domainFn(datumIndex),
+          measure: series.measureFn(datumIndex),
+          series: seriesDatum.series,
+          color: series.colorFn!(datumIndex),
+          gradient:
+              series.gradientFn == null ? null : series.gradientFn!(datumIndex),
+        ),
+        seriesDatum,
+      );
       details.add(datumDetails);
     }
     return details;

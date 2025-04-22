@@ -83,9 +83,10 @@ abstract class BaseArcRendererConfig<D> extends LayoutViewConfig
       this.layoutPaintOrder = LayoutViewPaintOrder.arc,
       this.minHoleWidthForCenterContent = 30,
       this.startAngle = -pi / 2,
+      Color? strokeColor,
       this.strokeWidthPx = 2.0,
       SymbolRenderer? symbolRenderer})
       : noDataColor = StyleFactory.style.noDataColor,
-        stroke = StyleFactory.style.arcStrokeColor,
+        stroke = strokeColor ?? StyleFactory.style.arcStrokeColor,
         symbolRenderer = symbolRenderer ?? CircleSymbolRenderer();
 }

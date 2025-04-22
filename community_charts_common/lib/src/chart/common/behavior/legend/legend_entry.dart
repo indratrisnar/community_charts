@@ -13,6 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:flutter/painting.dart';
+
 import '../../../../common/color.dart';
 import '../../../../common/symbol_renderer.dart';
 import '../../../cartesian/axis/spec/axis_spec.dart' show TextStyleSpec;
@@ -104,6 +106,7 @@ class LegendEntry<D> extends LegendEntryBase {
   List<int?>? selectedDataIndexes;
   String? formattedValue;
   bool isSelected;
+  final Gradient? gradient;
 
   // TODO: Forward the default formatters from series and allow for
   // native legends to provide separate formatters.
@@ -118,6 +121,7 @@ class LegendEntry<D> extends LegendEntryBase {
     this.selectedDataIndexes,
     this.color,
     this.isSelected = false,
+    this.gradient,
     TextStyleSpec? textStyle,
     int? rowNumber,
     int? columnNumber,
@@ -127,16 +131,18 @@ class LegendEntry<D> extends LegendEntryBase {
     bool? inFirstColumn,
     bool? inLastRow,
     bool? inLastColumn,
-  }) : super(label,
-            textStyle: textStyle,
-            rowNumber: rowNumber,
-            columnNumber: columnNumber,
-            rowCount: rowCount,
-            columnCount: columnCount,
-            inFirstRow: inFirstRow,
-            inFirstColumn: inFirstColumn,
-            inLastRow: inLastRow,
-            inLastColumn: inLastColumn);
+  }) : super(
+          label,
+          textStyle: textStyle,
+          rowNumber: rowNumber,
+          columnNumber: columnNumber,
+          rowCount: rowCount,
+          columnCount: columnCount,
+          inFirstRow: inFirstRow,
+          inFirstColumn: inFirstColumn,
+          inLastRow: inLastRow,
+          inLastColumn: inLastColumn,
+        );
 
   /// Get the native symbol renderer stored in the series.
   SymbolRenderer? get symbolRenderer =>

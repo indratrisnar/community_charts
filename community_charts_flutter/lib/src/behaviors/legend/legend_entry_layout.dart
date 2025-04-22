@@ -36,8 +36,12 @@ abstract class LegendEntryLayout {
 class SimpleLegendEntryLayout implements LegendEntryLayout {
   const SimpleLegendEntryLayout();
 
-  Widget createSymbol(BuildContext context, common.LegendEntry legendEntry,
-      TappableLegend legend, bool isHidden) {
+  Widget createSymbol(
+    BuildContext context,
+    common.LegendEntry legendEntry,
+    TappableLegend legend,
+    bool isHidden,
+  ) {
     // TODO: Consider allowing scaling the size for the symbol.
     // A custom symbol renderer can ignore this size and use their own.
     final materialSymbolSize = new Size(12.0, 12.0);
@@ -50,16 +54,20 @@ class SimpleLegendEntryLayout implements LegendEntryLayout {
         legendEntry.symbolRenderer! is SymbolRendererBuilder
             ? legendEntry.symbolRenderer! as SymbolRendererBuilder
             : new SymbolRendererCanvas(
-                legendEntry.symbolRenderer!, legendEntry.dashPattern);
+                legendEntry.symbolRenderer!,
+                legendEntry.dashPattern,
+              );
 
-    return new GestureDetector(
-        child: symbolRendererBuilder.build(
-          context,
-          size: materialSymbolSize,
-          color: color,
-          enabled: !isHidden,
-        ),
-        onTapUp: makeTapUpCallback(context, legendEntry, legend));
+    return GestureDetector(
+      onTapUp: makeTapUpCallback(context, legendEntry, legend),
+      child: symbolRendererBuilder.build(
+        context,
+        size: materialSymbolSize,
+        color: color,
+        enabled: !isHidden,
+        gradient: legendEntry.gradient,
+      ),
+    );
   }
 
   Widget createLabel(BuildContext context, common.LegendEntry legendEntry,

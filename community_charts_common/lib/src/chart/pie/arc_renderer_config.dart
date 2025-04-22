@@ -15,6 +15,7 @@
 
 import 'dart:math' show pi;
 
+import '../../common/color.dart';
 import '../../common/symbol_renderer.dart';
 import '../layout/layout_view.dart' show LayoutViewPaintOrder;
 import 'arc_renderer.dart' show ArcRenderer;
@@ -23,27 +24,30 @@ import 'base_arc_renderer_config.dart' show BaseArcRendererConfig;
 
 /// Configuration for an [ArcRenderer].
 class ArcRendererConfig<D> extends BaseArcRendererConfig<D> {
-  ArcRendererConfig(
-      {String? customRendererId,
-      double arcLength = 2 * pi,
-      List<ArcRendererDecorator<D>> arcRendererDecorators = const [],
-      double? arcRatio,
-      int? arcWidth,
-      int layoutPaintOrder = LayoutViewPaintOrder.arc,
-      int minHoleWidthForCenterContent = 30,
-      double startAngle = -pi / 2,
-      double strokeWidthPx = 2.0,
-      SymbolRenderer? symbolRenderer})
-      : super(
-            customRendererId: customRendererId,
-            arcLength: arcLength,
-            arcRatio: arcRatio,
-            arcWidth: arcWidth,
-            layoutPaintOrder: layoutPaintOrder,
-            minHoleWidthForCenterContent: minHoleWidthForCenterContent,
-            startAngle: startAngle,
-            strokeWidthPx: strokeWidthPx,
-            arcRendererDecorators: arcRendererDecorators);
+  ArcRendererConfig({
+    String? customRendererId,
+    double arcLength = 2 * pi,
+    List<ArcRendererDecorator<D>> arcRendererDecorators = const [],
+    double? arcRatio,
+    int? arcWidth,
+    int layoutPaintOrder = LayoutViewPaintOrder.arc,
+    int minHoleWidthForCenterContent = 30,
+    double startAngle = -pi / 2,
+    double strokeWidthPx = 2.0,
+    SymbolRenderer? symbolRenderer,
+    Color? strokeColor,
+  }) : super(
+          customRendererId: customRendererId,
+          arcLength: arcLength,
+          arcRatio: arcRatio,
+          arcWidth: arcWidth,
+          layoutPaintOrder: layoutPaintOrder,
+          minHoleWidthForCenterContent: minHoleWidthForCenterContent,
+          startAngle: startAngle,
+          strokeWidthPx: strokeWidthPx,
+          arcRendererDecorators: arcRendererDecorators,
+          strokeColor: strokeColor,
+        );
 
   @override
   ArcRenderer<D> build() {

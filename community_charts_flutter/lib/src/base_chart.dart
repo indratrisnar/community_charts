@@ -24,13 +24,14 @@ import 'package:community_charts_common/community_charts_common.dart' as common
         SeriesRendererConfig,
         SelectionModelType,
         SelectionTrigger;
-import 'behaviors/select_nearest.dart' show SelectNearest;
+import 'package:flutter/material.dart' show StatefulWidget;
 import 'package:meta/meta.dart' show immutable;
+
+import 'base_chart_state.dart' show BaseChartState;
 import 'behaviors/chart_behavior.dart'
     show ChartBehavior, ChartStateBehavior, GestureType;
+import 'behaviors/select_nearest.dart' show SelectNearest;
 import 'selection_model_config.dart' show SelectionModelConfig;
-import 'package:flutter/material.dart' show StatefulWidget;
-import 'base_chart_state.dart' show BaseChartState;
 import 'user_managed_state.dart' show UserManagedState;
 
 @immutable

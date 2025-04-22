@@ -13,6 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:flutter/painting.dart';
+
 import '../chart/cartesian/axis/spec/axis_spec.dart' show TextStyleSpec;
 import '../chart/common/chart_canvas.dart' show FillPatternType;
 import '../chart/common/datum_details.dart'
@@ -87,6 +89,8 @@ class Series<T, D> {
   /// not provided, then [colorFn] will be used as a fallback.
   final AccessorFn<Color?>? fillColorFn;
 
+  final AccessorFn<Gradient?>? gradientFn;
+
   /// [patternColorFn] returns the background color of tile when a
   /// [FillPatternType] beside `solid` is used. If not provided, then
   /// background color is used.
@@ -117,6 +121,7 @@ class Series<T, D> {
       TypedAccessorFn<T, D?>? domainLowerBoundFn,
       TypedAccessorFn<T, D?>? domainUpperBoundFn,
       TypedAccessorFn<T, Color?>? fillColorFn,
+      TypedAccessorFn<T, Gradient?>? gradientFn,
       TypedAccessorFn<T, Color>? patternColorFn,
       TypedAccessorFn<T, FillPatternType>? fillPatternFn,
       TypedAccessorFn<T, String>? keyFn,
@@ -154,6 +159,9 @@ class Series<T, D> {
     final _fillColorFn = fillColorFn == null
         ? null
         : (int? index) => fillColorFn(data[index!], index);
+    final _gradientFn = gradientFn == null
+        ? null
+        : (int? index) => gradientFn(data[index!], index);
     final _patternColorFn = patternColorFn == null
         ? null
         : (int? index) => patternColorFn(data[index!], index);
@@ -203,6 +211,7 @@ class Series<T, D> {
       domainLowerBoundFn: _domainLowerBoundFn,
       domainUpperBoundFn: _domainUpperBoundFn,
       fillColorFn: _fillColorFn,
+      gradientFn: _gradientFn,
       fillPatternFn: _fillPatternFn,
       keyFn: _keyFn,
       patternColorFn: _patternColorFn,
@@ -234,6 +243,7 @@ class Series<T, D> {
     required this.domainLowerBoundFn,
     required this.domainUpperBoundFn,
     required this.fillColorFn,
+    required this.gradientFn,
     required this.fillPatternFn,
     required this.patternColorFn,
     required this.keyFn,
