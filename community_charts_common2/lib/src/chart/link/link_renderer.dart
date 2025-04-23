@@ -23,7 +23,7 @@ import '/src/chart/common/series_datum.dart';
 import '/src/chart/common/series_renderer.dart';
 import '../../data/series.dart' show AttributeKey;
 import '/src/common/math.dart' show NullablePoint;
-import '../../../community_charts_common.dart'
+import '../../../community_charts_common2.dart'
     show Color, LinkOrientation, Link;
 
 import 'link_renderer_config.dart';
