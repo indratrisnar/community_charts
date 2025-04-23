@@ -1,7 +1,7 @@
-name: community_charts_flutter
-version: 1.0.4
-description: Material Design charting library for flutter. Forked from google/charts.
-repository: https://github.com/juliansteenbakker/community_charts
+name: community_charts_flutter2
+version: 1.0.5
+description: A common library for charting packages. Forked from juliansteenbakker/community_charts.
+repository: https://github.com/indratrisnar/community_charts
 
 environment:
   sdk: ">=2.14.0 <4.0.0"

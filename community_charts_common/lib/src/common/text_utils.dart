@@ -15,8 +15,8 @@
 
 import 'dart:collection';
 
-import 'package:community_charts_common/src/common/graphics_factory.dart';
-import 'package:community_charts_common/src/common/text_element.dart';
+import '/src/common/graphics_factory.dart';
+import '/src/common/text_element.dart';
 
 /// This function breaks original [labelElement] into multiple
 /// [TextElement] when [multiline] is true and the width of

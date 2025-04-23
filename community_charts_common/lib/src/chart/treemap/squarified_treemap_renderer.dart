@@ -16,7 +16,7 @@
 import 'dart:collection' show Queue;
 import 'dart:math' as math;
 
-import 'package:community_charts_common/src/data/tree.dart';
+import '/src/data/tree.dart';
 
 import 'base_treemap_renderer.dart';
 import 'treemap_renderer_config.dart';

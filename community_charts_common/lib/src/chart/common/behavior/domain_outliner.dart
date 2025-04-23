@@ -13,9 +13,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'package:community_charts_common/src/chart/common/base_chart.dart';
-import 'package:community_charts_common/src/chart/common/processed_series.dart';
-import 'package:community_charts_common/src/chart/common/selection_model/selection_model.dart';
+import '/src/chart/common/base_chart.dart';
+import '/src/chart/common/processed_series.dart';
+import '/src/chart/common/selection_model/selection_model.dart';
 
 import 'chart_behavior.dart' show ChartBehavior;
 

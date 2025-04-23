@@ -13,9 +13,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'package:community_charts_common/src/chart/common/series_renderer_config.dart';
-import 'package:community_charts_common/src/chart/layout/layout_view.dart';
-import 'package:community_charts_common/src/common/symbol_renderer.dart';
+import '/src/chart/common/series_renderer_config.dart';
+import '/src/chart/layout/layout_view.dart';
+import '/src/common/symbol_renderer.dart';
 
 import 'link_renderer.dart';
 

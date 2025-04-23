@@ -16,15 +16,14 @@
 import 'dart:collection' show LinkedHashMap;
 import 'dart:math' show Point, Rectangle;
 
-import 'package:community_charts_common/src/chart/common/chart_canvas.dart';
-import 'package:community_charts_common/src/chart/common/datum_details.dart';
-import 'package:community_charts_common/src/chart/common/processed_series.dart';
-import 'package:community_charts_common/src/chart/common/series_datum.dart';
-import 'package:community_charts_common/src/chart/common/series_renderer.dart';
+import '/src/chart/common/chart_canvas.dart';
+import '/src/chart/common/datum_details.dart';
+import '/src/chart/common/processed_series.dart';
+import '/src/chart/common/series_datum.dart';
+import '/src/chart/common/series_renderer.dart';
 import '../../data/series.dart' show AttributeKey;
-import 'package:community_charts_common/src/common/math.dart'
-    show NullablePoint;
-import 'package:community_charts_common/community_charts_common.dart'
+import '/src/common/math.dart' show NullablePoint;
+import '../../../community_charts_common.dart'
     show Color, LinkOrientation, Link;
 
 import 'link_renderer_config.dart';
