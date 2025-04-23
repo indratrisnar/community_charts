@@ -14,5 +14,10 @@ The `/example/` folder inside `community_charts_flutter` in the [GitHub repo](ht
 contains a full Flutter app with many demo examples.
 
 ## Development
+
 This project is developed internally at Google and published for external
 consumption, external contributions unfortunately cannot be taken at this time.
+
+## Fork
+
+Forked from [juliansteenbakker/community_charts](https://github.com/juliansteenbakker/community_charts).

@@ -1,6 +1,6 @@
 # 1.0.5
 
-Add Gradient for Bar & Point Render
+First Fork. Edit for adding Gradient.
 
 # 1.0.4
 

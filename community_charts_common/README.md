@@ -8,3 +8,7 @@ Common components for charting libraries.
 
 This project is forked from Google. This project is developed internally at Google and published for external
 consumption.
+
+## Fork
+
+Forked from [juliansteenbakker/community_charts](https://github.com/juliansteenbakker/community_charts).
