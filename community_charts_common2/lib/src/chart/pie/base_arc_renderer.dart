@@ -119,8 +119,12 @@ abstract class BaseArcRenderer<D> extends BaseSeriesRenderer<D> {
       series: series,
       color: color,
       chartPosition: NullablePoint.from(chartPosition),
-      gradient:
-          series.gradientFn == null ? null : series.gradientFn!(datumIndex),
+      fillGradient: series.fillGradientFn == null
+          ? null
+          : series.fillGradientFn!(datumIndex),
+      strokeGradient: series.strokeGradientFn == null
+          ? null
+          : series.strokeGradientFn!(datumIndex),
     );
   }
 
@@ -295,7 +299,8 @@ abstract class BaseArcRenderer<D> extends BaseSeriesRenderer<D> {
             domain: arc.domain,
             domainDistance: 0.0,
             measureDistance: 0.0,
-            gradient: null,
+            fillGradient: null,
+            strokeGradient: null,
           ));
         }
       });

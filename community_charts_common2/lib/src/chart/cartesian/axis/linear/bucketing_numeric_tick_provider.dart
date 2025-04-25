@@ -139,7 +139,7 @@ class _BucketingFormatter extends SimpleTickFormatterBase<num> {
     if (value < threshold) {
       return '';
     } else if (value == threshold) {
-      return '< ' + originalFormatter.formatValue(value);
+      return '< ${originalFormatter.formatValue(value)}';
     } else {
       return originalFormatter.formatValue(value);
     }

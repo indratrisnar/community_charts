@@ -373,6 +373,7 @@ class RangeTickDrawStrategy<D> extends SmallTickDrawStrategy<D> {
       fill: lineStyle.color,
       stroke: lineStyle.color,
       strokeWidthPx: lineStyle.strokeWidth.toDouble(),
+      strokeGradient: lineStyle.strokeGradient,
     );
     canvas.drawLine(
       points: [rangeEndTickStart, rangeEndTickEnd],
@@ -380,6 +381,7 @@ class RangeTickDrawStrategy<D> extends SmallTickDrawStrategy<D> {
       fill: lineStyle.color,
       stroke: lineStyle.color,
       strokeWidthPx: lineStyle.strokeWidth.toDouble(),
+      strokeGradient: lineStyle.strokeGradient,
     );
 
     // Prepare range label.

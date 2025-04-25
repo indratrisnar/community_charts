@@ -56,7 +56,13 @@ class PerDatumLegendEntryGenerator<D> implements LegendEntryGenerator<D> {
           datum: series.data[i],
           datumIndex: i,
           textStyle: entryTextStyle,
-          gradient: series.gradientFn == null ? null : series.gradientFn!(i),
+          fillGradient:
+              series.fillGradientFn == null ? null : series.fillGradientFn!(i),
+          strokeGradient: series.strokeGradientFn == null
+              ? null
+              : series.strokeGradientFn!(i),
+          areaGradient:
+              series.areaGradientFn == null ? null : series.areaGradientFn!(i),
         ),
       );
     }

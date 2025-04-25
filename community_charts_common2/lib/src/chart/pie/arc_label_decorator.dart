@@ -15,6 +15,7 @@
 
 import 'dart:math' show cos, min, sin, pi, Point, Rectangle;
 
+import 'package:flutter/painting.dart' show Gradient;
 import 'package:meta/meta.dart' show immutable, protected;
 
 import '../../common/color.dart' show Color;
@@ -383,13 +384,15 @@ class ArcLabelDecorator<D> extends ArcRendererDecorator<D> {
         arcCenterPoint.y + centerRadius * sin(centerAngle));
 
     canvas.drawLine(
-        points: [
-          leaderLineStartPoint,
-          labelPoint,
-          leaderLineTailPoint,
-        ],
-        stroke: leaderLineStyleSpec.color,
-        strokeWidthPx: leaderLineStyleSpec.thickness);
+      points: [
+        leaderLineStartPoint,
+        labelPoint,
+        leaderLineTailPoint,
+      ],
+      stroke: leaderLineStyleSpec.color,
+      strokeWidthPx: leaderLineStyleSpec.thickness,
+      strokeGradient: leaderLineStyleSpec.strokeGradient,
+    );
 
     return tailX;
   }
@@ -415,11 +418,13 @@ class ArcLabelLeaderLineStyleSpec {
   final Color color;
   final double length;
   final double thickness;
+  final Gradient? strokeGradient;
 
-  ArcLabelLeaderLineStyleSpec({
+  const ArcLabelLeaderLineStyleSpec({
     required this.color,
     required this.length,
     required this.thickness,
+    this.strokeGradient,
   });
 
   @override

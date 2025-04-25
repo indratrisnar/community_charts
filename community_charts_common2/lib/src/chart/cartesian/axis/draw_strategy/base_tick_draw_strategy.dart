@@ -123,8 +123,8 @@ abstract class BaseRenderSpec<D> implements RenderSpec<D> {
 
 /// Base strategy that draws tick labels and checks for label collisions.
 abstract class BaseTickDrawStrategy<D> implements TickDrawStrategy<D> {
-  static final _labelSplitPattern = '\n';
-  static final multiLineLabelPadding = 2;
+  static const _labelSplitPattern = '\n';
+  static const multiLineLabelPadding = 2;
 
   static double _degToRad(double deg) => deg * (pi / 180.0);
 
@@ -430,6 +430,7 @@ abstract class BaseTickDrawStrategy<D> implements TickDrawStrategy<D> {
       stroke: axisLineStyle.color,
       strokeWidthPx: axisLineStyle.strokeWidth.toDouble(),
       dashPattern: axisLineStyle.dashPattern,
+      strokeGradient: axisLineStyle.strokeGradient,
     );
   }
 

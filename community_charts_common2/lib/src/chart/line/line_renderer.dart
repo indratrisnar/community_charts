@@ -17,6 +17,7 @@ import 'dart:collection' show LinkedHashMap;
 import 'dart:math' show Rectangle, Point;
 
 import 'package:collection/collection.dart' show IterableExtension;
+import 'package:flutter/painting.dart';
 import 'package:meta/meta.dart' show visibleForTesting;
 
 import '../../common/color.dart' show Color;
@@ -136,6 +137,8 @@ class LineRenderer<D> extends BaseCartesianRenderer<D> {
       final domainFn = series.domainFn;
       final measureFn = series.measureFn;
       final strokeWidthPxFn = series.strokeWidthPxFn;
+      final strokeGradientFn = series.strokeGradientFn;
+      final areaGradientFn = series.areaGradientFn;
 
       series.dashPatternFn ??= (_) => config.dashPattern;
       final dashPatternFn = series.dashPatternFn!;
@@ -162,6 +165,10 @@ class LineRenderer<D> extends BaseCartesianRenderer<D> {
         final dashPattern = dashPatternFn(index);
         final strokeWidthPx =
             strokeWidthPxFn?.call(index)?.toDouble() ?? config.strokeWidthPx;
+        final strokeGradient =
+            strokeGradientFn == null ? null : strokeGradientFn(index);
+        final areaGradient =
+            areaGradientFn == null ? null : areaGradientFn(index);
 
         // Create a style key for this datum, and then compare it to the
         // previous datum.
@@ -199,6 +206,8 @@ class LineRenderer<D> extends BaseCartesianRenderer<D> {
             strokeWidthPx: strokeWidthPx,
             styleKey: styleKey,
             roundEndCaps: config.roundEndCaps,
+            strokeGradient: strokeGradient,
+            areaGradient: areaGradient,
           );
 
           styleSegments.add(currentDetails);
@@ -591,6 +600,8 @@ class LineRenderer<D> extends BaseCartesianRenderer<D> {
     final strokeWidthPx = styleSegment.strokeWidthPx;
     final styleKey = styleSegment.styleKey;
     final roundEndCaps = styleSegment.roundEndCaps;
+    final strokeGradient = styleSegment.strokeGradient;
+    final areaGradient = styleSegment.areaGradient;
 
     // Get a list of all positioned points for this series.
     final pointList = _createPointListForSeries(series, initializeFromZero);
@@ -627,6 +638,8 @@ class LineRenderer<D> extends BaseCartesianRenderer<D> {
         strokeWidthPx: strokeWidthPx,
         styleKey: lineStyleKey,
         roundEndCaps: roundEndCaps,
+        strokeGradient: strokeGradient,
+        areaGradient: areaGradient,
       ));
     }
 
@@ -648,6 +661,7 @@ class LineRenderer<D> extends BaseCartesianRenderer<D> {
           measureAxisPosition: measureAxis.getLocation(0.0)!,
           positionExtent: positionExtent,
           styleKey: areaStyleKey,
+          areaGradient: areaGradient,
         ));
       }
     }
@@ -670,6 +684,7 @@ class LineRenderer<D> extends BaseCartesianRenderer<D> {
           measureAxisPosition: measureAxis.getLocation(0.0)!,
           positionExtent: positionExtent,
           styleKey: boundsStyleKey,
+          areaGradient: areaGradient,
         ));
       }
     }
@@ -967,9 +982,11 @@ class LineRenderer<D> extends BaseCartesianRenderer<D> {
                 animatingArea.getCurrentArea(animationPercent))
             .forEach((area) {
           canvas.drawPolygon(
-              clipBounds: _getClipBoundsForExtent(area.positionExtent),
-              fill: area.areaColor ?? area.color,
-              points: area.points.toPoints());
+            clipBounds: _getClipBoundsForExtent(area.positionExtent),
+            fill: area.areaColor ?? area.color,
+            points: area.points.toPoints(),
+            areaGradient: area.areaGradient,
+          );
         });
       }
 
@@ -983,9 +1000,11 @@ class LineRenderer<D> extends BaseCartesianRenderer<D> {
                 animatingBounds.getCurrentArea(animationPercent))
             .forEach((bound) {
           canvas.drawPolygon(
-              clipBounds: _getClipBoundsForExtent(bound.positionExtent),
-              fill: bound.areaColor ?? bound.color,
-              points: bound.points.toPoints());
+            clipBounds: _getClipBoundsForExtent(bound.positionExtent),
+            fill: bound.areaColor ?? bound.color,
+            points: bound.points.toPoints(),
+            areaGradient: bound.areaGradient,
+          );
         });
       }
 
@@ -999,12 +1018,14 @@ class LineRenderer<D> extends BaseCartesianRenderer<D> {
                 animatingLine.getCurrentLine(animationPercent))
             .forEach((line) {
           canvas.drawLine(
-              clipBounds: _getClipBoundsForExtent(line.positionExtent!),
-              dashPattern: line.dashPattern,
-              points: line.points!.toPoints(),
-              stroke: line.color,
-              strokeWidthPx: line.strokeWidthPx,
-              roundEndCaps: line.roundEndCaps);
+            clipBounds: _getClipBoundsForExtent(line.positionExtent!),
+            dashPattern: line.dashPattern,
+            points: line.points!.toPoints(),
+            stroke: line.color,
+            strokeWidthPx: line.strokeWidthPx,
+            roundEndCaps: line.roundEndCaps,
+            strokeGradient: line.strokeGradient,
+          );
         });
       }
     });
@@ -1261,6 +1282,8 @@ class _LineRendererElement<D> {
   double strokeWidthPx;
   String styleKey;
   bool roundEndCaps;
+  Gradient? strokeGradient;
+  Gradient? areaGradient;
 
   _LineRendererElement({
     this.points,
@@ -1273,6 +1296,8 @@ class _LineRendererElement<D> {
     required this.strokeWidthPx,
     required this.styleKey,
     required this.roundEndCaps,
+    required this.strokeGradient,
+    required this.areaGradient,
   });
 
   _LineRendererElement<D> clone() {
@@ -1287,6 +1312,8 @@ class _LineRendererElement<D> {
       strokeWidthPx: strokeWidthPx,
       styleKey: styleKey,
       roundEndCaps: roundEndCaps,
+      strokeGradient: strokeGradient,
+      areaGradient: areaGradient,
     );
   }
 
@@ -1347,6 +1374,9 @@ class _LineRendererElement<D> {
     strokeWidthPx =
         ((target.strokeWidthPx - previous.strokeWidthPx) * animationPercent) +
             previous.strokeWidthPx;
+
+    strokeGradient = target.strokeGradient;
+    areaGradient = target.areaGradient;
   }
 }
 
@@ -1428,6 +1458,7 @@ class _AreaRendererElement<D> {
   double measureAxisPosition;
   _Range<num> positionExtent;
   String styleKey;
+  Gradient? areaGradient;
 
   _AreaRendererElement({
     required this.points,
@@ -1437,6 +1468,7 @@ class _AreaRendererElement<D> {
     required this.measureAxisPosition,
     required this.positionExtent,
     required this.styleKey,
+    required this.areaGradient,
   });
 
   _AreaRendererElement<D> clone() {
@@ -1448,6 +1480,7 @@ class _AreaRendererElement<D> {
       measureAxisPosition: measureAxisPosition,
       positionExtent: positionExtent,
       styleKey: styleKey,
+      areaGradient: areaGradient,
     );
   }
 
@@ -1502,6 +1535,8 @@ class _AreaRendererElement<D> {
       areaColor = getAnimatedColor(
           previous.areaColor!, target.areaColor!, animationPercent);
     }
+
+    areaGradient = target.areaGradient;
   }
 }
 

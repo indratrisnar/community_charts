@@ -17,10 +17,10 @@ import 'dart:math';
 
 import '../../common/color.dart' show Color;
 import '../../common/graphics_factory.dart' show GraphicsFactory;
+import '../cartesian/axis/axis.dart' show ImmutableAxis, measureAxisKey;
 import '../common/chart_canvas.dart' show ChartCanvas;
 import 'bar_renderer.dart' show ImmutableBarRendererElement;
 import 'bar_renderer_decorator.dart' show BarRendererDecorator;
-import '../cartesian/axis/axis.dart' show ImmutableAxis, measureAxisKey;
 
 /// Decorates bars with error whiskers.
 ///
@@ -40,12 +40,13 @@ class BarErrorDecorator<D> extends BarRendererDecorator<D> {
   final Color strokeColor;
   final Color outlineColor;
 
-  BarErrorDecorator(
-      {this.strokeColor = _defaultStrokeColor,
-      this.strokeWidthPx = _defaultStrokeWidthPx,
-      this.endpointLengthPx = _defaultEndpointLengthPx,
-      this.outlineWidthPx = _defaultOutlineWidthPx,
-      this.outlineColor = _defaultOutlineColor});
+  BarErrorDecorator({
+    this.strokeColor = _defaultStrokeColor,
+    this.strokeWidthPx = _defaultStrokeWidthPx,
+    this.endpointLengthPx = _defaultEndpointLengthPx,
+    this.outlineWidthPx = _defaultOutlineWidthPx,
+    this.outlineColor = _defaultOutlineColor,
+  });
 
   @override
   void decorate(
@@ -121,21 +122,30 @@ class BarErrorDecorator<D> extends BarRendererDecorator<D> {
 
             // Draw vertical whisker line.
             canvas.drawLine(
-                points: [Point(x, startY), Point(x, endY)],
-                stroke: strokeColor,
-                strokeWidthPx: strokeWidth);
+              points: [Point(x, startY), Point(x, endY)],
+              stroke: strokeColor,
+              strokeWidthPx: strokeWidth,
+            );
 
             // Draw horizontal whisker line for the lower bound.
-            canvas.drawLine(points: [
-              Point(x - endpointLength / 2, startY),
-              Point(x + endpointLength / 2, startY)
-            ], stroke: strokeColor, strokeWidthPx: strokeWidth);
+            canvas.drawLine(
+              points: [
+                Point(x - endpointLength / 2, startY),
+                Point(x + endpointLength / 2, startY)
+              ],
+              stroke: strokeColor,
+              strokeWidthPx: strokeWidth,
+            );
 
             // Draw horizontal whisker line for the upper bound.
-            canvas.drawLine(points: [
-              Point(x - endpointLength / 2, endY),
-              Point(x + endpointLength / 2, endY)
-            ], stroke: strokeColor, strokeWidthPx: strokeWidth);
+            canvas.drawLine(
+              points: [
+                Point(x - endpointLength / 2, endY),
+                Point(x + endpointLength / 2, endY)
+              ],
+              stroke: strokeColor,
+              strokeWidthPx: strokeWidth,
+            );
           }
         } else {
           final startX = measureAxis.getLocation(
@@ -193,10 +203,14 @@ class BarErrorDecorator<D> extends BarRendererDecorator<D> {
             ], stroke: strokeColor, strokeWidthPx: strokeWidth);
 
             // Draw vertical whisker line for the upper bound.
-            canvas.drawLine(points: [
-              Point(endX, y - endpointLength / 2),
-              Point(endX, y + endpointLength / 2)
-            ], stroke: strokeColor, strokeWidthPx: strokeWidth);
+            canvas.drawLine(
+              points: [
+                Point(endX, y - endpointLength / 2),
+                Point(endX, y + endpointLength / 2)
+              ],
+              stroke: strokeColor,
+              strokeWidthPx: strokeWidth,
+            );
           }
         }
       }

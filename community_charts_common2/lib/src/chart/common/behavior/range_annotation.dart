@@ -16,6 +16,7 @@
 import 'dart:collection' show LinkedHashMap;
 import 'dart:math' show pi, Point, Rectangle;
 
+import 'package:flutter/painting.dart' as painting;
 import 'package:meta/meta.dart';
 
 import '../../../common/color.dart' show Color;
@@ -237,6 +238,7 @@ class RangeAnnotation<D> implements ChartBehavior<D> {
       final strokeWidthPx = annotation is LineAnnotationSegment<Object>
           ? annotation.strokeWidthPx
           : 0.0;
+      final strokeGradient = annotation.strokeGradient;
 
       final isRange = annotation is RangeAnnotationSegment;
 
@@ -279,6 +281,7 @@ class RangeAnnotation<D> implements ChartBehavior<D> {
             labelPosition: labelPosition,
             labelStyleSpec: labelStyleSpec,
             strokeWidthPx: strokeWidthPx,
+            strokeGradient: strokeGradient,
           ));
 
         _annotationMap[key] = animatingAnnotation;
@@ -302,6 +305,7 @@ class RangeAnnotation<D> implements ChartBehavior<D> {
         labelPosition: labelPosition,
         labelStyleSpec: labelStyleSpec,
         strokeWidthPx: strokeWidthPx,
+        strokeGradient: strokeGradient,
       );
 
       animatingAnnotation.setNewTarget(annotationElement);
@@ -447,10 +451,12 @@ class _RangeAnnotationLayoutView<D> extends LayoutView {
 
         // Draw the annotation.
         canvas.drawLine(
-            dashPattern: annotationElement.dashPattern,
-            points: points,
-            stroke: annotationElement.color,
-            strokeWidthPx: annotationElement.strokeWidthPx);
+          dashPattern: annotationElement.dashPattern,
+          points: points,
+          stroke: annotationElement.color,
+          strokeWidthPx: annotationElement.strokeWidthPx,
+          strokeGradient: annotationElement.strokeGradient,
+        );
       }
 
       // Create [TextStyle] from [TextStyleSpec] to be used by all the elements.
@@ -1121,6 +1127,7 @@ class _AnnotationElement<D> {
   final TextStyleSpec labelStyleSpec;
   final List<int>? dashPattern;
   double strokeWidthPx;
+  final painting.Gradient? strokeGradient;
 
   _AnnotationElement({
     required this.annotation,
@@ -1136,6 +1143,7 @@ class _AnnotationElement<D> {
     required this.labelStyleSpec,
     required this.dashPattern,
     required this.strokeWidthPx,
+    required this.strokeGradient,
   });
 
   _AnnotationElement<D> clone() {
@@ -1153,6 +1161,7 @@ class _AnnotationElement<D> {
       labelStyleSpec: labelStyleSpec,
       dashPattern: dashPattern,
       strokeWidthPx: strokeWidthPx,
+      strokeGradient: strokeGradient,
     );
   }
 
@@ -1298,19 +1307,23 @@ abstract class AnnotationSegment<D> {
   final AnnotationLabelDirection? labelDirection;
   final AnnotationLabelPosition? labelPosition;
   final TextStyleSpec? labelStyleSpec;
+  final painting.Gradient? strokeGradient;
 
   String get key;
 
-  AnnotationSegment(this.axisType,
-      {this.axisId,
-      this.color,
-      this.startLabel,
-      this.endLabel,
-      this.middleLabel,
-      this.labelAnchor,
-      this.labelDirection,
-      this.labelPosition,
-      this.labelStyleSpec});
+  AnnotationSegment(
+    this.axisType, {
+    this.axisId,
+    this.color,
+    this.startLabel,
+    this.endLabel,
+    this.middleLabel,
+    this.labelAnchor,
+    this.labelDirection,
+    this.labelPosition,
+    this.labelStyleSpec,
+    required this.strokeGradient,
+  });
 }
 
 /// Data for a chart range annotation.
@@ -1319,26 +1332,32 @@ class RangeAnnotationSegment<D> extends AnnotationSegment<D> {
   final D endValue;
 
   RangeAnnotationSegment(
-      this.startValue, this.endValue, RangeAnnotationAxisType axisType,
-      {String? axisId,
-      Color? color,
-      String? startLabel,
-      String? endLabel,
-      String? middleLabel,
-      AnnotationLabelAnchor? labelAnchor,
-      AnnotationLabelDirection? labelDirection,
-      AnnotationLabelPosition? labelPosition,
-      TextStyleSpec? labelStyleSpec})
-      : super(axisType,
-            axisId: axisId,
-            color: color,
-            startLabel: startLabel,
-            endLabel: endLabel,
-            middleLabel: middleLabel,
-            labelAnchor: labelAnchor,
-            labelDirection: labelDirection,
-            labelPosition: labelPosition,
-            labelStyleSpec: labelStyleSpec);
+    this.startValue,
+    this.endValue,
+    RangeAnnotationAxisType axisType, {
+    String? axisId,
+    Color? color,
+    String? startLabel,
+    String? endLabel,
+    String? middleLabel,
+    AnnotationLabelAnchor? labelAnchor,
+    AnnotationLabelDirection? labelDirection,
+    AnnotationLabelPosition? labelPosition,
+    TextStyleSpec? labelStyleSpec,
+    painting.Gradient? strokeGradient,
+  }) : super(
+          axisType,
+          axisId: axisId,
+          color: color,
+          startLabel: startLabel,
+          endLabel: endLabel,
+          middleLabel: middleLabel,
+          labelAnchor: labelAnchor,
+          labelDirection: labelDirection,
+          labelPosition: labelPosition,
+          labelStyleSpec: labelStyleSpec,
+          strokeGradient: strokeGradient,
+        );
 
   @override
   String get key => 'r::${axisType}::${axisId}::${startValue}::${endValue}';
@@ -1350,28 +1369,34 @@ class LineAnnotationSegment<D> extends AnnotationSegment<D> {
   final List<int>? dashPattern;
   final double strokeWidthPx;
 
-  LineAnnotationSegment(this.value, RangeAnnotationAxisType axisType,
-      {String? axisId,
-      Color? color,
-      String? startLabel,
-      String? endLabel,
-      String? middleLabel,
-      AnnotationLabelAnchor? labelAnchor,
-      AnnotationLabelDirection? labelDirection,
-      AnnotationLabelPosition? labelPosition,
-      TextStyleSpec? labelStyleSpec,
-      this.dashPattern,
-      this.strokeWidthPx = _defaultStrokeWidthPx})
-      : super(axisType,
-            axisId: axisId,
-            color: color,
-            startLabel: startLabel,
-            endLabel: endLabel,
-            middleLabel: middleLabel,
-            labelAnchor: labelAnchor,
-            labelDirection: labelDirection,
-            labelPosition: labelPosition,
-            labelStyleSpec: labelStyleSpec);
+  LineAnnotationSegment(
+    this.value,
+    RangeAnnotationAxisType axisType, {
+    String? axisId,
+    Color? color,
+    String? startLabel,
+    String? endLabel,
+    String? middleLabel,
+    AnnotationLabelAnchor? labelAnchor,
+    AnnotationLabelDirection? labelDirection,
+    AnnotationLabelPosition? labelPosition,
+    TextStyleSpec? labelStyleSpec,
+    painting.Gradient? strokeGradient,
+    this.dashPattern,
+    this.strokeWidthPx = _defaultStrokeWidthPx,
+  }) : super(
+          axisType,
+          axisId: axisId,
+          color: color,
+          startLabel: startLabel,
+          endLabel: endLabel,
+          middleLabel: middleLabel,
+          labelAnchor: labelAnchor,
+          labelDirection: labelDirection,
+          labelPosition: labelPosition,
+          labelStyleSpec: labelStyleSpec,
+          strokeGradient: strokeGradient,
+        );
 
   @override
   String get key => 'l::${axisType}::${axisId}::${value}';

@@ -50,7 +50,9 @@ abstract class SymbolRenderer extends BaseSymbolRenderer {
     FillPatternType? fillPattern,
     Color? strokeColor,
     double? strokeWidthPx,
-    Gradient? gradient,
+    Gradient? fillGradient,
+    Gradient? strokeGradient,
+    Gradient? areaGradient,
   });
 
   @protected
@@ -83,7 +85,8 @@ abstract class PointSymbolRenderer extends BaseSymbolRenderer {
     required Point<double> p2,
     Color? fillColor,
     Color? strokeColor,
-    Gradient? gradient,
+    Gradient? fillGradient,
+    Gradient? strokeGradient,
   });
 }
 
@@ -104,17 +107,21 @@ class RoundedRectSymbolRenderer extends SymbolRenderer {
     FillPatternType? fillPattern,
     Color? strokeColor,
     double? strokeWidthPx,
-    Gradient? gradient,
+    Gradient? fillGradient,
+    Gradient? strokeGradient,
+    Gradient? areaGradient,
   }) {
-    canvas.drawRRect(bounds,
-        fill: getSolidFillColor(fillColor),
-        fillPattern: fillPattern,
-        stroke: strokeColor,
-        radius: radius,
-        roundTopLeft: true,
-        roundTopRight: true,
-        roundBottomRight: true,
-        roundBottomLeft: true);
+    canvas.drawRRect(
+      bounds,
+      fill: getSolidFillColor(fillColor),
+      fillPattern: fillPattern,
+      stroke: strokeColor,
+      radius: radius,
+      roundTopLeft: true,
+      roundTopRight: true,
+      roundBottomRight: true,
+      roundBottomLeft: true,
+    );
   }
 
   @override
@@ -165,7 +172,9 @@ class LineSymbolRenderer extends SymbolRenderer {
     FillPatternType? fillPattern,
     Color? strokeColor,
     double? strokeWidthPx,
-    Gradient? gradient,
+    Gradient? fillGradient,
+    Gradient? strokeGradient,
+    Gradient? areaGradient,
   }) {
     final centerHeight = (bounds.bottom - bounds.top) / 2;
 
@@ -201,6 +210,7 @@ class LineSymbolRenderer extends SymbolRenderer {
       roundEndCaps: roundEndCaps,
       stroke: strokeColor,
       strokeWidthPx: localStrokeWidthPx,
+      strokeGradient: strokeGradient,
     );
   }
 
@@ -237,7 +247,9 @@ class CircleSymbolRenderer extends SymbolRenderer {
     FillPatternType? fillPattern,
     Color? strokeColor,
     double? strokeWidthPx,
-    Gradient? gradient,
+    Gradient? fillGradient,
+    Gradient? strokeGradient,
+    Gradient? areaGradient,
   }) {
     final center = Point(
       bounds.left + (bounds.width / 2),
@@ -250,7 +262,7 @@ class CircleSymbolRenderer extends SymbolRenderer {
       fill: getSolidFillColor(fillColor),
       stroke: strokeColor,
       strokeWidthPx: getSolidStrokeWidthPx(strokeWidthPx),
-      gradient: gradient,
+      fillGradient: fillGradient,
     );
   }
 
@@ -284,14 +296,16 @@ class RectSymbolRenderer extends SymbolRenderer {
     FillPatternType? fillPattern,
     Color? strokeColor,
     double? strokeWidthPx,
-    Gradient? gradient,
+    Gradient? fillGradient,
+    Gradient? strokeGradient,
+    Gradient? areaGradient,
   }) {
     canvas.drawRect(
       bounds,
       fill: getSolidFillColor(fillColor),
       stroke: strokeColor,
       strokeWidthPx: getSolidStrokeWidthPx(strokeWidthPx),
-      gradient: gradient,
+      fillGradient: fillGradient,
     );
   }
 
@@ -325,7 +339,9 @@ class TriangleSymbolRenderer extends SymbolRenderer {
     FillPatternType? fillPattern,
     Color? strokeColor,
     double? strokeWidthPx,
-    Gradient? gradient,
+    Gradient? fillGradient,
+    Gradient? strokeGradient,
+    Gradient? areaGradient,
   }) {
     // To maximize the size of the triangle in the available space, we can use
     // the width as the length of each size. Set the bottom edge to be the full
@@ -334,14 +350,16 @@ class TriangleSymbolRenderer extends SymbolRenderer {
     final dy = sqrt(3) / 2 * bounds.width;
     final centerX = (bounds.left + bounds.right) / 2;
     canvas.drawPolygon(
-        points: [
-          Point(bounds.left, bounds.top + dy),
-          Point(bounds.right, bounds.top + dy),
-          Point(centerX, bounds.top),
-        ],
-        fill: getSolidFillColor(fillColor),
-        stroke: strokeColor,
-        strokeWidthPx: getSolidStrokeWidthPx(strokeWidthPx));
+      points: [
+        Point(bounds.left, bounds.top + dy),
+        Point(bounds.right, bounds.top + dy),
+        Point(centerX, bounds.top),
+      ],
+      fill: getSolidFillColor(fillColor),
+      stroke: strokeColor,
+      strokeWidthPx: getSolidStrokeWidthPx(strokeWidthPx),
+      areaGradient: areaGradient,
+    );
   }
 
   @override
@@ -368,7 +386,8 @@ class CylinderSymbolRenderer extends PointSymbolRenderer {
     Color? fillColor,
     Color? strokeColor,
     double? strokeWidthPx,
-    Gradient? gradient,
+    Gradient? fillGradient,
+    Gradient? strokeGradient,
   }) {
     if (p1 == null) {
       throw ArgumentError('Invalid point p1 "${p1}"');
@@ -382,10 +401,12 @@ class CylinderSymbolRenderer extends PointSymbolRenderer {
     final adjustedP2 = Point<double>(p2.x, p2.y);
 
     canvas.drawLine(
-        points: [adjustedP1, adjustedP2],
-        stroke: strokeColor,
-        roundEndCaps: true,
-        strokeWidthPx: radius * 2);
+      points: [adjustedP1, adjustedP2],
+      stroke: strokeColor,
+      roundEndCaps: true,
+      strokeWidthPx: radius * 2,
+      strokeGradient: strokeGradient,
+    );
   }
 
   @override
@@ -413,7 +434,8 @@ class RectangleRangeSymbolRenderer extends PointSymbolRenderer {
     Color? fillColor,
     Color? strokeColor,
     double? strokeWidthPx,
-    Gradient? gradient,
+    Gradient? fillGradient,
+    Gradient? strokeGradient,
   }) {
     if (p1 == null) {
       throw ArgumentError('Invalid point p1 "${p1}"');
@@ -427,10 +449,12 @@ class RectangleRangeSymbolRenderer extends PointSymbolRenderer {
     final adjustedP2 = Point<double>(p2.x, p2.y);
 
     canvas.drawLine(
-        points: [adjustedP1, adjustedP2],
-        stroke: strokeColor,
-        roundEndCaps: false,
-        strokeWidthPx: radius * 2);
+      points: [adjustedP1, adjustedP2],
+      stroke: strokeColor,
+      roundEndCaps: false,
+      strokeWidthPx: radius * 2,
+      strokeGradient: strokeGradient,
+    );
   }
 
   @override

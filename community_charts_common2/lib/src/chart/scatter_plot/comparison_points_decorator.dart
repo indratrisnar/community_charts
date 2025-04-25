@@ -61,7 +61,8 @@ class ComparisonPointsDecorator<D> extends PointRendererDecorator<D> {
       fillColor: color,
       strokeColor: color,
       p2: points[1],
-      gradient: pointElement.gradient,
+      fillGradient: pointElement.fillGradient,
+      strokeGradient: pointElement.strokeGradient,
     );
   }
 

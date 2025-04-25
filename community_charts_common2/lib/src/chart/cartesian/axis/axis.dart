@@ -347,7 +347,7 @@ abstract class Axis<D> extends ImmutableAxis<D> implements LayoutView {
     }
 
     // Add new ticks
-    providedTicks.forEach((tick) {
+    for (final tick in providedTicks) {
       AxisTicks<D> animatedTick;
       if (tick is RangeTick<D>) {
         animatedTick = RangeAxisTicks<D>(tick);
@@ -360,7 +360,7 @@ abstract class Axis<D> extends ImmutableAxis<D> implements LayoutView {
         }
         _axisTicks.add(animatedTick);
       }
-    });
+    }
 
     _axisTicks.sort();
 

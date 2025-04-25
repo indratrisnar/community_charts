@@ -311,7 +311,9 @@ class Slider<D> implements ChartBehavior<D> {
       fill: _style.fillColor,
       stroke: _style.strokeColor,
       strokeWidthPx: _style.strokeWidthPx,
-      gradient: _style.gradient,
+      fillGradient: _style.fillGradient,
+      strokeGradient: _style.strokeGradient,
+      areaGradient: _style.areaGradient,
     );
 
     _sliderHandle!.setNewTarget(element);
@@ -567,7 +569,11 @@ class SliderStyle {
   /// Stroke color of the slider line and hte slider handle
   Color strokeColor = StyleFactory.style.sliderStrokeColor;
 
-  Gradient? gradient;
+  Gradient? fillGradient;
+
+  Gradient? strokeGradient;
+
+  Gradient? areaGradient;
 
   SliderStyle({
     Color? fillColor,
@@ -576,7 +582,9 @@ class SliderStyle {
     Color? strokeColor,
     this.handlePosition = SliderHandlePosition.middle,
     this.strokeWidthPx = 2.0,
-    this.gradient,
+    this.fillGradient,
+    this.strokeGradient,
+    this.areaGradient,
   })  : fillColor = fillColor ?? StyleFactory.style.sliderFillColor,
         strokeColor = strokeColor ?? StyleFactory.style.sliderStrokeColor;
 
@@ -659,12 +667,14 @@ class _SliderLayoutView<D> extends LayoutView {
     final sliderElement = _sliderHandle!.getCurrentSlider(animationPercent);
 
     canvas.drawLine(
-        points: [
-          Point<num>(sliderElement.domainCenterPoint.x, _drawAreaBounds.top),
-          Point<num>(sliderElement.domainCenterPoint.x, _drawAreaBounds.bottom),
-        ],
-        stroke: sliderElement.stroke,
-        strokeWidthPx: sliderElement.strokeWidthPx);
+      points: [
+        Point<num>(sliderElement.domainCenterPoint.x, _drawAreaBounds.top),
+        Point<num>(sliderElement.domainCenterPoint.x, _drawAreaBounds.bottom),
+      ],
+      stroke: sliderElement.stroke,
+      strokeWidthPx: sliderElement.strokeWidthPx,
+      strokeGradient: sliderElement.strokeGradient,
+    );
 
     _handleRenderer.paint(
       canvas,
@@ -672,7 +682,9 @@ class _SliderLayoutView<D> extends LayoutView {
       fillColor: sliderElement.fill,
       strokeColor: sliderElement.stroke,
       strokeWidthPx: sliderElement.strokeWidthPx,
-      gradient: sliderElement.gradient,
+      fillGradient: sliderElement.fillGradient,
+      strokeGradient: sliderElement.strokeGradient,
+      areaGradient: sliderElement.areaGradient,
     );
   }
 
@@ -690,7 +702,9 @@ class _SliderElement<D> {
   Color fill;
   Color stroke;
   double strokeWidthPx;
-  Gradient? gradient;
+  Gradient? fillGradient;
+  Gradient? strokeGradient;
+  Gradient? areaGradient;
 
   _SliderElement({
     required this.domainCenterPoint,
@@ -698,7 +712,9 @@ class _SliderElement<D> {
     required this.fill,
     required this.stroke,
     required this.strokeWidthPx,
-    this.gradient,
+    this.fillGradient,
+    this.strokeGradient,
+    required this.areaGradient,
   });
 
   _SliderElement<D> clone() {
@@ -708,7 +724,9 @@ class _SliderElement<D> {
       fill: fill,
       stroke: stroke,
       strokeWidthPx: strokeWidthPx,
-      gradient: gradient,
+      fillGradient: fillGradient,
+      strokeGradient: strokeGradient,
+      areaGradient: areaGradient,
     );
   }
 
@@ -750,6 +768,10 @@ class _SliderElement<D> {
     strokeWidthPx =
         ((target.strokeWidthPx - previous.strokeWidthPx) * animationPercent) +
             previous.strokeWidthPx;
+
+    fillGradient = target.fillGradient;
+    strokeGradient = target.strokeGradient;
+    areaGradient = target.areaGradient;
   }
 }
 

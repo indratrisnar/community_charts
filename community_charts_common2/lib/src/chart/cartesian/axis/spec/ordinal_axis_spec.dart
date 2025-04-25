@@ -105,7 +105,7 @@ class BasicOrdinalTickProviderSpec implements OrdinalTickProviderSpec {
 
   @override
   OrdinalTickProvider createTickProvider(ChartContext context) =>
-      OrdinalTickProvider();
+      const OrdinalTickProvider();
 
   @override
   bool operator ==(Object other) => other is BasicOrdinalTickProviderSpec;

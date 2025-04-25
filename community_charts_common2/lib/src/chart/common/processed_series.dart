@@ -101,7 +101,13 @@ class MutableSeries<D> extends ImmutableSeries<D> {
   AccessorFn<Color?>? fillColorFn;
 
   @override
-  AccessorFn<painting.Gradient?>? gradientFn;
+  AccessorFn<painting.Gradient?>? fillGradientFn;
+
+  @override
+  AccessorFn<painting.Gradient?>? strokeGradientFn;
+
+  @override
+  AccessorFn<painting.Gradient?>? areaGradientFn;
 
   @override
   AccessorFn<FillPatternType?>? fillPatternFn;
@@ -153,7 +159,9 @@ class MutableSeries<D> extends ImmutableSeries<D> {
         colorFn = series.colorFn,
         dashPatternFn = series.dashPatternFn,
         fillColorFn = series.fillColorFn,
-        gradientFn = series.gradientFn,
+        fillGradientFn = series.fillGradientFn,
+        strokeGradientFn = series.strokeGradientFn,
+        areaGradientFn = series.areaGradientFn,
         fillPatternFn = series.fillPatternFn,
         patternColorFn = series.patternColorFn,
         insideLabelStyleAccessorFn = series.insideLabelStyleAccessorFn,
@@ -200,7 +208,9 @@ class MutableSeries<D> extends ImmutableSeries<D> {
         colorFn = other.colorFn,
         dashPatternFn = other.dashPatternFn,
         fillColorFn = other.fillColorFn,
-        gradientFn = other.gradientFn,
+        fillGradientFn = other.fillGradientFn,
+        strokeGradientFn = other.strokeGradientFn,
+        areaGradientFn = other.areaGradientFn,
         fillPatternFn = other.fillPatternFn,
         patternColorFn = other.patternColorFn,
         labelAccessorFn = other.labelAccessorFn,
@@ -300,7 +310,11 @@ abstract class ImmutableSeries<D> {
 
   AccessorFn<Color?>? get fillColorFn;
 
-  AccessorFn<painting.Gradient?>? get gradientFn;
+  AccessorFn<painting.Gradient?>? get fillGradientFn;
+
+  AccessorFn<painting.Gradient?>? get strokeGradientFn;
+
+  AccessorFn<painting.Gradient?>? get areaGradientFn;
 
   AccessorFn<Color?>? get patternColorFn;
 

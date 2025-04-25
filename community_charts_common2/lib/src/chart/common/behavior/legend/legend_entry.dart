@@ -106,7 +106,9 @@ class LegendEntry<D> extends LegendEntryBase {
   List<int?>? selectedDataIndexes;
   String? formattedValue;
   bool isSelected;
-  final Gradient? gradient;
+  final Gradient? fillGradient;
+  final Gradient? strokeGradient;
+  final Gradient? areaGradient;
 
   // TODO: Forward the default formatters from series and allow for
   // native legends to provide separate formatters.
@@ -121,7 +123,9 @@ class LegendEntry<D> extends LegendEntryBase {
     this.selectedDataIndexes,
     this.color,
     this.isSelected = false,
-    this.gradient,
+    this.fillGradient,
+    this.strokeGradient,
+    this.areaGradient,
     TextStyleSpec? textStyle,
     int? rowNumber,
     int? columnNumber,

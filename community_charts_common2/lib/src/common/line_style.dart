@@ -13,6 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:flutter/painting.dart';
+
 import 'paint_style.dart' show PaintStyle;
 
 abstract class LineStyle extends PaintStyle {
@@ -21,4 +23,7 @@ abstract class LineStyle extends PaintStyle {
 
   int get strokeWidth;
   set strokeWidth(int strokeWidth);
+
+  Gradient? get strokeGradient;
+  set strokeGradient(Gradient? strokeGradient);
 }

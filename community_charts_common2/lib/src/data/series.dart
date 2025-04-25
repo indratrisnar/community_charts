@@ -89,7 +89,11 @@ class Series<T, D> {
   /// not provided, then [colorFn] will be used as a fallback.
   final AccessorFn<Color?>? fillColorFn;
 
-  final AccessorFn<Gradient?>? gradientFn;
+  final AccessorFn<Gradient?>? fillGradientFn;
+
+  final AccessorFn<Gradient?>? strokeGradientFn;
+
+  final AccessorFn<Gradient?>? areaGradientFn;
 
   /// [patternColorFn] returns the background color of tile when a
   /// [FillPatternType] beside `solid` is used. If not provided, then
@@ -107,35 +111,38 @@ class Series<T, D> {
   // the non-required ones be final?
   final SeriesAttributes attributes = SeriesAttributes();
 
-  factory Series(
-      {required String id,
-      required List<T> data,
-      required TypedAccessorFn<T, D> domainFn,
-      required TypedAccessorFn<T, num?> measureFn,
-      String? displayName,
-      Color? seriesColor,
-      TypedAccessorFn<T, Color>? areaColorFn,
-      TypedAccessorFn<T, Color>? colorFn,
-      TypedAccessorFn<T, List<int>?>? dashPatternFn,
-      TypedAccessorFn<T, DomainFormatter<D>>? domainFormatterFn,
-      TypedAccessorFn<T, D?>? domainLowerBoundFn,
-      TypedAccessorFn<T, D?>? domainUpperBoundFn,
-      TypedAccessorFn<T, Color?>? fillColorFn,
-      TypedAccessorFn<T, Gradient?>? gradientFn,
-      TypedAccessorFn<T, Color>? patternColorFn,
-      TypedAccessorFn<T, FillPatternType>? fillPatternFn,
-      TypedAccessorFn<T, String>? keyFn,
-      TypedAccessorFn<T, String>? labelAccessorFn,
-      TypedAccessorFn<T, TextStyleSpec>? insideLabelStyleAccessorFn,
-      TypedAccessorFn<T, TextStyleSpec>? outsideLabelStyleAccessorFn,
-      TypedAccessorFn<T, MeasureFormatter>? measureFormatterFn,
-      TypedAccessorFn<T, num?>? measureLowerBoundFn,
-      TypedAccessorFn<T, num?>? measureUpperBoundFn,
-      TypedAccessorFn<T, num>? measureOffsetFn,
-      bool overlaySeries = false,
-      TypedAccessorFn<T, num>? radiusPxFn,
-      String? seriesCategory,
-      TypedAccessorFn<T, num?>? strokeWidthPxFn}) {
+  factory Series({
+    required String id,
+    required List<T> data,
+    required TypedAccessorFn<T, D> domainFn,
+    required TypedAccessorFn<T, num?> measureFn,
+    String? displayName,
+    Color? seriesColor,
+    TypedAccessorFn<T, Color>? areaColorFn,
+    TypedAccessorFn<T, Color>? colorFn,
+    TypedAccessorFn<T, List<int>?>? dashPatternFn,
+    TypedAccessorFn<T, DomainFormatter<D>>? domainFormatterFn,
+    TypedAccessorFn<T, D?>? domainLowerBoundFn,
+    TypedAccessorFn<T, D?>? domainUpperBoundFn,
+    TypedAccessorFn<T, Color?>? fillColorFn,
+    TypedAccessorFn<T, Gradient?>? fillGradientFn,
+    TypedAccessorFn<T, Gradient?>? strokeGradientFn,
+    TypedAccessorFn<T, Gradient?>? areaGradientFn,
+    TypedAccessorFn<T, Color>? patternColorFn,
+    TypedAccessorFn<T, FillPatternType>? fillPatternFn,
+    TypedAccessorFn<T, String>? keyFn,
+    TypedAccessorFn<T, String>? labelAccessorFn,
+    TypedAccessorFn<T, TextStyleSpec>? insideLabelStyleAccessorFn,
+    TypedAccessorFn<T, TextStyleSpec>? outsideLabelStyleAccessorFn,
+    TypedAccessorFn<T, MeasureFormatter>? measureFormatterFn,
+    TypedAccessorFn<T, num?>? measureLowerBoundFn,
+    TypedAccessorFn<T, num?>? measureUpperBoundFn,
+    TypedAccessorFn<T, num>? measureOffsetFn,
+    bool overlaySeries = false,
+    TypedAccessorFn<T, num>? radiusPxFn,
+    String? seriesCategory,
+    TypedAccessorFn<T, num?>? strokeWidthPxFn,
+  }) {
     // Wrap typed accessors.
     final _domainFn = (int? index) => domainFn(data[index!], index);
     final _measureFn = (int? index) => measureFn(data[index!], index);
@@ -159,9 +166,15 @@ class Series<T, D> {
     final _fillColorFn = fillColorFn == null
         ? null
         : (int? index) => fillColorFn(data[index!], index);
-    final _gradientFn = gradientFn == null
+    final _fillGradientFn = fillGradientFn == null
         ? null
-        : (int? index) => gradientFn(data[index!], index);
+        : (int? index) => fillGradientFn(data[index!], index);
+    final _strokeGradientFn = strokeGradientFn == null
+        ? null
+        : (int? index) => strokeGradientFn(data[index!], index);
+    final _areaGradientFn = areaGradientFn == null
+        ? null
+        : (int? index) => areaGradientFn(data[index!], index);
     final _patternColorFn = patternColorFn == null
         ? null
         : (int? index) => patternColorFn(data[index!], index);
@@ -211,7 +224,9 @@ class Series<T, D> {
       domainLowerBoundFn: _domainLowerBoundFn,
       domainUpperBoundFn: _domainUpperBoundFn,
       fillColorFn: _fillColorFn,
-      gradientFn: _gradientFn,
+      fillGradientFn: _fillGradientFn,
+      strokeGradientFn: _strokeGradientFn,
+      areaGradientFn: _areaGradientFn,
       fillPatternFn: _fillPatternFn,
       keyFn: _keyFn,
       patternColorFn: _patternColorFn,
@@ -243,7 +258,9 @@ class Series<T, D> {
     required this.domainLowerBoundFn,
     required this.domainUpperBoundFn,
     required this.fillColorFn,
-    required this.gradientFn,
+    required this.fillGradientFn,
+    required this.strokeGradientFn,
+    required this.areaGradientFn,
     required this.fillPatternFn,
     required this.patternColorFn,
     required this.keyFn,

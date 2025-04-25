@@ -34,9 +34,9 @@ import 'scale.dart'
 /// width of the bar is [rangeBand] and the position of the bar is retrieved
 /// by [[]].
 class SimpleOrdinalScale implements OrdinalScale {
-  final _stepSizeConfig = StepSizeConfig.auto();
+  static const _stepSizeConfig = StepSizeConfig.auto();
   final OrdinalScaleDomainInfo _domain;
-  ScaleOutputExtent _range = ScaleOutputExtent(0, 1);
+  ScaleOutputExtent _range = const ScaleOutputExtent(0, 1);
   double _viewportScale = 1.0;
   double _viewportTranslatePx = 0.0;
   RangeBandConfig _rangeBandConfig = RangeBandConfig.styleAssignedPercent();

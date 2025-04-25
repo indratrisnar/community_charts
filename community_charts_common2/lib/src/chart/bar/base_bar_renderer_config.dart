@@ -135,7 +135,7 @@ abstract class BaseBarRendererConfig<D> extends LayoutViewConfig
         other.stackedBarPaddingPx == stackedBarPaddingPx &&
         other.strokeWidthPx == strokeWidthPx &&
         other.symbolRenderer == symbolRenderer &&
-        ListEquality<int>().equals(other.weightPattern, weightPattern);
+        const ListEquality<int>().equals(other.weightPattern, weightPattern);
   }
 
   @override

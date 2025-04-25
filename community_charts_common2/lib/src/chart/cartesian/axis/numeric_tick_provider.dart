@@ -401,7 +401,7 @@ class NumericTickProvider extends BaseTickProvider<num> {
           !(low < 0 &&
               high > 0 &&
               (negativeRegionCount == 0 || positiveRegionCount == 0)),
-          'Numeric tick provider cannot generate ${tickCount} '
+          'Numeric tick provider cannot generate $tickCount '
           'ticks when the axis range contains both positive and negative '
           'values. A minimum of three ticks are required to include zero.');
 

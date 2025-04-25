@@ -16,8 +16,6 @@
 import 'dart:math' show Point, Rectangle, max;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:meta/meta.dart';
 
 import '../../common/color.dart' show Color;
 import '../../common/graphics_factory.dart' show GraphicsFactory;
@@ -347,7 +345,8 @@ abstract class BaseSeriesRenderer<D> implements SeriesRenderer<D> {
     final colorFn = series.colorFn;
     final areaColorFn = series.areaColorFn ?? colorFn;
     final fillColorFn = series.fillColorFn ?? colorFn;
-    final gradientFn = series.gradientFn;
+    final fillGradientFn = series.fillGradientFn;
+    final strokeGradientFn = series.strokeGradientFn;
     final radiusPxFn = series.radiusPxFn;
     final strokeWidthPxFn = series.strokeWidthPxFn;
 
@@ -371,8 +370,9 @@ abstract class BaseSeriesRenderer<D> implements SeriesRenderer<D> {
     var fillColor = fillColorFn!(index);
     fillColor ??= color;
 
-    var gradient = gradientFn!(index);
-    gradient ??= LinearGradient(colors: [Colors.blue, Colors.blue.shade50]);
+    final fillGradient = fillGradientFn!(index);
+
+    final strokeGradient = strokeGradientFn!(index);
 
     // Area color is entirely optional.
     final areaColor = areaColorFn!(index);
@@ -384,25 +384,27 @@ abstract class BaseSeriesRenderer<D> implements SeriesRenderer<D> {
     strokeWidthPx = strokeWidthPx?.toDouble();
 
     final details = DatumDetails<D>(
-        datum: seriesDatum.datum,
-        index: seriesDatum.index,
-        domain: domainValue,
-        domainLowerBound: domainLowerBoundValue,
-        domainUpperBound: domainUpperBoundValue,
-        measure: measureValue,
-        measureLowerBound: measureLowerBoundValue,
-        measureUpperBound: measureUpperBoundValue,
-        measureOffset: measureOffsetValue,
-        rawMeasure: rawMeasureValue,
-        rawMeasureLowerBound: rawMeasureLowerBoundValue,
-        rawMeasureUpperBound: rawMeasureUpperBoundValue,
-        series: series,
-        color: color,
-        fillColor: fillColor,
-        gradient: gradient,
-        areaColor: areaColor,
-        radiusPx: radiusPx,
-        strokeWidthPx: strokeWidthPx);
+      datum: seriesDatum.datum,
+      index: seriesDatum.index,
+      domain: domainValue,
+      domainLowerBound: domainLowerBoundValue,
+      domainUpperBound: domainUpperBoundValue,
+      measure: measureValue,
+      measureLowerBound: measureLowerBoundValue,
+      measureUpperBound: measureUpperBoundValue,
+      measureOffset: measureOffsetValue,
+      rawMeasure: rawMeasureValue,
+      rawMeasureLowerBound: rawMeasureLowerBoundValue,
+      rawMeasureUpperBound: rawMeasureUpperBoundValue,
+      series: series,
+      color: color,
+      fillColor: fillColor,
+      fillGradient: fillGradient,
+      strokeGradient: strokeGradient,
+      areaColor: areaColor,
+      radiusPx: radiusPx,
+      strokeWidthPx: strokeWidthPx,
+    );
 
     // chartPosition depends on the shape of the rendered elements, and must be
     // added by concrete [SeriesRenderer] classes.

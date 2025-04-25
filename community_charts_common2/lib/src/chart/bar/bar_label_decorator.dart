@@ -33,12 +33,12 @@ class BarLabelDecorator<D> extends BarRendererDecorator<D> {
   static const _defaultHorizontalLabelAnchor = BarLabelAnchor.start;
   static const _defaultVerticalLabelAnchor = BarLabelAnchor.end;
   static const _defaultlabelVerticalPosition = BarLabelVerticalPosition.middle;
-  static final _defaultInsideLabelStyle =
+  static const _defaultInsideLabelStyle =
       TextStyleSpec(fontSize: 12, color: Color.white);
-  static final _defaultOutsideLabelStyle =
+  static const _defaultOutsideLabelStyle =
       TextStyleSpec(fontSize: 12, color: Color.black);
-  static final _labelSplitPattern = '\n';
-  static final _defaultMultiLineLabelPadding = 2;
+  static const _labelSplitPattern = '\n';
+  static const _defaultMultiLineLabelPadding = 2;
 
   /// Configures [TextStyleSpec] for labels placed inside the bars.
   final TextStyleSpec insideLabelStyleSpec;
@@ -363,7 +363,7 @@ class BarLabelDecorator<D> extends BarRendererDecorator<D> {
       }
 
       // Calculate label's y position based on BarLabelVerticalPosition.
-      final labelY;
+      final int labelY;
       if (labelVerticalPosition == BarLabelVerticalPosition.middle) {
         // Center the label inside the bar.
         labelY = (bounds.top +

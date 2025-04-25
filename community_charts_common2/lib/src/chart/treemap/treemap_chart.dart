@@ -61,8 +61,12 @@ class TreeMapChart<D> extends BaseChart<D> {
           measure: series.measureFn(datumIndex),
           series: seriesDatum.series,
           color: series.colorFn!(datumIndex),
-          gradient:
-              series.gradientFn == null ? null : series.gradientFn!(datumIndex),
+          fillGradient: series.fillGradientFn == null
+              ? null
+              : series.fillGradientFn!(datumIndex),
+          strokeGradient: series.strokeGradientFn == null
+              ? null
+              : series.strokeGradientFn!(datumIndex),
         ),
         seriesDatum,
       );

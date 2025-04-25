@@ -180,6 +180,7 @@ class GridlineTickDrawStrategy<D> extends BaseTickDrawStrategy<D> {
       fill: lineStyle.color,
       stroke: lineStyle.color,
       strokeWidthPx: lineStyle.strokeWidth.toDouble(),
+      strokeGradient: lineStyle.strokeGradient,
     );
 
     drawLabel(canvas, tick,

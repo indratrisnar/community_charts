@@ -48,7 +48,7 @@ class BarTargetLineRenderer<D> extends BaseBarRenderer<D,
   final int _barGroupInnerPaddingPx;
 
   /// Standard color for all bar target lines.
-  final _color = Color(r: 0, g: 0, b: 0, a: 153);
+  static const _color = Color(r: 0, g: 0, b: 0, a: 153);
 
   factory BarTargetLineRenderer({
     BarTargetLineRendererConfig<D>? config,
@@ -72,7 +72,7 @@ class BarTargetLineRenderer<D> extends BaseBarRenderer<D,
 
   @override
   void configureSeries(List<MutableSeries<D>> seriesList) {
-    seriesList.forEach((MutableSeries<D> series) {
+    for (MutableSeries<D> series in seriesList) {
       series.colorFn ??= (_) => _color;
       series.fillColorFn ??= (_) => _color;
 
@@ -85,7 +85,7 @@ class BarTargetLineRenderer<D> extends BaseBarRenderer<D,
           series.seriesColor = _color;
         }
       }
-    });
+    }
   }
 
   @override
@@ -155,7 +155,7 @@ class BarTargetLineRenderer<D> extends BaseBarRenderer<D,
       required ImmutableAxis<num> measureAxis,
       double? measureAxisPosition,
       Color? fillColor,
-      Gradient? gradient,
+      Gradient? fillGradient,
       FillPatternType? fillPattern,
       required int barGroupIndex,
       double? previousBarGroupWeight,
@@ -205,7 +205,7 @@ class BarTargetLineRenderer<D> extends BaseBarRenderer<D,
       required ImmutableAxis<num> measureAxis,
       double? measureAxisPosition,
       Color? fillColor,
-      Gradient? gradient,
+      Gradient? fillGradient,
       FillPatternType? fillPattern,
       double? strokeWidthPx,
       required int barGroupIndex,
@@ -245,17 +245,19 @@ class BarTargetLineRenderer<D> extends BaseBarRenderer<D,
     double animationPercent,
     Iterable<_BarTargetLineRendererElement> barElements,
   ) {
-    barElements.forEach((_BarTargetLineRendererElement bar) {
+    for (_BarTargetLineRendererElement bar in barElements) {
       // TODO: Combine common line attributes into
       // GraphicsFactory.lineStyle or similar.
       canvas.drawLine(
-          clipBounds: drawBounds,
-          points: bar.points,
-          stroke: bar.color,
-          roundEndCaps: bar.roundEndCaps,
-          strokeWidthPx: bar.strokeWidthPx,
-          dashPattern: bar.dashPattern);
-    });
+        clipBounds: drawBounds,
+        points: bar.points,
+        stroke: bar.color,
+        roundEndCaps: bar.roundEndCaps,
+        strokeWidthPx: bar.strokeWidthPx,
+        dashPattern: bar.dashPattern,
+        strokeGradient: bar.strokeGradient,
+      );
+    }
   }
 
   /// Generates a set of points that describe a bar target line.

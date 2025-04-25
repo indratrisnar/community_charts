@@ -28,7 +28,7 @@ class CanvasRect {
   final FillPatternType? pattern;
   final Color? stroke;
   final double? strokeWidthPx;
-  final Gradient? gradient;
+  final Gradient? fillGradient;
 
   const CanvasRect(
     this.bounds, {
@@ -37,7 +37,7 @@ class CanvasRect {
     this.pattern,
     this.stroke,
     this.strokeWidthPx,
-    this.gradient,
+    this.fillGradient,
   });
 }
 

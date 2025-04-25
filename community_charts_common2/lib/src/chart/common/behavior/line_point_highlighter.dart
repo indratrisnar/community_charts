@@ -248,7 +248,9 @@ class LinePointHighlighter<D> implements ChartBehavior<D> {
             measureAxisPosition: measureAxis.getLocation(0.0),
             strokeWidthPx: detail.strokeWidthPx,
             symbolRenderer: detail.symbolRenderer,
-            gradient: detail.gradient,
+            fillGradient: detail.fillGradient,
+            strokeGradient: detail.strokeGradient,
+            areaGradient: detail.areaGradient,
           ));
       }
 
@@ -274,7 +276,9 @@ class LinePointHighlighter<D> implements ChartBehavior<D> {
         measureAxisPosition: measureAxis.getLocation(0.0),
         strokeWidthPx: detail.strokeWidthPx,
         symbolRenderer: detail.symbolRenderer,
-        gradient: detail.gradient,
+        fillGradient: detail.fillGradient,
+        strokeGradient: detail.strokeGradient,
+        areaGradient: detail.areaGradient,
       );
 
       animatingPoint.setNewTarget(pointElement);
@@ -469,13 +473,15 @@ class _LinePointLayoutView<D> extends LayoutView {
         }
 
         canvas.drawLine(
-            points: [
-              Point<num>(leftBound, point.y),
-              Point<num>(rightBound, point.y),
-            ],
-            stroke: StyleFactory.style.linePointHighlighterColor,
-            strokeWidthPx: 1.0,
-            dashPattern: dashPattern);
+          points: [
+            Point<num>(leftBound, point.y),
+            Point<num>(rightBound, point.y),
+          ],
+          stroke: StyleFactory.style.linePointHighlighterColor,
+          strokeWidthPx: 1.0,
+          dashPattern: dashPattern,
+          strokeGradient: pointElement.strokeGradient,
+        );
 
         if (showHorizontalFollowLine ==
             LinePointHighlighterFollowLineType.nearest) {
@@ -493,13 +499,15 @@ class _LinePointLayoutView<D> extends LayoutView {
             : endPointPerValueVertical[roundedX]!;
 
         canvas.drawLine(
-            points: [
-              Point<num>(point.x, topBound),
-              Point<num>(point.x, drawBounds.top + drawBounds.height),
-            ],
-            stroke: StyleFactory.style.linePointHighlighterColor,
-            strokeWidthPx: 1.0,
-            dashPattern: dashPattern);
+          points: [
+            Point<num>(point.x, topBound),
+            Point<num>(point.x, drawBounds.top + drawBounds.height),
+          ],
+          stroke: StyleFactory.style.linePointHighlighterColor,
+          strokeWidthPx: 1.0,
+          dashPattern: dashPattern,
+          strokeGradient: pointElement.strokeGradient,
+        );
 
         if (showVerticalFollowLine ==
             LinePointHighlighterFollowLineType.nearest) {
@@ -535,7 +543,9 @@ class _LinePointLayoutView<D> extends LayoutView {
         fillColor: pointElement.fillColor,
         strokeColor: pointElement.color,
         strokeWidthPx: pointElement.strokeWidthPx,
-        gradient: pointElement.gradient,
+        fillGradient: pointElement.fillGradient,
+        strokeGradient: pointElement.strokeGradient,
+        areaGradient: pointElement.areaGradient,
       );
     }
   }
@@ -578,7 +588,9 @@ class _PointRendererElement<D> {
   double? measureAxisPosition;
   double? strokeWidthPx;
   SymbolRenderer? symbolRenderer;
-  Gradient? gradient;
+  Gradient? fillGradient;
+  Gradient? strokeGradient;
+  Gradient? areaGradient;
 
   _PointRendererElement({
     required this.point,
@@ -588,7 +600,9 @@ class _PointRendererElement<D> {
     required this.measureAxisPosition,
     required this.strokeWidthPx,
     required this.symbolRenderer,
-    required this.gradient,
+    required this.fillGradient,
+    required this.strokeGradient,
+    required this.areaGradient,
   });
 
   _PointRendererElement<D> clone() {
@@ -600,7 +614,9 @@ class _PointRendererElement<D> {
       radiusPx: radiusPx,
       strokeWidthPx: strokeWidthPx,
       symbolRenderer: symbolRenderer,
-      gradient: gradient,
+      fillGradient: fillGradient,
+      strokeGradient: strokeGradient,
+      areaGradient: areaGradient,
     );
   }
 
@@ -633,7 +649,8 @@ class _PointRendererElement<D> {
       strokeWidthPx = null;
     }
 
-    gradient = target.gradient;
+    fillGradient = target.fillGradient;
+    strokeGradient = target.strokeGradient;
   }
 
   /// Linear interpolation for doubles.

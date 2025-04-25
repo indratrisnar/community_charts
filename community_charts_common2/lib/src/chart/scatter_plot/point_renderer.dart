@@ -192,8 +192,15 @@ class PointRenderer<D> extends BaseCartesianRenderer<D> {
           boundsLineRadiusPx: boundsLineRadiusPx.toDouble(),
           strokeWidthPx: strokeWidthPx.toDouble(),
           symbolRendererId: symbolRendererId,
-          gradient:
-              series.gradientFn == null ? null : series.gradientFn!(index),
+          fillGradient: series.fillGradientFn == null
+              ? null
+              : series.fillGradientFn!(index),
+          strokeGradient: series.strokeGradientFn == null
+              ? null
+              : series.strokeGradientFn!(index),
+          areaGradient: series.areaGradientFn == null
+              ? null
+              : series.areaGradientFn!(index),
         );
 
         elements.add(details);
@@ -294,7 +301,9 @@ class PointRenderer<D> extends BaseCartesianRenderer<D> {
               boundsLineRadiusPx: details.boundsLineRadiusPx,
               strokeWidthPx: details.strokeWidthPx,
               symbolRendererId: details.symbolRendererId,
-              gradient: details.gradient,
+              fillGradient: details.fillGradient,
+              strokeGradient: details.strokeGradient,
+              areaGradient: details.areaGradient,
             ));
 
           pointList.add(animatingPoint);
@@ -314,7 +323,9 @@ class PointRenderer<D> extends BaseCartesianRenderer<D> {
           boundsLineRadiusPx: details.boundsLineRadiusPx,
           strokeWidthPx: details.strokeWidthPx,
           symbolRendererId: details.symbolRendererId,
-          gradient: details.gradient,
+          fillGradient: details.fillGradient,
+          strokeGradient: details.strokeGradient,
+          areaGradient: details.areaGradient,
         );
 
         animatingPoint.setNewTarget(pointElement);
@@ -399,7 +410,9 @@ class PointRenderer<D> extends BaseCartesianRenderer<D> {
               fillColor: point.fillColor,
               strokeColor: point.color,
               strokeWidthPx: point.strokeWidthPx,
-              gradient: point.gradient,
+              fillGradient: point.fillGradient,
+              strokeGradient: point.strokeGradient,
+              areaGradient: point.areaGradient,
             );
           } else {
             final id = point.symbolRendererId;
@@ -414,7 +427,9 @@ class PointRenderer<D> extends BaseCartesianRenderer<D> {
               fillColor: point.fillColor,
               strokeColor: point.color,
               strokeWidthPx: point.strokeWidthPx,
-              gradient: point.gradient,
+              fillGradient: point.fillGradient,
+              strokeGradient: point.strokeGradient,
+              areaGradient: point.areaGradient,
             );
           }
         }
@@ -751,7 +766,9 @@ class PointRendererElement<D> {
   double boundsLineRadiusPx;
   double strokeWidthPx;
   String? symbolRendererId;
-  Gradient? gradient;
+  Gradient? fillGradient;
+  Gradient? strokeGradient;
+  Gradient? areaGradient;
 
   PointRendererElement({
     this.point,
@@ -763,7 +780,9 @@ class PointRendererElement<D> {
     required this.boundsLineRadiusPx,
     required this.strokeWidthPx,
     this.symbolRendererId,
-    this.gradient,
+    this.fillGradient,
+    this.strokeGradient,
+    this.areaGradient,
   });
 
   PointRendererElement<D> clone() {
@@ -777,7 +796,9 @@ class PointRendererElement<D> {
       boundsLineRadiusPx: boundsLineRadiusPx,
       strokeWidthPx: strokeWidthPx,
       symbolRendererId: symbolRendererId,
-      gradient: gradient,
+      fillGradient: fillGradient,
+      strokeGradient: strokeGradient,
+      areaGradient: areaGradient,
     );
   }
 
@@ -844,7 +865,9 @@ class PointRendererElement<D> {
         ((target.strokeWidthPx - previous.strokeWidthPx) * animationPercent) +
             previous.strokeWidthPx;
 
-    gradient = target.gradient;
+    fillGradient = target.fillGradient;
+    strokeGradient = target.strokeGradient;
+    areaGradient = target.areaGradient;
   }
 }
 

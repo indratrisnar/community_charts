@@ -71,6 +71,7 @@ abstract class ChartCanvas {
     bool? roundEndCaps,
     double? strokeWidthPx,
     List<int>? dashPattern,
+    Gradient? strokeGradient,
   });
 
   /// Renders a pie, with an optional hole in the center.
@@ -96,7 +97,7 @@ abstract class ChartCanvas {
     Color? stroke,
     double? strokeWidthPx,
     BlendMode? blendMode,
-    Gradient? gradient,
+    Gradient? fillGradient,
   });
 
   /// Renders a polygon shape described by a set of points.
@@ -109,12 +110,14 @@ abstract class ChartCanvas {
   ///
   /// [stroke] and [strokeWidthPx] configure the color and thickness of the
   /// edges of the polygon. Both must be provided together for a line to appear.
-  void drawPolygon(
-      {required List<Point> points,
-      Rectangle<num>? clipBounds,
-      Color? fill,
-      Color? stroke,
-      double? strokeWidthPx});
+  void drawPolygon({
+    required List<Point> points,
+    Rectangle<num>? clipBounds,
+    Color? fill,
+    Color? stroke,
+    double? strokeWidthPx,
+    Gradient? areaGradient,
+  });
 
   /// Renders a simple rectangle.
   ///
@@ -128,7 +131,7 @@ abstract class ChartCanvas {
     Color? stroke,
     double? strokeWidthPx,
     Rectangle<num>? drawAreaBounds,
-    Gradient? gradient,
+    Gradient? fillGradient,
   });
 
   /// Renders a rounded rectangle.

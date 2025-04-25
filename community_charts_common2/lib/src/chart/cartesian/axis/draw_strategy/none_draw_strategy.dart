@@ -83,7 +83,9 @@ class NoneDrawStrategy<D> implements TickDrawStrategy<D> {
     // still be set to handle the case of the draw strategy being switched to
     // a different draw strategy. The new draw strategy will try to animate
     // the old ticks out and the text style property is used.
-    ticks.forEach((tick) => tick.textElement!.textStyle = noneTextStyle);
+    for (final tick in ticks) {
+      tick.textElement!.textStyle = noneTextStyle;
+    }
   }
 
   @override
@@ -118,6 +120,7 @@ class NoneDrawStrategy<D> implements TickDrawStrategy<D> {
       fill: axisLineStyle.color,
       stroke: axisLineStyle.color,
       strokeWidthPx: axisLineStyle.strokeWidth.toDouble(),
+      strokeGradient: axisLineStyle.strokeGradient,
     );
   }
 
@@ -134,13 +137,13 @@ class NoneDrawStrategy<D> implements TickDrawStrategy<D> {
   ViewMeasuredSizes measureHorizontallyDrawnTicks(
       List<Tick<D>> ticks, int maxWidth, int maxHeight,
       {bool collision = false}) {
-    return ViewMeasuredSizes(preferredWidth: 0, preferredHeight: 0);
+    return const ViewMeasuredSizes(preferredWidth: 0, preferredHeight: 0);
   }
 
   @override
   ViewMeasuredSizes measureVerticallyDrawnTicks(
       List<Tick<D>> ticks, int maxWidth, int maxHeight,
       {bool collision = false}) {
-    return ViewMeasuredSizes(preferredWidth: 0, preferredHeight: 0);
+    return const ViewMeasuredSizes(preferredWidth: 0, preferredHeight: 0);
   }
 }

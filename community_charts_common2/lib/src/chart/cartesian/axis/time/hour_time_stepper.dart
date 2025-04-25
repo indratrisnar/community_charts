@@ -55,7 +55,7 @@ class HourTimeStepper extends BaseTimeStepper {
   DateTime getStepTimeBeforeInclusive(DateTime time, int tickIncrement) {
     final nextDay = dateTimeFactory
         .createDateTime(time.year, time.month, time.day)
-        .add(Duration(hours: _hoursInDay + 1));
+        .add(const Duration(hours: _hoursInDay + 1));
     final nextDayStart = dateTimeFactory.createDateTime(
         nextDay.year, nextDay.month, nextDay.day);
 

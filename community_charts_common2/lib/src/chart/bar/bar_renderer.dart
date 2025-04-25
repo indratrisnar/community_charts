@@ -149,7 +149,7 @@ class BarRenderer<D>
       required ImmutableAxis<num> measureAxis,
       double? measureAxisPosition,
       Color? fillColor,
-      Gradient? gradient,
+      Gradient? fillGradient,
       FillPatternType? fillPattern,
       double? strokeWidthPx,
       required int barGroupIndex,
@@ -161,7 +161,8 @@ class BarRenderer<D>
       bool? measureIsNegative}) {
     return AnimatedBar<D>(
         key: key, datum: datum, series: series, domainValue: domainValue)
-      ..setNewTarget(makeBarRendererElement(
+      ..setNewTarget(
+        makeBarRendererElement(
           color: color,
           dashPattern: dashPattern,
           details: details,
@@ -173,7 +174,7 @@ class BarRenderer<D>
           measureAxisPosition: measureAxisPosition,
           measureAxis: measureAxis,
           fillColor: fillColor,
-          gradient: gradient,
+          fillGradient: fillGradient,
           fillPattern: fillPattern,
           strokeWidthPx: strokeWidthPx,
           barGroupIndex: barGroupIndex,
@@ -182,7 +183,9 @@ class BarRenderer<D>
           allBarGroupWeights: allBarGroupWeights,
           numBarGroups: numBarGroups,
           measureIsNull: measureIsNull,
-          measureIsNegative: measureIsNegative));
+          measureIsNegative: measureIsNegative,
+        ),
+      );
   }
 
   /// Generates a [BarRendererElement] to represent the rendering data for one
@@ -200,7 +203,7 @@ class BarRenderer<D>
       required ImmutableAxis<num> measureAxis,
       double? measureAxisPosition,
       Color? fillColor,
-      Gradient? gradient,
+      Gradient? fillGradient,
       FillPatternType? fillPattern,
       double? strokeWidthPx,
       required int barGroupIndex,
@@ -214,7 +217,7 @@ class BarRenderer<D>
       ..color = color
       ..dashPattern = dashPattern
       ..fillColor = fillColor
-      ..gradient = gradient
+      ..fillGradient = fillGradient
       ..fillPattern = fillPattern
       ..measureAxisPosition = measureAxisPosition
       ..roundPx = details.roundPx
@@ -283,7 +286,7 @@ class BarRenderer<D>
         bounds!,
         dashPattern: bar.dashPattern,
         fill: bar.fillColor,
-        gradient: bar.gradient,
+        fillGradient: bar.fillGradient,
         pattern: bar.fillPattern,
         stroke: bar.color,
         strokeWidthPx: bar.strokeWidthPx,

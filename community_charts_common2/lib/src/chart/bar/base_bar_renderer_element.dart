@@ -25,7 +25,8 @@ abstract class BaseBarRendererElement {
   num? cumulativeTotal;
   List<int>? dashPattern;
   Color? fillColor;
-  Gradient? gradient;
+  Gradient? fillGradient;
+  Gradient? strokeGradient;
   FillPatternType? fillPattern;
   double? measureAxisPosition;
   num? measureOffset;
@@ -44,7 +45,8 @@ abstract class BaseBarRendererElement {
     fillColor = other.fillColor != null
         ? Color.fromOther(color: other.fillColor!)
         : null;
-    gradient = other.gradient;
+    fillGradient = other.fillGradient;
+    strokeGradient = other.strokeGradient;
     fillPattern = other.fillPattern;
     measureAxisPosition = other.measureAxisPosition;
     measureOffset = other.measureOffset;
