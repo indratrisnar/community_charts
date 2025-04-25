@@ -31,7 +31,7 @@ class PointPainter {
     common.Color? fill,
     common.Color? stroke,
     double? strokeWidthPx,
-    Gradient? gradient,
+    Gradient? fillGradient,
   }) {
     if (fill != null) {
       paint.color = new Color.fromARGB(fill.a, fill.r, fill.g, fill.b);
@@ -44,9 +44,8 @@ class PointPainter {
       );
     }
 
-    if (gradient != null) {
-      paint.style = PaintingStyle.fill;
-      paint.shader = gradient.createShader(
+    if (fillGradient != null) {
+      paint.shader = fillGradient.createShader(
         Rect.fromCircle(
           center: Offset(point.x.toDouble(), point.y.toDouble()),
           radius: radius,

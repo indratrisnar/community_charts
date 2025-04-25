@@ -13,6 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:flutter/painting.dart';
 import 'dart:ui' as ui show Shader;
 import 'dart:math' show Point, Rectangle;
 import 'package:flutter/material.dart';
@@ -43,6 +44,7 @@ class LinePainter {
     double? strokeWidthPx,
     List<int>? dashPattern,
     ui.Shader? shader,
+    Gradient? strokeGradient,
   }) {
     if (points.isEmpty) {
       return;
@@ -50,13 +52,19 @@ class LinePainter {
 
     // Apply clip bounds as a clip region.
     if (clipBounds != null) {
+      final rect = Rect.fromLTWH(
+        clipBounds.left.toDouble(),
+        clipBounds.top.toDouble(),
+        clipBounds.width.toDouble(),
+        clipBounds.height.toDouble(),
+      );
       canvas
         ..save()
-        ..clipRect(new Rect.fromLTWH(
-            clipBounds.left.toDouble(),
-            clipBounds.top.toDouble(),
-            clipBounds.width.toDouble(),
-            clipBounds.height.toDouble()));
+        ..clipRect(rect);
+
+      if (strokeGradient != null) {
+        paint.shader = strokeGradient.createShader(rect);
+      }
     }
 
     paint.color = new Color.fromARGB(stroke!.a, stroke.r, stroke.g, stroke.b);

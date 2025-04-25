@@ -66,7 +66,9 @@ class SimpleLegendEntryLayout implements LegendEntryLayout {
         size: materialSymbolSize,
         color: color,
         enabled: !isHidden,
-        gradient: legendEntry.gradient,
+        fillGradient: legendEntry.fillGradient,
+        strokeGradient: legendEntry.strokeGradient,
+        areaGradient: legendEntry.areaGradient,
       ),
     );
   }

@@ -36,21 +36,25 @@ class SymbolRendererCanvas implements SymbolRendererBuilder {
     Color? color,
     required Size size,
     bool enabled = true,
-    Gradient? gradient,
+    Gradient? fillGradient,
+    Gradient? strokeGradient,
+    Gradient? areaGradient,
   }) {
     if (color != null && !enabled) {
-      color = color.withOpacity(0.26);
+      color = color.withValues(alpha: 0.26);
     }
 
-    return new SizedBox.fromSize(
+    return SizedBox.fromSize(
       size: size,
-      child: new CustomPaint(
-        painter: new _SymbolCustomPaint(
+      child: CustomPaint(
+        painter: _SymbolCustomPaint(
           context,
           commonSymbolRenderer,
           color,
           dashPattern,
-          gradient,
+          fillGradient,
+          strokeGradient,
+          areaGradient,
         ),
       ),
     );
@@ -74,7 +78,9 @@ abstract class CustomSymbolRenderer extends common.SymbolRenderer
     Color? color,
     required Size size,
     bool enabled = true,
-    Gradient? gradient,
+    Gradient? fillGradient,
+    Gradient? strokeGradient,
+    Gradient? areaGradient,
   });
 
   @override
@@ -86,7 +92,9 @@ abstract class CustomSymbolRenderer extends common.SymbolRenderer
     common.FillPatternType? fillPattern,
     common.Color? strokeColor,
     double? strokeWidthPx,
-    Gradient? gradient,
+    Gradient? fillGradient,
+    Gradient? strokeGradient,
+    Gradient? areaGradient,
   }) {
     // Intentionally ignored (never called).
   }
@@ -105,7 +113,9 @@ abstract class SymbolRendererBuilder {
     Color? color,
     required Size size,
     bool enabled,
-    Gradient? gradient,
+    Gradient? fillGradient,
+    Gradient? strokeGradient,
+    Gradient? areaGradient,
   });
 }
 
@@ -116,31 +126,41 @@ class _SymbolCustomPaint extends CustomPainter {
   final common.SymbolRenderer symbolRenderer;
   final Color? color;
   final List<int>? dashPattern;
-  final Gradient? gradient;
+  final Gradient? fillGradient;
+  final Gradient? strokeGradient;
+  final Gradient? areaGradient;
 
   _SymbolCustomPaint(
     this.context,
     this.symbolRenderer,
     this.color,
     this.dashPattern,
-    this.gradient,
+    this.fillGradient,
+    this.strokeGradient,
+    this.areaGradient,
   );
 
   @override
   void paint(Canvas canvas, Size size) {
     final bounds =
-        new Rectangle<num>(0, 0, size.width.toInt(), size.height.toInt());
+        Rectangle<num>(0, 0, size.width.toInt(), size.height.toInt());
     final commonColor = color == null
         ? null
-        : new common.Color(
-            r: color!.red, g: color!.green, b: color!.blue, a: color!.alpha);
+        : common.Color(
+            r: color!.r.toInt(),
+            g: color!.g.toInt(),
+            b: color!.b.toInt(),
+            a: color!.a.toInt(),
+          );
     symbolRenderer.paint(
-      new ChartCanvas(canvas, GraphicsFactory(context)),
+      ChartCanvas(canvas, GraphicsFactory(context)),
       bounds,
       fillColor: commonColor,
       strokeColor: commonColor,
       dashPattern: dashPattern,
-      gradient: gradient,
+      fillGradient: fillGradient,
+      strokeGradient: strokeGradient,
+      areaGradient: areaGradient,
     );
   }
 

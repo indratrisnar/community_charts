@@ -46,7 +46,7 @@ class ChartCanvas implements common.ChartCanvas {
 
   final Canvas canvas;
   final common.GraphicsFactory graphicsFactory;
-  final _paint = new Paint();
+  final _paint = Paint();
 
   ChartCanvas(this.canvas, this.graphicsFactory);
 
@@ -82,6 +82,7 @@ class ChartCanvas implements common.ChartCanvas {
     bool? roundEndCaps,
     double? strokeWidthPx,
     List<int>? dashPattern,
+    Gradient? strokeGradient,
   }) {
     LinePainter.draw(
       canvas: canvas,
@@ -93,6 +94,7 @@ class ChartCanvas implements common.ChartCanvas {
       roundEndCaps: roundEndCaps,
       strokeWidthPx: strokeWidthPx,
       dashPattern: dashPattern,
+      strokeGradient: strokeGradient,
     );
   }
 
@@ -109,7 +111,7 @@ class ChartCanvas implements common.ChartCanvas {
     common.Color? stroke,
     double? strokeWidthPx,
     common.BlendMode? blendMode,
-    Gradient? gradient,
+    Gradient? fillGradient,
   }) {
     PointPainter.draw(
       canvas: canvas,
@@ -119,25 +121,29 @@ class ChartCanvas implements common.ChartCanvas {
       fill: fill,
       stroke: stroke,
       strokeWidthPx: strokeWidthPx,
-      gradient: gradient,
+      fillGradient: fillGradient,
     );
   }
 
   @override
-  void drawPolygon(
-      {required List<Point> points,
-      Rectangle<num>? clipBounds,
-      common.Color? fill,
-      common.Color? stroke,
-      double? strokeWidthPx}) {
+  void drawPolygon({
+    required List<Point> points,
+    Rectangle<num>? clipBounds,
+    common.Color? fill,
+    common.Color? stroke,
+    double? strokeWidthPx,
+    Gradient? areaGradient,
+  }) {
     PolygonPainter.draw(
-        canvas: canvas,
-        paint: _paint,
-        points: points,
-        clipBounds: clipBounds,
-        fill: fill,
-        stroke: stroke,
-        strokeWidthPx: strokeWidthPx);
+      canvas: canvas,
+      paint: _paint,
+      points: points,
+      clipBounds: clipBounds,
+      fill: fill,
+      stroke: stroke,
+      strokeWidthPx: strokeWidthPx,
+      areaGradient: areaGradient,
+    );
   }
 
   /// Creates a bottom to top gradient that transitions [fill] to transparent.
@@ -160,7 +166,7 @@ class ChartCanvas implements common.ChartCanvas {
     common.Color? stroke,
     double? strokeWidthPx,
     Rectangle<num>? drawAreaBounds,
-    Gradient? gradient,
+    Gradient? fillGradient,
   }) {
     // TODO: remove this explicit `bool` type when no longer needed
     // to work around https://github.com/dart-lang/language/issues/1785
@@ -187,21 +193,16 @@ class ChartCanvas implements common.ChartCanvas {
         _paint.color = new Color.fromARGB(fill!.a, fill.r, fill.g, fill.b);
         _paint.style = PaintingStyle.fill;
 
-        _paint.shader = (gradient ??
-                LinearGradient(
-                  colors: [
-                    _paint.color,
-                    _paint.color.withAlpha(0),
-                  ],
-                ))
-            .createShader(
-          Rect.fromLTWH(
-            fillRectBounds.left.toDouble(),
-            fillRectBounds.top.toDouble(),
-            fillRectBounds.width.toDouble(),
-            fillRectBounds.height.toDouble(),
-          ),
-        );
+        if (fillGradient != null) {
+          _paint.shader = fillGradient.createShader(
+            Rect.fromLTWH(
+              fillRectBounds.left.toDouble(),
+              fillRectBounds.top.toDouble(),
+              fillRectBounds.width.toDouble(),
+              fillRectBounds.height.toDouble(),
+            ),
+          );
+        }
 
         canvas.drawRect(_getRect(fillRectBounds), _paint);
         break;
@@ -298,7 +299,7 @@ class ChartCanvas implements common.ChartCanvas {
       drawRect(
         segment.bounds,
         fill: segment.fill,
-        gradient: segment.gradient,
+        fillGradient: segment.fillGradient,
         pattern: segment.pattern,
         stroke: segment.stroke,
         strokeWidthPx: segment.strokeWidthPx,
@@ -462,15 +463,17 @@ class ChartCanvas implements common.ChartCanvas {
 
       // Draw a line segment in the bottom right corner of the pattern.
       LinePainter.draw(
-          canvas: canvas,
-          paint: _paint,
-          points: [
-            new Point(x0 + modifier, y0),
-            new Point(x1 + modifier, y1),
-          ],
-          stroke: fill,
-          strokeWidthPx: fillWidthPx,
-          shader: lineShader);
+        canvas: canvas,
+        paint: _paint,
+        points: [
+          new Point(x0 + modifier, y0),
+          new Point(x1 + modifier, y1),
+        ],
+        stroke: fill,
+        strokeWidthPx: fillWidthPx,
+        shader: lineShader,
+        strokeGradient: LinearGradient(colors: []), // gradient remove
+      );
     }
   }
 

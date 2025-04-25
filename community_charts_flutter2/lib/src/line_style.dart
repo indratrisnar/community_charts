@@ -15,6 +15,7 @@
 
 import 'package:community_charts_common2/community_charts_common2.dart'
     as common show Color, LineStyle;
+import 'package:flutter/painting.dart';
 
 class LineStyle implements common.LineStyle {
   @override
@@ -27,4 +28,7 @@ class LineStyle implements common.LineStyle {
   int strokeWidth;
 
   LineStyle({this.strokeWidth = 0});
+
+  @override
+  Gradient? strokeGradient;
 }
