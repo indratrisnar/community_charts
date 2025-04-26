@@ -1,5 +1,5 @@
 name: community_charts_flutter2
-version: 1.0.6
+version: 1.0.7
 description: A common library for charting packages. Forked from juliansteenbakker/community_charts.
 repository: https://github.com/indratrisnar/community_charts
 
@@ -18,7 +18,7 @@ dependencies:
 
   flutter:
     sdk: flutter
-  community_charts_common2: ^1.0.6
+  community_charts_common2: ^1.0.7
 
 dev_dependencies:
   mockito: ^5.3.2

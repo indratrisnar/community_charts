@@ -45,6 +45,7 @@ class LinePainter {
     List<int>? dashPattern,
     ui.Shader? shader,
     Gradient? strokeGradient,
+    Gradient? targetLineGradient,
   }) {
     if (points.isEmpty) {
       return;
@@ -62,12 +63,13 @@ class LinePainter {
         ..save()
         ..clipRect(rect);
 
+      // better for entire series area
       if (strokeGradient != null) {
         paint.shader = strokeGradient.createShader(rect);
       }
     }
 
-    paint.color = new Color.fromARGB(stroke!.a, stroke.r, stroke.g, stroke.b);
+    paint.color = Color.fromARGB(stroke!.a, stroke.r, stroke.g, stroke.b);
 
     if (shader != null) {
       paint.shader = shader;
@@ -77,7 +79,7 @@ class LinePainter {
     if (points.length == 1) {
       final point = points.first;
       paint.style = PaintingStyle.fill;
-      canvas.drawCircle(new Offset(point.x.toDouble(), point.y.toDouble()),
+      canvas.drawCircle(Offset(point.x.toDouble(), point.y.toDouble()),
           strokeWidthPx ?? 0, paint);
     } else {
       if (strokeWidthPx != null) {
@@ -89,6 +91,18 @@ class LinePainter {
       if (dashPattern == null || dashPattern.isEmpty) {
         if (roundEndCaps == true) {
           paint.strokeCap = StrokeCap.round;
+        }
+
+        // better for each element
+        if (targetLineGradient != null) {
+          final start =
+              Offset(points.first.x.toDouble(), points.first.y.toDouble());
+          for (var point in points) {
+            final end = Offset(point.x.toDouble(), point.y.toDouble());
+            paint.shader = targetLineGradient.createShader(
+              Rect.fromPoints(start, end),
+            );
+          }
         }
 
         _drawSolidLine(canvas, paint, points);
@@ -106,7 +120,7 @@ class LinePainter {
   static void _drawSolidLine(Canvas canvas, Paint paint, List<Point> points) {
     // TODO: Extract a native line component which constructs the
     // appropriate underlying data structures to avoid conversion.
-    final path = new Path()
+    final path = Path()
       ..moveTo(points.first.x.toDouble(), points.first.y.toDouble());
 
     for (var point in points) {
@@ -119,7 +133,7 @@ class LinePainter {
   /// Draws dashed lines lines between each point.
   static void _drawDashedLine(
       Canvas canvas, Paint paint, List<Point> points, List<int> dashPattern) {
-    final localDashPattern = new List.from(dashPattern);
+    final localDashPattern = List.from(dashPattern);
 
     // If an odd number of parts are defined, repeat the pattern to get an even
     // number.
@@ -168,7 +182,7 @@ class LinePainter {
 
           // Create a unit vector in the direction from previous to next point.
           final v = seriesPoint - previousPoint;
-          final u = new Offset(v.dx / v.distance, v.dy / v.distance);
+          final u = Offset(v.dx / v.distance, v.dy / v.distance);
 
           // If the remaining distance is less than the length of the dash
           // pattern segment, then cut off the pattern segment for this portion
@@ -186,9 +200,9 @@ class LinePainter {
               // If we had a partial un-drawn dash from the previous point along
               // the line, draw a path that includes it and the end of the dash
               // pattern segment in the current line segment.
-              remainderPoints.add(new Offset(nextPoint.dx, nextPoint.dy));
+              remainderPoints.add(Offset(nextPoint.dx, nextPoint.dy));
 
-              final path = new Path()
+              final path = Path()
                 ..moveTo(remainderPoints.first.dx, remainderPoints.first.dy);
 
               for (var p in remainderPoints) {
@@ -210,8 +224,8 @@ class LinePainter {
                 // distance into account before starting the next dash in the
                 // next line segment.
                 remainderPoints = [
-                  new Offset(previousPoint.dx, previousPoint.dy),
-                  new Offset(nextPoint.dx, nextPoint.dy)
+                  Offset(previousPoint.dx, previousPoint.dy),
+                  Offset(nextPoint.dx, nextPoint.dy)
                 ];
               } else {
                 // Otherwise, draw a simple line segment for this dash.
@@ -243,12 +257,12 @@ class LinePainter {
 
   /// Converts a [Point] into an [Offset].
   static Offset _getOffset(Point point) =>
-      new Offset(point.x.toDouble(), point.y.toDouble());
+      Offset(point.x.toDouble(), point.y.toDouble());
 
   /// Computes the distance between two [Offset]s, as if they were [Point]s.
   static num _getOffsetDistance(Offset o1, Offset o2) {
-    final p1 = new Point(o1.dx, o1.dy);
-    final p2 = new Point(o2.dx, o2.dy);
+    final p1 = Point(o1.dx, o1.dy);
+    final p2 = Point(o2.dx, o2.dy);
     return p1.distanceTo(p2);
   }
 }

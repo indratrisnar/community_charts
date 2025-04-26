@@ -38,6 +38,7 @@ class SymbolRendererCanvas implements SymbolRendererBuilder {
     bool enabled = true,
     Gradient? fillGradient,
     Gradient? strokeGradient,
+    Gradient? targetLineGradient,
     Gradient? areaGradient,
   }) {
     if (color != null && !enabled) {
@@ -54,6 +55,7 @@ class SymbolRendererCanvas implements SymbolRendererBuilder {
           dashPattern,
           fillGradient,
           strokeGradient,
+          targetLineGradient,
           areaGradient,
         ),
       ),
@@ -80,6 +82,7 @@ abstract class CustomSymbolRenderer extends common.SymbolRenderer
     bool enabled = true,
     Gradient? fillGradient,
     Gradient? strokeGradient,
+    Gradient? targetLineGradient,
     Gradient? areaGradient,
   });
 
@@ -94,6 +97,7 @@ abstract class CustomSymbolRenderer extends common.SymbolRenderer
     double? strokeWidthPx,
     Gradient? fillGradient,
     Gradient? strokeGradient,
+    Gradient? targetLineGradient,
     Gradient? areaGradient,
   }) {
     // Intentionally ignored (never called).
@@ -115,6 +119,7 @@ abstract class SymbolRendererBuilder {
     bool enabled,
     Gradient? fillGradient,
     Gradient? strokeGradient,
+    Gradient? targetLineGradient,
     Gradient? areaGradient,
   });
 }
@@ -128,6 +133,7 @@ class _SymbolCustomPaint extends CustomPainter {
   final List<int>? dashPattern;
   final Gradient? fillGradient;
   final Gradient? strokeGradient;
+  final Gradient? targetLineGradient;
   final Gradient? areaGradient;
 
   _SymbolCustomPaint(
@@ -137,6 +143,7 @@ class _SymbolCustomPaint extends CustomPainter {
     this.dashPattern,
     this.fillGradient,
     this.strokeGradient,
+    this.targetLineGradient,
     this.areaGradient,
   );
 
@@ -160,6 +167,7 @@ class _SymbolCustomPaint extends CustomPainter {
       dashPattern: dashPattern,
       fillGradient: fillGradient,
       strokeGradient: strokeGradient,
+      targetLineGradient: targetLineGradient,
       areaGradient: areaGradient,
     );
   }

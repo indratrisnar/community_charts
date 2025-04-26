@@ -68,6 +68,7 @@ class SimpleLegendEntryLayout implements LegendEntryLayout {
         enabled: !isHidden,
         fillGradient: legendEntry.fillGradient,
         strokeGradient: legendEntry.strokeGradient,
+        targetLineGradient: legendEntry.targetLineGradient,
         areaGradient: legendEntry.areaGradient,
       ),
     );

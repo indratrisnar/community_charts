@@ -31,4 +31,7 @@ class LineStyle implements common.LineStyle {
 
   @override
   Gradient? strokeGradient;
+
+  @override
+  Gradient? targetLineGradient;
 }

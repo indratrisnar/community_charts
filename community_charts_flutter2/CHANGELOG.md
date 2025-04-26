@@ -1,3 +1,7 @@
+# 1.0.7
+
+Add targetLineGradient and implement fillGradient for Pie Chart
+
 # 1.0.6
 
 Add Gradient for Stroke & Area Line Chart
