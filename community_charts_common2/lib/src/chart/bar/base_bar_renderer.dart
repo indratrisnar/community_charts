@@ -381,6 +381,8 @@ abstract class BaseBarRenderer<D, R extends BaseBarRendererElement,
       final dashPatternFn = series.dashPatternFn;
       final fillColorFn = series.fillColorFn;
       final fillGradientFn = series.fillGradientFn;
+      final strokeGradientFn = series.strokeGradientFn;
+      final targetLineGradientFn = series.targetLineGradientFn;
       final seriesStackKey = series.getAttr(stackKeyKey);
       final barGroupCount = series.getAttr(barGroupCountKey);
       final barGroupIndex = series.getAttr(barGroupIndexKey);
@@ -436,31 +438,37 @@ abstract class BaseBarRenderer<D, R extends BaseBarRendererElement,
           // means we don't need to draw this bar at all.
           if (!measureIsNull) {
             animatingBar = makeAnimatedBar(
-                key: barKey,
-                series: series,
-                datum: datum,
-                barGroupIndex: barGroupIndex!,
-                previousBarGroupWeight: previousBarGroupWeight,
-                barGroupWeight: barGroupWeight,
-                allBarGroupWeights: allBarGroupWeights,
-                color: colorFn!(barIndex),
-                dashPattern: dashPatternFn!(barIndex),
-                details: details as R,
-                domainValue: domainFn(barIndex),
-                domainAxis: domainAxis,
-                domainWidth: domainAxis.rangeBand.round(),
-                fillColor: fillColorFn!(barIndex),
-                fillGradient:
-                    fillGradientFn == null ? null : fillGradientFn(barIndex),
-                fillPattern: details.fillPattern,
-                measureValue: 0.0,
-                measureOffsetValue: 0.0,
-                measureAxisPosition: measureAxisPosition,
-                measureAxis: measureAxis,
-                numBarGroups: barGroupCount!,
-                strokeWidthPx: details.strokeWidthPx,
-                measureIsNull: measureIsNull,
-                measureIsNegative: measureIsNegative);
+              key: barKey,
+              series: series,
+              datum: datum,
+              barGroupIndex: barGroupIndex!,
+              previousBarGroupWeight: previousBarGroupWeight,
+              barGroupWeight: barGroupWeight,
+              allBarGroupWeights: allBarGroupWeights,
+              color: colorFn!(barIndex),
+              dashPattern: dashPatternFn!(barIndex),
+              details: details as R,
+              domainValue: domainFn(barIndex),
+              domainAxis: domainAxis,
+              domainWidth: domainAxis.rangeBand.round(),
+              fillColor: fillColorFn!(barIndex),
+              fillGradient:
+                  fillGradientFn == null ? null : fillGradientFn(barIndex),
+              strokeGradient:
+                  strokeGradientFn == null ? null : strokeGradientFn(barIndex),
+              targetLineGradient: targetLineGradientFn == null
+                  ? null
+                  : targetLineGradientFn(barIndex),
+              fillPattern: details.fillPattern,
+              measureValue: 0.0,
+              measureOffsetValue: 0.0,
+              measureAxisPosition: measureAxisPosition,
+              measureAxis: measureAxis,
+              numBarGroups: barGroupCount!,
+              strokeWidthPx: details.strokeWidthPx,
+              measureIsNull: measureIsNull,
+              measureIsNegative: measureIsNegative,
+            );
 
             barStackList.add(animatingBar);
           }
@@ -487,28 +495,34 @@ abstract class BaseBarRenderer<D, R extends BaseBarRendererElement,
         // Get the barElement we are going to setup.
         // Optimization to prevent allocation in non-animating case.
         BaseBarRendererElement barElement = makeBarRendererElement(
-            barGroupIndex: barGroupIndex!,
-            previousBarGroupWeight: previousBarGroupWeight,
-            barGroupWeight: barGroupWeight,
-            allBarGroupWeights: allBarGroupWeights,
-            color: colorFn!(barIndex),
-            dashPattern: dashPatternFn!(barIndex),
-            details: details as R,
-            domainValue: domainFn(barIndex),
-            domainAxis: domainAxis,
-            domainWidth: domainAxis.rangeBand.round(),
-            fillColor: fillColorFn!(barIndex),
-            fillGradient:
-                fillGradientFn == null ? null : fillGradientFn(barIndex),
-            fillPattern: details.fillPattern,
-            measureValue: measureValue,
-            measureOffsetValue: details.measureOffset!,
-            measureAxisPosition: measureAxisPosition,
-            measureAxis: measureAxis,
-            numBarGroups: barGroupCount!,
-            strokeWidthPx: details.strokeWidthPx,
-            measureIsNull: measureIsNull,
-            measureIsNegative: measureIsNegative);
+          barGroupIndex: barGroupIndex!,
+          previousBarGroupWeight: previousBarGroupWeight,
+          barGroupWeight: barGroupWeight,
+          allBarGroupWeights: allBarGroupWeights,
+          color: colorFn!(barIndex),
+          dashPattern: dashPatternFn!(barIndex),
+          details: details as R,
+          domainValue: domainFn(barIndex),
+          domainAxis: domainAxis,
+          domainWidth: domainAxis.rangeBand.round(),
+          fillColor: fillColorFn!(barIndex),
+          fillGradient:
+              fillGradientFn == null ? null : fillGradientFn(barIndex),
+          strokeGradient:
+              strokeGradientFn == null ? null : strokeGradientFn(barIndex),
+          targetLineGradient: targetLineGradientFn == null
+              ? null
+              : targetLineGradientFn(barIndex),
+          fillPattern: details.fillPattern,
+          measureValue: measureValue,
+          measureOffsetValue: details.measureOffset!,
+          measureAxisPosition: measureAxisPosition,
+          measureAxis: measureAxis,
+          numBarGroups: barGroupCount!,
+          strokeWidthPx: details.strokeWidthPx,
+          measureIsNull: measureIsNull,
+          measureIsNegative: measureIsNegative,
+        );
 
         animatingBar.setNewTarget(barElement as R);
       }
@@ -528,57 +542,63 @@ abstract class BaseBarRenderer<D, R extends BaseBarRendererElement,
   /// Generates a [BaseAnimatedBar] to represent the previous and current state
   /// of one bar on the chart.
   @protected
-  B makeAnimatedBar(
-      {required String key,
-      required ImmutableSeries<D> series,
-      dynamic datum,
-      required int barGroupIndex,
-      double? previousBarGroupWeight,
-      double? barGroupWeight,
-      List<double>? allBarGroupWeights,
-      Color? color,
-      List<int>? dashPattern,
-      required R details,
-      D? domainValue,
-      required ImmutableAxis<D> domainAxis,
-      required int domainWidth,
-      num? measureValue,
-      required num measureOffsetValue,
-      required ImmutableAxis<num> measureAxis,
-      double? measureAxisPosition,
-      required int numBarGroups,
-      Color? fillColor,
-      Gradient? fillGradient,
-      FillPatternType? fillPattern,
-      double? strokeWidthPx,
-      bool? measureIsNull,
-      bool? measureIsNegative});
+  B makeAnimatedBar({
+    required String key,
+    required ImmutableSeries<D> series,
+    dynamic datum,
+    required int barGroupIndex,
+    double? previousBarGroupWeight,
+    double? barGroupWeight,
+    List<double>? allBarGroupWeights,
+    Color? color,
+    List<int>? dashPattern,
+    required R details,
+    D? domainValue,
+    required ImmutableAxis<D> domainAxis,
+    required int domainWidth,
+    num? measureValue,
+    required num measureOffsetValue,
+    required ImmutableAxis<num> measureAxis,
+    double? measureAxisPosition,
+    required int numBarGroups,
+    Color? fillColor,
+    Gradient? fillGradient,
+    Gradient? strokeGradient,
+    Gradient? targetLineGradient,
+    FillPatternType? fillPattern,
+    double? strokeWidthPx,
+    bool? measureIsNull,
+    bool? measureIsNegative,
+  });
 
   /// Generates a [BaseBarRendererElement] to represent the rendering data for
   /// one bar on the chart.
   @protected
-  R makeBarRendererElement(
-      {required int barGroupIndex,
-      double? previousBarGroupWeight,
-      double? barGroupWeight,
-      List<double>? allBarGroupWeights,
-      Color? color,
-      List<int>? dashPattern,
-      required R details,
-      D? domainValue,
-      required ImmutableAxis<D> domainAxis,
-      required int domainWidth,
-      num? measureValue,
-      required num measureOffsetValue,
-      required ImmutableAxis<num> measureAxis,
-      double? measureAxisPosition,
-      required int numBarGroups,
-      Color? fillColor,
-      Gradient? fillGradient,
-      FillPatternType? fillPattern,
-      double? strokeWidthPx,
-      bool? measureIsNull,
-      bool? measureIsNegative});
+  R makeBarRendererElement({
+    required int barGroupIndex,
+    double? previousBarGroupWeight,
+    double? barGroupWeight,
+    List<double>? allBarGroupWeights,
+    Color? color,
+    List<int>? dashPattern,
+    required R details,
+    D? domainValue,
+    required ImmutableAxis<D> domainAxis,
+    required int domainWidth,
+    num? measureValue,
+    required num measureOffsetValue,
+    required ImmutableAxis<num> measureAxis,
+    double? measureAxisPosition,
+    required int numBarGroups,
+    Color? fillColor,
+    Gradient? fillGradient,
+    Gradient? strokeGradient,
+    Gradient? targetLineGradient,
+    FillPatternType? fillPattern,
+    double? strokeWidthPx,
+    bool? measureIsNull,
+    bool? measureIsNegative,
+  });
 
   /// Paints the current bar data on the canvas.
   @override

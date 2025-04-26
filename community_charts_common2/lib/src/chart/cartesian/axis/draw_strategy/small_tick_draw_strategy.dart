@@ -164,6 +164,7 @@ class SmallTickDrawStrategy<D> extends BaseTickDrawStrategy<D> {
       stroke: lineStyle.color,
       strokeWidthPx: lineStyle.strokeWidth.toDouble(),
       strokeGradient: lineStyle.strokeGradient,
+      targetLineGradient: lineStyle.targetLineGradient,
     );
 
     drawLabel(canvas, tick,

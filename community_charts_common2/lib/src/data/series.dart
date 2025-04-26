@@ -93,6 +93,8 @@ class Series<T, D> {
 
   final AccessorFn<Gradient?>? strokeGradientFn;
 
+  final AccessorFn<Gradient?>? targetLineGradientFn;
+
   final AccessorFn<Gradient?>? areaGradientFn;
 
   /// [patternColorFn] returns the background color of tile when a
@@ -127,6 +129,7 @@ class Series<T, D> {
     TypedAccessorFn<T, Color?>? fillColorFn,
     TypedAccessorFn<T, Gradient?>? fillGradientFn,
     TypedAccessorFn<T, Gradient?>? strokeGradientFn,
+    TypedAccessorFn<T, Gradient?>? targetLineGradientFn,
     TypedAccessorFn<T, Gradient?>? areaGradientFn,
     TypedAccessorFn<T, Color>? patternColorFn,
     TypedAccessorFn<T, FillPatternType>? fillPatternFn,
@@ -172,6 +175,9 @@ class Series<T, D> {
     final _strokeGradientFn = strokeGradientFn == null
         ? null
         : (int? index) => strokeGradientFn(data[index!], index);
+    final _targetLineGradientFn = targetLineGradientFn == null
+        ? null
+        : (int? index) => targetLineGradientFn(data[index!], index);
     final _areaGradientFn = areaGradientFn == null
         ? null
         : (int? index) => areaGradientFn(data[index!], index);
@@ -226,6 +232,7 @@ class Series<T, D> {
       fillColorFn: _fillColorFn,
       fillGradientFn: _fillGradientFn,
       strokeGradientFn: _strokeGradientFn,
+      targetLineGradientFn: _targetLineGradientFn,
       areaGradientFn: _areaGradientFn,
       fillPatternFn: _fillPatternFn,
       keyFn: _keyFn,
@@ -260,6 +267,7 @@ class Series<T, D> {
     required this.fillColorFn,
     required this.fillGradientFn,
     required this.strokeGradientFn,
+    required this.targetLineGradientFn,
     required this.areaGradientFn,
     required this.fillPatternFn,
     required this.patternColorFn,

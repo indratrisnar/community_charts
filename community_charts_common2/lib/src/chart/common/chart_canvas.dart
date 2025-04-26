@@ -72,6 +72,7 @@ abstract class ChartCanvas {
     double? strokeWidthPx,
     List<int>? dashPattern,
     Gradient? strokeGradient,
+    Gradient? targetLineGradient,
   });
 
   /// Renders a pie, with an optional hole in the center.
@@ -98,6 +99,8 @@ abstract class ChartCanvas {
     double? strokeWidthPx,
     BlendMode? blendMode,
     Gradient? fillGradient,
+    Gradient? strokeGradient,
+    Gradient? targetLineGradient,
   });
 
   /// Renders a polygon shape described by a set of points.
@@ -132,6 +135,8 @@ abstract class ChartCanvas {
     double? strokeWidthPx,
     Rectangle<num>? drawAreaBounds,
     Gradient? fillGradient,
+    Gradient? strokeGradient,
+    Gradient? targetLineGradient,
   });
 
   /// Renders a rounded rectangle.

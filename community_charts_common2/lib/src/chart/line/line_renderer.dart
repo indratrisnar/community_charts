@@ -138,6 +138,7 @@ class LineRenderer<D> extends BaseCartesianRenderer<D> {
       final measureFn = series.measureFn;
       final strokeWidthPxFn = series.strokeWidthPxFn;
       final strokeGradientFn = series.strokeGradientFn;
+      final targetLineGradientFn = series.targetLineGradientFn;
       final areaGradientFn = series.areaGradientFn;
 
       series.dashPatternFn ??= (_) => config.dashPattern;
@@ -167,6 +168,8 @@ class LineRenderer<D> extends BaseCartesianRenderer<D> {
             strokeWidthPxFn?.call(index)?.toDouble() ?? config.strokeWidthPx;
         final strokeGradient =
             strokeGradientFn == null ? null : strokeGradientFn(index);
+        final targetLineGradient =
+            targetLineGradientFn == null ? null : targetLineGradientFn(index);
         final areaGradient =
             areaGradientFn == null ? null : areaGradientFn(index);
 
@@ -207,6 +210,7 @@ class LineRenderer<D> extends BaseCartesianRenderer<D> {
             styleKey: styleKey,
             roundEndCaps: config.roundEndCaps,
             strokeGradient: strokeGradient,
+            targetLineGradient: targetLineGradient,
             areaGradient: areaGradient,
           );
 
@@ -601,6 +605,7 @@ class LineRenderer<D> extends BaseCartesianRenderer<D> {
     final styleKey = styleSegment.styleKey;
     final roundEndCaps = styleSegment.roundEndCaps;
     final strokeGradient = styleSegment.strokeGradient;
+    final targetLineGradient = styleSegment.targetLineGradient;
     final areaGradient = styleSegment.areaGradient;
 
     // Get a list of all positioned points for this series.
@@ -639,6 +644,7 @@ class LineRenderer<D> extends BaseCartesianRenderer<D> {
         styleKey: lineStyleKey,
         roundEndCaps: roundEndCaps,
         strokeGradient: strokeGradient,
+        targetLineGradient: targetLineGradient,
         areaGradient: areaGradient,
       ));
     }
@@ -1025,6 +1031,7 @@ class LineRenderer<D> extends BaseCartesianRenderer<D> {
             strokeWidthPx: line.strokeWidthPx,
             roundEndCaps: line.roundEndCaps,
             strokeGradient: line.strokeGradient,
+            targetLineGradient: line.targetLineGradient,
           );
         });
       }
@@ -1283,6 +1290,7 @@ class _LineRendererElement<D> {
   String styleKey;
   bool roundEndCaps;
   Gradient? strokeGradient;
+  Gradient? targetLineGradient;
   Gradient? areaGradient;
 
   _LineRendererElement({
@@ -1297,6 +1305,7 @@ class _LineRendererElement<D> {
     required this.styleKey,
     required this.roundEndCaps,
     required this.strokeGradient,
+    required this.targetLineGradient,
     required this.areaGradient,
   });
 
@@ -1313,6 +1322,7 @@ class _LineRendererElement<D> {
       styleKey: styleKey,
       roundEndCaps: roundEndCaps,
       strokeGradient: strokeGradient,
+      targetLineGradient: targetLineGradient,
       areaGradient: areaGradient,
     );
   }
@@ -1376,6 +1386,7 @@ class _LineRendererElement<D> {
             previous.strokeWidthPx;
 
     strokeGradient = target.strokeGradient;
+    targetLineGradient = target.targetLineGradient;
     areaGradient = target.areaGradient;
   }
 }

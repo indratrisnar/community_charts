@@ -59,6 +59,9 @@ class PerSeriesLegendEntryGenerator<D> implements LegendEntryGenerator<D> {
               strokeGradient: series.strokeGradientFn == null
                   ? null
                   : series.strokeGradientFn!(series.seriesIndex),
+              targetLineGradient: series.targetLineGradientFn == null
+                  ? null
+                  : series.targetLineGradientFn!(series.seriesIndex),
               areaGradient: series.areaGradientFn == null
                   ? null
                   : series.areaGradientFn!(series.seriesIndex),

@@ -29,6 +29,8 @@ class CanvasRect {
   final Color? stroke;
   final double? strokeWidthPx;
   final Gradient? fillGradient;
+  final Gradient? strokeGradient;
+  final Gradient? targetLineGradient;
 
   const CanvasRect(
     this.bounds, {
@@ -38,6 +40,8 @@ class CanvasRect {
     this.stroke,
     this.strokeWidthPx,
     this.fillGradient,
+    this.strokeGradient,
+    this.targetLineGradient,
   });
 }
 
@@ -134,6 +138,12 @@ class CanvasPieSlice {
   double startAngle;
   double endAngle;
   Color? fill;
+  Gradient? fillGradient;
 
-  CanvasPieSlice(this.startAngle, this.endAngle, {this.fill});
+  CanvasPieSlice(
+    this.startAngle,
+    this.endAngle, {
+    this.fill,
+    this.fillGradient,
+  });
 }

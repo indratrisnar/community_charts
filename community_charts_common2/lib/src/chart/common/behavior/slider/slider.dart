@@ -313,6 +313,7 @@ class Slider<D> implements ChartBehavior<D> {
       strokeWidthPx: _style.strokeWidthPx,
       fillGradient: _style.fillGradient,
       strokeGradient: _style.strokeGradient,
+      targetLineGradient: _style.targetLineGradient,
       areaGradient: _style.areaGradient,
     );
 
@@ -573,6 +574,8 @@ class SliderStyle {
 
   Gradient? strokeGradient;
 
+  Gradient? targetLineGradient;
+
   Gradient? areaGradient;
 
   SliderStyle({
@@ -584,6 +587,7 @@ class SliderStyle {
     this.strokeWidthPx = 2.0,
     this.fillGradient,
     this.strokeGradient,
+    this.targetLineGradient,
     this.areaGradient,
   })  : fillColor = fillColor ?? StyleFactory.style.sliderFillColor,
         strokeColor = strokeColor ?? StyleFactory.style.sliderStrokeColor;
@@ -674,6 +678,7 @@ class _SliderLayoutView<D> extends LayoutView {
       stroke: sliderElement.stroke,
       strokeWidthPx: sliderElement.strokeWidthPx,
       strokeGradient: sliderElement.strokeGradient,
+      targetLineGradient: sliderElement.targetLineGradient,
     );
 
     _handleRenderer.paint(
@@ -684,6 +689,7 @@ class _SliderLayoutView<D> extends LayoutView {
       strokeWidthPx: sliderElement.strokeWidthPx,
       fillGradient: sliderElement.fillGradient,
       strokeGradient: sliderElement.strokeGradient,
+      targetLineGradient: sliderElement.targetLineGradient,
       areaGradient: sliderElement.areaGradient,
     );
   }
@@ -704,6 +710,7 @@ class _SliderElement<D> {
   double strokeWidthPx;
   Gradient? fillGradient;
   Gradient? strokeGradient;
+  Gradient? targetLineGradient;
   Gradient? areaGradient;
 
   _SliderElement({
@@ -714,6 +721,7 @@ class _SliderElement<D> {
     required this.strokeWidthPx,
     this.fillGradient,
     this.strokeGradient,
+    this.targetLineGradient,
     required this.areaGradient,
   });
 
@@ -726,6 +734,7 @@ class _SliderElement<D> {
       strokeWidthPx: strokeWidthPx,
       fillGradient: fillGradient,
       strokeGradient: strokeGradient,
+      targetLineGradient: targetLineGradient,
       areaGradient: areaGradient,
     );
   }
@@ -771,6 +780,7 @@ class _SliderElement<D> {
 
     fillGradient = target.fillGradient;
     strokeGradient = target.strokeGradient;
+    targetLineGradient = target.targetLineGradient;
     areaGradient = target.areaGradient;
   }
 }

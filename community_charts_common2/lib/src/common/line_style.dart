@@ -26,4 +26,7 @@ abstract class LineStyle extends PaintStyle {
 
   Gradient? get strokeGradient;
   set strokeGradient(Gradient? strokeGradient);
+
+  Gradient? get targetLineGradient;
+  set targetLineGradient(Gradient? targetLineGradient);
 }

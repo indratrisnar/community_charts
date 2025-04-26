@@ -347,6 +347,7 @@ abstract class BaseSeriesRenderer<D> implements SeriesRenderer<D> {
     final fillColorFn = series.fillColorFn ?? colorFn;
     final fillGradientFn = series.fillGradientFn;
     final strokeGradientFn = series.strokeGradientFn;
+    final targetLineGradientFn = series.targetLineGradientFn;
     final radiusPxFn = series.radiusPxFn;
     final strokeWidthPxFn = series.strokeWidthPxFn;
 
@@ -373,6 +374,8 @@ abstract class BaseSeriesRenderer<D> implements SeriesRenderer<D> {
     final fillGradient = fillGradientFn!(index);
 
     final strokeGradient = strokeGradientFn!(index);
+
+    final targetLineGradient = targetLineGradientFn!(index);
 
     // Area color is entirely optional.
     final areaColor = areaColorFn!(index);
@@ -401,6 +404,7 @@ abstract class BaseSeriesRenderer<D> implements SeriesRenderer<D> {
       fillColor: fillColor,
       fillGradient: fillGradient,
       strokeGradient: strokeGradient,
+      targetLineGradient: targetLineGradient,
       areaColor: areaColor,
       radiusPx: radiusPx,
       strokeWidthPx: strokeWidthPx,

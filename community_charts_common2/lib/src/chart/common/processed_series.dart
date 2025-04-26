@@ -107,6 +107,9 @@ class MutableSeries<D> extends ImmutableSeries<D> {
   AccessorFn<painting.Gradient?>? strokeGradientFn;
 
   @override
+  AccessorFn<painting.Gradient?>? targetLineGradientFn;
+
+  @override
   AccessorFn<painting.Gradient?>? areaGradientFn;
 
   @override
@@ -161,6 +164,7 @@ class MutableSeries<D> extends ImmutableSeries<D> {
         fillColorFn = series.fillColorFn,
         fillGradientFn = series.fillGradientFn,
         strokeGradientFn = series.strokeGradientFn,
+        targetLineGradientFn = series.targetLineGradientFn,
         areaGradientFn = series.areaGradientFn,
         fillPatternFn = series.fillPatternFn,
         patternColorFn = series.patternColorFn,
@@ -210,6 +214,7 @@ class MutableSeries<D> extends ImmutableSeries<D> {
         fillColorFn = other.fillColorFn,
         fillGradientFn = other.fillGradientFn,
         strokeGradientFn = other.strokeGradientFn,
+        targetLineGradientFn = other.targetLineGradientFn,
         areaGradientFn = other.areaGradientFn,
         fillPatternFn = other.fillPatternFn,
         patternColorFn = other.patternColorFn,
@@ -313,6 +318,8 @@ abstract class ImmutableSeries<D> {
   AccessorFn<painting.Gradient?>? get fillGradientFn;
 
   AccessorFn<painting.Gradient?>? get strokeGradientFn;
+
+  AccessorFn<painting.Gradient?>? get targetLineGradientFn;
 
   AccessorFn<painting.Gradient?>? get areaGradientFn;
 

@@ -88,6 +88,8 @@ class DatumDetails<D> {
 
   final Gradient? strokeGradient;
 
+  final Gradient? targetLineGradient;
+
   final Gradient? areaGradient;
 
   /// Optional fill pattern of this [datum].
@@ -169,6 +171,7 @@ class DatumDetails<D> {
     this.fillColor,
     this.fillGradient,
     this.strokeGradient,
+    this.targetLineGradient,
     this.areaGradient,
     this.fillPattern,
     this.areaColor,
@@ -205,6 +208,7 @@ class DatumDetails<D> {
     Color? fillColor,
     Gradient? fillGradient,
     Gradient? strokeGradient,
+    Gradient? targetLineGradient,
     Gradient? areaGradient,
     FillPatternType? fillPattern,
     Color? areaColor,
@@ -240,6 +244,7 @@ class DatumDetails<D> {
       fillColor: fillColor ?? other.fillColor,
       fillGradient: fillGradient ?? other.fillGradient,
       strokeGradient: strokeGradient ?? other.strokeGradient,
+      targetLineGradient: targetLineGradient ?? other.targetLineGradient,
       areaGradient: areaGradient ?? other.areaGradient,
       fillPattern: fillPattern ?? other.fillPattern,
       areaColor: areaColor ?? other.areaColor,

@@ -198,6 +198,9 @@ class PointRenderer<D> extends BaseCartesianRenderer<D> {
           strokeGradient: series.strokeGradientFn == null
               ? null
               : series.strokeGradientFn!(index),
+          targetLineGradient: series.targetLineGradientFn == null
+              ? null
+              : series.targetLineGradientFn!(index),
           areaGradient: series.areaGradientFn == null
               ? null
               : series.areaGradientFn!(index),
@@ -303,6 +306,7 @@ class PointRenderer<D> extends BaseCartesianRenderer<D> {
               symbolRendererId: details.symbolRendererId,
               fillGradient: details.fillGradient,
               strokeGradient: details.strokeGradient,
+              targetLineGradient: details.targetLineGradient,
               areaGradient: details.areaGradient,
             ));
 
@@ -325,6 +329,7 @@ class PointRenderer<D> extends BaseCartesianRenderer<D> {
           symbolRendererId: details.symbolRendererId,
           fillGradient: details.fillGradient,
           strokeGradient: details.strokeGradient,
+          targetLineGradient: details.targetLineGradient,
           areaGradient: details.areaGradient,
         );
 
@@ -412,6 +417,7 @@ class PointRenderer<D> extends BaseCartesianRenderer<D> {
               strokeWidthPx: point.strokeWidthPx,
               fillGradient: point.fillGradient,
               strokeGradient: point.strokeGradient,
+              targetLineGradient: point.targetLineGradient,
               areaGradient: point.areaGradient,
             );
           } else {
@@ -429,6 +435,7 @@ class PointRenderer<D> extends BaseCartesianRenderer<D> {
               strokeWidthPx: point.strokeWidthPx,
               fillGradient: point.fillGradient,
               strokeGradient: point.strokeGradient,
+              targetLineGradient: point.targetLineGradient,
               areaGradient: point.areaGradient,
             );
           }
@@ -768,6 +775,7 @@ class PointRendererElement<D> {
   String? symbolRendererId;
   Gradient? fillGradient;
   Gradient? strokeGradient;
+  Gradient? targetLineGradient;
   Gradient? areaGradient;
 
   PointRendererElement({
@@ -782,6 +790,7 @@ class PointRendererElement<D> {
     this.symbolRendererId,
     this.fillGradient,
     this.strokeGradient,
+    this.targetLineGradient,
     this.areaGradient,
   });
 
@@ -798,6 +807,7 @@ class PointRendererElement<D> {
       symbolRendererId: symbolRendererId,
       fillGradient: fillGradient,
       strokeGradient: strokeGradient,
+      targetLineGradient: targetLineGradient,
       areaGradient: areaGradient,
     );
   }
@@ -867,6 +877,7 @@ class PointRendererElement<D> {
 
     fillGradient = target.fillGradient;
     strokeGradient = target.strokeGradient;
+    targetLineGradient = target.targetLineGradient;
     areaGradient = target.areaGradient;
   }
 }

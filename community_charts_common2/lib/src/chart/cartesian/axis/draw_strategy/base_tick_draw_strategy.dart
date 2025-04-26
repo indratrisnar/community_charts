@@ -431,6 +431,7 @@ abstract class BaseTickDrawStrategy<D> implements TickDrawStrategy<D> {
       strokeWidthPx: axisLineStyle.strokeWidth.toDouble(),
       dashPattern: axisLineStyle.dashPattern,
       strokeGradient: axisLineStyle.strokeGradient,
+      targetLineGradient: axisLineStyle.targetLineGradient,
     );
   }
 

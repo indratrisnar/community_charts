@@ -108,6 +108,7 @@ class LegendEntry<D> extends LegendEntryBase {
   bool isSelected;
   final Gradient? fillGradient;
   final Gradient? strokeGradient;
+  final Gradient? targetLineGradient;
   final Gradient? areaGradient;
 
   // TODO: Forward the default formatters from series and allow for
@@ -125,6 +126,7 @@ class LegendEntry<D> extends LegendEntryBase {
     this.isSelected = false,
     this.fillGradient,
     this.strokeGradient,
+    this.targetLineGradient,
     this.areaGradient,
     TextStyleSpec? textStyle,
     int? rowNumber,

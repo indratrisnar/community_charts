@@ -140,86 +140,97 @@ class BarTargetLineRenderer<D> extends BaseBarRenderer<D,
   /// Generates an [_AnimatedBarTargetLine] to represent the previous and
   /// current state of one bar target line on the chart.
   @override
-  _AnimatedBarTargetLine<D> makeAnimatedBar(
-      {required String key,
-      required ImmutableSeries<D> series,
-      dynamic datum,
-      Color? color,
-      List<int>? dashPattern,
-      required _BarTargetLineRendererElement details,
-      D? domainValue,
-      required ImmutableAxis<D> domainAxis,
-      required int domainWidth,
-      num? measureValue,
-      required num measureOffsetValue,
-      required ImmutableAxis<num> measureAxis,
-      double? measureAxisPosition,
-      Color? fillColor,
-      Gradient? fillGradient,
-      FillPatternType? fillPattern,
-      required int barGroupIndex,
-      double? previousBarGroupWeight,
-      double? barGroupWeight,
-      List<double>? allBarGroupWeights,
-      required int numBarGroups,
-      double? strokeWidthPx,
-      bool? measureIsNull,
-      bool? measureIsNegative}) {
+  _AnimatedBarTargetLine<D> makeAnimatedBar({
+    required String key,
+    required ImmutableSeries<D> series,
+    dynamic datum,
+    Color? color,
+    List<int>? dashPattern,
+    required _BarTargetLineRendererElement details,
+    D? domainValue,
+    required ImmutableAxis<D> domainAxis,
+    required int domainWidth,
+    num? measureValue,
+    required num measureOffsetValue,
+    required ImmutableAxis<num> measureAxis,
+    double? measureAxisPosition,
+    Color? fillColor,
+    Gradient? fillGradient,
+    Gradient? strokeGradient,
+    Gradient? targetLineGradient,
+    FillPatternType? fillPattern,
+    required int barGroupIndex,
+    double? previousBarGroupWeight,
+    double? barGroupWeight,
+    List<double>? allBarGroupWeights,
+    required int numBarGroups,
+    double? strokeWidthPx,
+    bool? measureIsNull,
+    bool? measureIsNegative,
+  }) {
     return _AnimatedBarTargetLine(
         key: key, datum: datum, series: series, domainValue: domainValue)
       ..setNewTarget(makeBarRendererElement(
-          color: color,
-          details: details,
-          dashPattern: dashPattern,
-          domainValue: domainValue,
-          domainAxis: domainAxis,
-          domainWidth: domainWidth,
-          measureValue: measureValue,
-          measureOffsetValue: measureOffsetValue,
-          measureAxisPosition: measureAxisPosition,
-          measureAxis: measureAxis,
-          fillColor: fillColor,
-          fillPattern: fillPattern,
-          strokeWidthPx: strokeWidthPx,
-          barGroupIndex: barGroupIndex,
-          previousBarGroupWeight: previousBarGroupWeight,
-          barGroupWeight: barGroupWeight,
-          allBarGroupWeights: allBarGroupWeights,
-          numBarGroups: numBarGroups,
-          measureIsNull: measureIsNull,
-          measureIsNegative: measureIsNegative));
+        color: color,
+        details: details,
+        dashPattern: dashPattern,
+        domainValue: domainValue,
+        domainAxis: domainAxis,
+        domainWidth: domainWidth,
+        measureValue: measureValue,
+        measureOffsetValue: measureOffsetValue,
+        measureAxisPosition: measureAxisPosition,
+        measureAxis: measureAxis,
+        fillColor: fillColor,
+        strokeGradient: strokeGradient,
+        targetLineGradient: targetLineGradient,
+        fillPattern: fillPattern,
+        strokeWidthPx: strokeWidthPx,
+        barGroupIndex: barGroupIndex,
+        previousBarGroupWeight: previousBarGroupWeight,
+        barGroupWeight: barGroupWeight,
+        allBarGroupWeights: allBarGroupWeights,
+        numBarGroups: numBarGroups,
+        measureIsNull: measureIsNull,
+        measureIsNegative: measureIsNegative,
+      ));
   }
 
   /// Generates a [_BarTargetLineRendererElement] to represent the rendering
   /// data for one bar target line on the chart.
   @override
-  _BarTargetLineRendererElement makeBarRendererElement(
-      {Color? color,
-      List<int>? dashPattern,
-      required _BarTargetLineRendererElement details,
-      D? domainValue,
-      required ImmutableAxis<D> domainAxis,
-      required int domainWidth,
-      num? measureValue,
-      required num measureOffsetValue,
-      required ImmutableAxis<num> measureAxis,
-      double? measureAxisPosition,
-      Color? fillColor,
-      Gradient? fillGradient,
-      FillPatternType? fillPattern,
-      double? strokeWidthPx,
-      required int barGroupIndex,
-      double? previousBarGroupWeight,
-      double? barGroupWeight,
-      List<double>? allBarGroupWeights,
-      required int numBarGroups,
-      bool? measureIsNull,
-      bool? measureIsNegative}) {
+  _BarTargetLineRendererElement makeBarRendererElement({
+    Color? color,
+    List<int>? dashPattern,
+    required _BarTargetLineRendererElement details,
+    D? domainValue,
+    required ImmutableAxis<D> domainAxis,
+    required int domainWidth,
+    num? measureValue,
+    required num measureOffsetValue,
+    required ImmutableAxis<num> measureAxis,
+    double? measureAxisPosition,
+    Color? fillColor,
+    Gradient? fillGradient,
+    Gradient? strokeGradient,
+    Gradient? targetLineGradient,
+    FillPatternType? fillPattern,
+    double? strokeWidthPx,
+    required int barGroupIndex,
+    double? previousBarGroupWeight,
+    double? barGroupWeight,
+    List<double>? allBarGroupWeights,
+    required int numBarGroups,
+    bool? measureIsNull,
+    bool? measureIsNegative,
+  }) {
     return _BarTargetLineRendererElement(roundEndCaps: details.roundEndCaps)
       ..color = color
       ..dashPattern = dashPattern
       ..fillColor = fillColor
       ..fillPattern = fillPattern
+      ..strokeGradient = strokeGradient
+      ..targetLineGradient = targetLineGradient
       ..measureAxisPosition = measureAxisPosition
       ..strokeWidthPx = strokeWidthPx
       ..measureIsNull = measureIsNull
@@ -256,6 +267,7 @@ class BarTargetLineRenderer<D> extends BaseBarRenderer<D,
         strokeWidthPx: bar.strokeWidthPx,
         dashPattern: bar.dashPattern,
         strokeGradient: bar.strokeGradient,
+        targetLineGradient: bar.targetLineGradient,
       );
     }
   }

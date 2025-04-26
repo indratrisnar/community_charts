@@ -39,6 +39,8 @@ class TreeMapRendererElement<D> {
 
   Gradient? strokeGradient;
 
+  Gradient? targetLineGradient;
+
   /// Fill pattern of the background of the treemap rectangle.
   FillPatternType? fillPattern;
 
@@ -81,6 +83,7 @@ class TreeMapRendererElement<D> {
     required this.measure,
     this.fillGradient,
     this.strokeGradient,
+    this.targetLineGradient,
   })  : _boundingRect = boundingRect,
         _area = area;
 
@@ -106,6 +109,7 @@ class TreeMapRendererElement<D> {
         measure: measure,
         fillGradient: fillGradient,
         strokeGradient: strokeGradient,
+        targetLineGradient: targetLineGradient,
       );
 
   /// Refreshes paint properties by invoking series accessor functions again.

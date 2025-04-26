@@ -125,6 +125,9 @@ abstract class BaseArcRenderer<D> extends BaseSeriesRenderer<D> {
       strokeGradient: series.strokeGradientFn == null
           ? null
           : series.strokeGradientFn!(datumIndex),
+      targetLineGradient: series.targetLineGradientFn == null
+          ? null
+          : series.targetLineGradientFn!(datumIndex),
     );
   }
 
@@ -207,23 +210,37 @@ abstract class BaseArcRenderer<D> extends BaseSeriesRenderer<D> {
           rtl: isRtl);
     });
 
-    for (var arcList in arcLists) {
+    for (final arcList in arcLists) {
       final circleSectors = <CanvasPieSlice>[];
 
-      arcList.arcs
-          .map<ArcRendererElement<D>>((AnimatedArc<D> animatingArc) =>
-              animatingArc.getCurrentArc(animationPercent))
-          .forEach((arc) {
-        circleSectors
-            .add(CanvasPieSlice(arc.startAngle, arc.endAngle, fill: arc.color));
-
+      final animatedArcList = arcList.arcs.map<ArcRendererElement<D>>(
+        (AnimatedArc<D> animatingArc) {
+          return animatingArc.getCurrentArc(animationPercent);
+        },
+      );
+      for (final arc in animatedArcList) {
+        circleSectors.add(CanvasPieSlice(
+          arc.startAngle,
+          arc.endAngle,
+          fill: arc.color,
+          fillGradient: arc.series.fillGradientFn == null
+              ? null
+              : arc.series.fillGradientFn!(arc.index),
+        ));
         arcListToElementsList[arcList].arcs.add(arc);
-      });
+      }
 
       // Draw the arcs.
-      canvas.drawPie(CanvasPie(
-          circleSectors, arcList.center!, arcList.radius!, arcList.innerRadius!,
-          stroke: arcList.stroke, strokeWidthPx: arcList.strokeWidthPx ?? 0));
+      canvas.drawPie(
+        CanvasPie(
+          circleSectors,
+          arcList.center!,
+          arcList.radius!,
+          arcList.innerRadius!,
+          stroke: arcList.stroke,
+          strokeWidthPx: arcList.strokeWidthPx ?? 0,
+        ),
+      );
     }
 
     // Decorate the arcs with decorators that should appear above the main
@@ -288,7 +305,7 @@ abstract class BaseArcRenderer<D> extends BaseSeriesRenderer<D> {
         chartPointAngle = 2 * pi + chartPointAngle;
       }
 
-      arcList.arcs.forEach((AnimatedArc<D> arc) {
+      for (var arc in arcList.arcs) {
         if (innerRadius <= distance &&
             distance <= radius &&
             arc.currentArcStartAngle! <= chartPointAngle &&
@@ -301,9 +318,10 @@ abstract class BaseArcRenderer<D> extends BaseSeriesRenderer<D> {
             measureDistance: 0.0,
             fillGradient: null,
             strokeGradient: null,
+            targetLineGradient: null,
           ));
         }
-      });
+      }
     }
 
     return nearest;

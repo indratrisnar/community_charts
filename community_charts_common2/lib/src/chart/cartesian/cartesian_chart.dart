@@ -531,6 +531,9 @@ abstract class CartesianChart<D> extends BaseChart<D> {
           strokeGradient: series.strokeGradientFn == null
               ? null
               : series.strokeGradientFn!(datumIndex),
+          targetLineGradient: series.targetLineGradientFn == null
+              ? null
+              : series.targetLineGradientFn!(datumIndex),
         ),
         seriesDatum,
       );

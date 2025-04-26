@@ -61,6 +61,9 @@ class PerDatumLegendEntryGenerator<D> implements LegendEntryGenerator<D> {
           strokeGradient: series.strokeGradientFn == null
               ? null
               : series.strokeGradientFn!(i),
+          targetLineGradient: series.targetLineGradientFn == null
+              ? null
+              : series.targetLineGradientFn!(i),
           areaGradient:
               series.areaGradientFn == null ? null : series.areaGradientFn!(i),
         ),

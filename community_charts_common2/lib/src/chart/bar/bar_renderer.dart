@@ -134,31 +134,34 @@ class BarRenderer<D>
   /// Generates an [AnimatedBar] to represent the previous and current state
   /// of one bar on the chart.
   @override
-  AnimatedBar<D> makeAnimatedBar(
-      {required String key,
-      required ImmutableSeries<D> series,
-      List<int>? dashPattern,
-      dynamic datum,
-      Color? color,
-      required BarRendererElement<D> details,
-      D? domainValue,
-      required ImmutableAxis<D> domainAxis,
-      required int domainWidth,
-      num? measureValue,
-      required num measureOffsetValue,
-      required ImmutableAxis<num> measureAxis,
-      double? measureAxisPosition,
-      Color? fillColor,
-      Gradient? fillGradient,
-      FillPatternType? fillPattern,
-      double? strokeWidthPx,
-      required int barGroupIndex,
-      double? previousBarGroupWeight,
-      double? barGroupWeight,
-      List<double>? allBarGroupWeights,
-      required int numBarGroups,
-      bool? measureIsNull,
-      bool? measureIsNegative}) {
+  AnimatedBar<D> makeAnimatedBar({
+    required String key,
+    required ImmutableSeries<D> series,
+    List<int>? dashPattern,
+    dynamic datum,
+    Color? color,
+    required BarRendererElement<D> details,
+    D? domainValue,
+    required ImmutableAxis<D> domainAxis,
+    required int domainWidth,
+    num? measureValue,
+    required num measureOffsetValue,
+    required ImmutableAxis<num> measureAxis,
+    double? measureAxisPosition,
+    Color? fillColor,
+    Gradient? fillGradient,
+    Gradient? strokeGradient,
+    Gradient? targetLineGradient,
+    FillPatternType? fillPattern,
+    double? strokeWidthPx,
+    required int barGroupIndex,
+    double? previousBarGroupWeight,
+    double? barGroupWeight,
+    List<double>? allBarGroupWeights,
+    required int numBarGroups,
+    bool? measureIsNull,
+    bool? measureIsNegative,
+  }) {
     return AnimatedBar<D>(
         key: key, datum: datum, series: series, domainValue: domainValue)
       ..setNewTarget(
@@ -175,6 +178,8 @@ class BarRenderer<D>
           measureAxis: measureAxis,
           fillColor: fillColor,
           fillGradient: fillGradient,
+          strokeGradient: strokeGradient,
+          targetLineGradient: targetLineGradient,
           fillPattern: fillPattern,
           strokeWidthPx: strokeWidthPx,
           barGroupIndex: barGroupIndex,
@@ -191,33 +196,38 @@ class BarRenderer<D>
   /// Generates a [BarRendererElement] to represent the rendering data for one
   /// bar on the chart.
   @override
-  BarRendererElement<D> makeBarRendererElement(
-      {Color? color,
-      List<int>? dashPattern,
-      required BarRendererElement<D> details,
-      D? domainValue,
-      required ImmutableAxis<D> domainAxis,
-      required int domainWidth,
-      num? measureValue,
-      required num measureOffsetValue,
-      required ImmutableAxis<num> measureAxis,
-      double? measureAxisPosition,
-      Color? fillColor,
-      Gradient? fillGradient,
-      FillPatternType? fillPattern,
-      double? strokeWidthPx,
-      required int barGroupIndex,
-      double? previousBarGroupWeight,
-      double? barGroupWeight,
-      List<double>? allBarGroupWeights,
-      required int numBarGroups,
-      bool? measureIsNull,
-      bool? measureIsNegative}) {
+  BarRendererElement<D> makeBarRendererElement({
+    Color? color,
+    List<int>? dashPattern,
+    required BarRendererElement<D> details,
+    D? domainValue,
+    required ImmutableAxis<D> domainAxis,
+    required int domainWidth,
+    num? measureValue,
+    required num measureOffsetValue,
+    required ImmutableAxis<num> measureAxis,
+    double? measureAxisPosition,
+    Color? fillColor,
+    Gradient? fillGradient,
+    Gradient? strokeGradient,
+    Gradient? targetLineGradient,
+    FillPatternType? fillPattern,
+    double? strokeWidthPx,
+    required int barGroupIndex,
+    double? previousBarGroupWeight,
+    double? barGroupWeight,
+    List<double>? allBarGroupWeights,
+    required int numBarGroups,
+    bool? measureIsNull,
+    bool? measureIsNegative,
+  }) {
     return BarRendererElement<D>()
       ..color = color
       ..dashPattern = dashPattern
       ..fillColor = fillColor
       ..fillGradient = fillGradient
+      ..strokeGradient = strokeGradient
+      ..targetLineGradient = targetLineGradient
       ..fillPattern = fillPattern
       ..measureAxisPosition = measureAxisPosition
       ..roundPx = details.roundPx
@@ -286,10 +296,12 @@ class BarRenderer<D>
         bounds!,
         dashPattern: bar.dashPattern,
         fill: bar.fillColor,
-        fillGradient: bar.fillGradient,
         pattern: bar.fillPattern,
         stroke: bar.color,
         strokeWidthPx: bar.strokeWidthPx,
+        fillGradient: bar.fillGradient,
+        strokeGradient: bar.strokeGradient,
+        targetLineGradient: bar.targetLineGradient,
       ));
 
       maxBarWidth =

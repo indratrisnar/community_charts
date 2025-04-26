@@ -121,6 +121,7 @@ class NoneDrawStrategy<D> implements TickDrawStrategy<D> {
       stroke: axisLineStyle.color,
       strokeWidthPx: axisLineStyle.strokeWidth.toDouble(),
       strokeGradient: axisLineStyle.strokeGradient,
+      targetLineGradient: axisLineStyle.targetLineGradient,
     );
   }
 

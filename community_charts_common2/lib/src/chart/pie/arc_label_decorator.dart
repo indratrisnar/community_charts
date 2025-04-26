@@ -392,6 +392,7 @@ class ArcLabelDecorator<D> extends ArcRendererDecorator<D> {
       stroke: leaderLineStyleSpec.color,
       strokeWidthPx: leaderLineStyleSpec.thickness,
       strokeGradient: leaderLineStyleSpec.strokeGradient,
+      targetLineGradient: leaderLineStyleSpec.targetLineGradient,
     );
 
     return tailX;
@@ -419,12 +420,14 @@ class ArcLabelLeaderLineStyleSpec {
   final double length;
   final double thickness;
   final Gradient? strokeGradient;
+  final Gradient? targetLineGradient;
 
   const ArcLabelLeaderLineStyleSpec({
     required this.color,
     required this.length,
     required this.thickness,
     this.strokeGradient,
+    this.targetLineGradient,
   });
 
   @override

@@ -181,14 +181,18 @@ class GridlineTickDrawStrategy<D> extends BaseTickDrawStrategy<D> {
       stroke: lineStyle.color,
       strokeWidthPx: lineStyle.strokeWidth.toDouble(),
       strokeGradient: lineStyle.strokeGradient,
+      targetLineGradient: lineStyle.targetLineGradient,
     );
 
-    drawLabel(canvas, tick,
-        orientation: orientation,
-        axisBounds: axisBounds,
-        drawAreaBounds: drawAreaBounds,
-        isFirst: isFirst,
-        isLast: isLast,
-        collision: collision);
+    drawLabel(
+      canvas,
+      tick,
+      orientation: orientation,
+      axisBounds: axisBounds,
+      drawAreaBounds: drawAreaBounds,
+      isFirst: isFirst,
+      isLast: isLast,
+      collision: collision,
+    );
   }
 }

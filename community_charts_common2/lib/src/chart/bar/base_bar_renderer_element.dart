@@ -27,6 +27,7 @@ abstract class BaseBarRendererElement {
   Color? fillColor;
   Gradient? fillGradient;
   Gradient? strokeGradient;
+  Gradient? targetLineGradient;
   FillPatternType? fillPattern;
   double? measureAxisPosition;
   num? measureOffset;
@@ -47,6 +48,7 @@ abstract class BaseBarRendererElement {
         : null;
     fillGradient = other.fillGradient;
     strokeGradient = other.strokeGradient;
+    targetLineGradient = other.targetLineGradient;
     fillPattern = other.fillPattern;
     measureAxisPosition = other.measureAxisPosition;
     measureOffset = other.measureOffset;
@@ -63,6 +65,9 @@ abstract class BaseBarRendererElement {
         previous.fillColor!, target.fillColor!, animationPercent);
     measureIsNull = target.measureIsNull;
     measureIsNegative = target.measureIsNegative;
+    fillColor = target.fillColor;
+    strokeGradient = target.strokeGradient;
+    targetLineGradient = target.targetLineGradient;
   }
 }
 

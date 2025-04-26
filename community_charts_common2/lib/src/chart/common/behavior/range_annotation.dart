@@ -239,6 +239,7 @@ class RangeAnnotation<D> implements ChartBehavior<D> {
           ? annotation.strokeWidthPx
           : 0.0;
       final strokeGradient = annotation.strokeGradient;
+      final targetLineGradient = annotation.targetLineGradient;
 
       final isRange = annotation is RangeAnnotationSegment;
 
@@ -282,6 +283,7 @@ class RangeAnnotation<D> implements ChartBehavior<D> {
             labelStyleSpec: labelStyleSpec,
             strokeWidthPx: strokeWidthPx,
             strokeGradient: strokeGradient,
+            targetLineGradient: targetLineGradient,
           ));
 
         _annotationMap[key] = animatingAnnotation;
@@ -306,6 +308,7 @@ class RangeAnnotation<D> implements ChartBehavior<D> {
         labelStyleSpec: labelStyleSpec,
         strokeWidthPx: strokeWidthPx,
         strokeGradient: strokeGradient,
+        targetLineGradient: targetLineGradient,
       );
 
       animatingAnnotation.setNewTarget(annotationElement);
@@ -456,6 +459,7 @@ class _RangeAnnotationLayoutView<D> extends LayoutView {
           stroke: annotationElement.color,
           strokeWidthPx: annotationElement.strokeWidthPx,
           strokeGradient: annotationElement.strokeGradient,
+          targetLineGradient: annotationElement.targetLineGradient,
         );
       }
 
@@ -1128,6 +1132,7 @@ class _AnnotationElement<D> {
   final List<int>? dashPattern;
   double strokeWidthPx;
   final painting.Gradient? strokeGradient;
+  final painting.Gradient? targetLineGradient;
 
   _AnnotationElement({
     required this.annotation,
@@ -1144,6 +1149,7 @@ class _AnnotationElement<D> {
     required this.dashPattern,
     required this.strokeWidthPx,
     required this.strokeGradient,
+    required this.targetLineGradient,
   });
 
   _AnnotationElement<D> clone() {
@@ -1162,6 +1168,7 @@ class _AnnotationElement<D> {
       dashPattern: dashPattern,
       strokeWidthPx: strokeWidthPx,
       strokeGradient: strokeGradient,
+      targetLineGradient: targetLineGradient,
     );
   }
 
@@ -1261,17 +1268,18 @@ class RangeAnnotationTester<D> {
   }
 
   /// Checks if an annotation exists with the given position and color.
-  bool doesAnnotationExist(
-      {num? startPosition,
-      num? endPosition,
-      Color? color,
-      List<int>? dashPattern,
-      String? startLabel,
-      String? endLabel,
-      String? middleLabel,
-      AnnotationLabelAnchor? labelAnchor,
-      AnnotationLabelDirection? labelDirection,
-      AnnotationLabelPosition? labelPosition}) {
+  bool doesAnnotationExist({
+    num? startPosition,
+    num? endPosition,
+    Color? color,
+    List<int>? dashPattern,
+    String? startLabel,
+    String? endLabel,
+    String? middleLabel,
+    AnnotationLabelAnchor? labelAnchor,
+    AnnotationLabelDirection? labelDirection,
+    AnnotationLabelPosition? labelPosition,
+  }) {
     for (final a in behavior._annotationMap.values) {
       final currentAnnotation = a._currentAnnotation!;
       final annotation = currentAnnotation.annotation;
@@ -1308,6 +1316,7 @@ abstract class AnnotationSegment<D> {
   final AnnotationLabelPosition? labelPosition;
   final TextStyleSpec? labelStyleSpec;
   final painting.Gradient? strokeGradient;
+  final painting.Gradient? targetLineGradient;
 
   String get key;
 
@@ -1322,7 +1331,8 @@ abstract class AnnotationSegment<D> {
     this.labelDirection,
     this.labelPosition,
     this.labelStyleSpec,
-    required this.strokeGradient,
+    this.strokeGradient,
+    this.targetLineGradient,
   });
 }
 
@@ -1345,6 +1355,7 @@ class RangeAnnotationSegment<D> extends AnnotationSegment<D> {
     AnnotationLabelPosition? labelPosition,
     TextStyleSpec? labelStyleSpec,
     painting.Gradient? strokeGradient,
+    painting.Gradient? targetLineGradient,
   }) : super(
           axisType,
           axisId: axisId,
@@ -1357,6 +1368,7 @@ class RangeAnnotationSegment<D> extends AnnotationSegment<D> {
           labelPosition: labelPosition,
           labelStyleSpec: labelStyleSpec,
           strokeGradient: strokeGradient,
+          targetLineGradient: targetLineGradient,
         );
 
   @override
@@ -1382,6 +1394,7 @@ class LineAnnotationSegment<D> extends AnnotationSegment<D> {
     AnnotationLabelPosition? labelPosition,
     TextStyleSpec? labelStyleSpec,
     painting.Gradient? strokeGradient,
+    painting.Gradient? targetLineGradient,
     this.dashPattern,
     this.strokeWidthPx = _defaultStrokeWidthPx,
   }) : super(
@@ -1396,6 +1409,7 @@ class LineAnnotationSegment<D> extends AnnotationSegment<D> {
           labelPosition: labelPosition,
           labelStyleSpec: labelStyleSpec,
           strokeGradient: strokeGradient,
+          targetLineGradient: targetLineGradient,
         );
 
   @override

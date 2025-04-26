@@ -250,6 +250,7 @@ class LinePointHighlighter<D> implements ChartBehavior<D> {
             symbolRenderer: detail.symbolRenderer,
             fillGradient: detail.fillGradient,
             strokeGradient: detail.strokeGradient,
+            targetLineGradient: detail.targetLineGradient,
             areaGradient: detail.areaGradient,
           ));
       }
@@ -278,6 +279,7 @@ class LinePointHighlighter<D> implements ChartBehavior<D> {
         symbolRenderer: detail.symbolRenderer,
         fillGradient: detail.fillGradient,
         strokeGradient: detail.strokeGradient,
+        targetLineGradient: detail.targetLineGradient,
         areaGradient: detail.areaGradient,
       );
 
@@ -481,6 +483,7 @@ class _LinePointLayoutView<D> extends LayoutView {
           strokeWidthPx: 1.0,
           dashPattern: dashPattern,
           strokeGradient: pointElement.strokeGradient,
+          targetLineGradient: pointElement.targetLineGradient,
         );
 
         if (showHorizontalFollowLine ==
@@ -507,6 +510,7 @@ class _LinePointLayoutView<D> extends LayoutView {
           strokeWidthPx: 1.0,
           dashPattern: dashPattern,
           strokeGradient: pointElement.strokeGradient,
+          targetLineGradient: pointElement.targetLineGradient,
         );
 
         if (showVerticalFollowLine ==
@@ -545,6 +549,7 @@ class _LinePointLayoutView<D> extends LayoutView {
         strokeWidthPx: pointElement.strokeWidthPx,
         fillGradient: pointElement.fillGradient,
         strokeGradient: pointElement.strokeGradient,
+        targetLineGradient: pointElement.targetLineGradient,
         areaGradient: pointElement.areaGradient,
       );
     }
@@ -590,6 +595,7 @@ class _PointRendererElement<D> {
   SymbolRenderer? symbolRenderer;
   Gradient? fillGradient;
   Gradient? strokeGradient;
+  Gradient? targetLineGradient;
   Gradient? areaGradient;
 
   _PointRendererElement({
@@ -602,6 +608,7 @@ class _PointRendererElement<D> {
     required this.symbolRenderer,
     required this.fillGradient,
     required this.strokeGradient,
+    required this.targetLineGradient,
     required this.areaGradient,
   });
 
@@ -616,6 +623,7 @@ class _PointRendererElement<D> {
       symbolRenderer: symbolRenderer,
       fillGradient: fillGradient,
       strokeGradient: strokeGradient,
+      targetLineGradient: targetLineGradient,
       areaGradient: areaGradient,
     );
   }
@@ -651,6 +659,7 @@ class _PointRendererElement<D> {
 
     fillGradient = target.fillGradient;
     strokeGradient = target.strokeGradient;
+    targetLineGradient = target.targetLineGradient;
   }
 
   /// Linear interpolation for doubles.
